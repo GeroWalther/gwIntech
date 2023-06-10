@@ -24,7 +24,7 @@ import {
 export const SkillsLogos = () => {
   return (
     <div className="mb-8">
-      <h3 className="text-3xl py-5 mt-8 mb-6  lg:text-lg  md:py-2">
+      <h3 className="text-3xl py-5 mt-8 mb-6  lg:text-lg  md:py-2 ">
         Languages, Frameworks and Technologies I am working with
       </h3>
 

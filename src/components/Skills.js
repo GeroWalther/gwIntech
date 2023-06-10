@@ -19,10 +19,10 @@ const Skill = ({ skill, x, y }) => {
 const Skills = () => {
   return (
     <>
-      <h2 className="font-bold text-5xl mt-52 md:mt-40 w-full text-center sm:text-4xl">
+      <h2 className="font-bold text-5xl mt-52 md:mt-40 w-full text-center sm:text-4xl mb-5">
         Skills
       </h2>
-      <div className="w-full h-screen relative flex items-center justify-center rounded-full bg-circularLight lg:h-[80vh] sm:h-[60vh] xs:h-[50vh] lg:bg-circularLightLg md:bg-circularLightMd sm:bg-circularLightSm">
+      <div className="w-full h-screen relative flex items-center justify-center rounded-full bg-circularLight lg:h-[80vh] sm:h-[60vh] xs:h-[50vh] lg:bg-circularLightLg md:bg-circularLightMd sm:bg-circularLightSm md:mb-24">
         <motion.div
           className="flex items-center justify-center rounded-full font-semibold bg-dark text-light p-8 shadow-dark cursor-pointer lg:p-6 md:p-4 xs:text-xs xs:p-2"
           whileHover={{ scale: 1.05 }}
