@@ -1,0 +1,243 @@
+import React from "react";
+import Head from "next/head";
+import Link from "next/link";
+import Image from "next/image";
+import Layout from "../components/Layout";
+import AnimatedTxt from "../components/AnimatedTxt";
+import { GithubIcon } from "@/components/Icons";
+import chirp from "../../public/images/projects/chirp3.png";
+import node from "../../public/images/projects/node.png";
+import twitter from "../../public/images/projects/twitterExpoRouter.jpeg";
+import blog from "../../public/images/projects/blog.png";
+import omnifood from "../../public/images/projects/Omnifood.png";
+import nike from "../../public/images/projects/nike.png";
+import gewitter from "../../public/images/projects/gewitter.png";
+import RNAPP from "../../public/images/projects/rnapp.png";
+import openAI from "../../public/images/projects/openAI.webp";
+import { motion } from "framer-motion";
+
+const FramerImage = motion(Image);
+
+const Project = ({ title, type, img, link = "", github, summary = "" }) => {
+  return (
+    <article className="w-full flex flex-col items-center justify-center rounded-2xl border border-solid border-dark bg-light p-6 relative shadow-xl sm:p-4">
+      <Link
+        href={link ? link : github}
+        className="w-full cursor-pointer overflow-hidden rounded-lg"
+        target="_blank"
+      >
+        <FramerImage
+          src={img}
+          alt={title}
+          className="w-full h-auto "
+          whileHover={{ scale: 1.05 }}
+          transition={{ duration: 0.5 }}
+          priority
+          sizes="(max-width:768px) 100vw, (max-width:1200px) 50vw, 50vw"
+        />
+      </Link>
+
+      <div className="w-full flex flex-col justify-between items-start mt-4">
+        <span className="text-primary font-medium text-xl lg:text-lg md:text-base">
+          {type}
+        </span>
+        <Link
+          href={link ? link : github}
+          target="_blank"
+          className="hover:underline underline-offset-2"
+        >
+          <h2 className="my-2 w-full text-left text-3xl font-bold lg:text2xl">
+            {title}
+          </h2>
+        </Link>
+        {summary && (
+          <p className="my-2 font-medium text-dark sm:text-sm">{summary}</p>
+        )}
+        <div className="mt-2 flex items-center justify-between">
+          <Link
+            href={github}
+            tarket="_blank"
+            className="w-10 md:w-8"
+            target="_blank"
+          >
+            <GithubIcon />
+          </Link>
+          {link && (
+            <Link
+              href={link}
+              target="_blank"
+              className="ml-5 rounded-lg bg-black text-light p-2 px-6 text-lg font-semibold md:text-base"
+            >
+              Visit
+            </Link>
+          )}
+        </div>
+      </div>
+    </article>
+  );
+};
+
+const FeaturedProject = ({ type, title, summary, img, link = "", github }) => {
+  return (
+    <article className="w-full flex items-center justify-center rounded-3xl border border-solid border-dark bg-light shadow-2xl p-12 lg:flex-col lg:p-8 xs:rounded-2xl xs:p-4 ">
+      <Link
+        href={link ? link : github}
+        target="_blank"
+        className="w-1/2 cursor-pointer overflow-hidden rounded-lg lg:w-full"
+      >
+        <FramerImage
+          src={img}
+          alt={title}
+          className="w-full h-auto"
+          whileHover={{ scale: 1.05 }}
+          transition={{ duration: 0.5 }}
+          priority
+          sizes="(max-width:768px) 100vw, (max-width:1200px) 50vw, 50vw"
+        />
+      </Link>
+
+      <div className="w-1/2 flex flex-col justify-between items-start pl-6 lg:w-full lg:pl-0 lg:pt-4">
+        <span className="text-primary font-medium text-xl xs:text-base">
+          {type}
+        </span>
+        <Link
+          href={link}
+          target="_blank"
+          className="hover:underline underline-offset-2"
+        >
+          <h2 className="my-2 w-full text-left text-4xl font-bold sm:text-sm">
+            {title}
+          </h2>
+        </Link>
+        <p className="my-2 font-medium text-dark sm:text-sm">{summary}</p>
+        <div className="mt-2 flex items-center">
+          <Link href={github} target="_blank" className="w-10">
+            <GithubIcon />
+          </Link>
+          {link && (
+            <Link
+              href={link}
+              target="_blank"
+              className="ml-4 rounded-lg bg-black text-light p-2 px-6 text-lg font-semibold sm:px-4 sm:text-base"
+            >
+              Visit Project
+            </Link>
+          )}
+        </div>
+      </div>
+    </article>
+  );
+};
+
+const projects = () => {
+  return (
+    <>
+      <Head>
+        <title>My Projects - GW-InTech</title>
+        <meta
+          name="description"
+          content="GW-InTech Official Website - My Projects GW-InTech, have a look at my most recent projects and see my skills in action"
+        />
+      </Head>
+      <main className="w-full flex flex-col items-center justify-center">
+        <Layout className="pt-16">
+          <AnimatedTxt
+            text="Imagination Trumps Knowledge"
+            className="mb-16 lg:text-4xl md:text-3xl sm:mb-10 md:mt-10"
+          />
+
+          <div className="grid grid-cols-12 gap-20 gap-y-28 lg:gap-x-6 md:gap-y-10">
+            <div className="col-span-12">
+              <FeaturedProject
+                title="Chirp"
+                type="Featured Project"
+                img={chirp}
+                github="https://github.com/GeroWalther/chirp"
+                link="https://chirp-gules-nu.vercel.app"
+                summary="T3 Stack Application using technologies such as TypeScript NextJS, TailwindCSS, tRPC, Prisma, Clerk for Authentication and a Planetbase database to build a fully functional emoji only tweeting application."
+              />
+            </div>
+            <div className="col-span-6 sm:col-span-12">
+              <Project
+                title="Twitter-Clone"
+                github="https://github.com/GeroWalther/twitter"
+                summary="React-Native App using Expo Router"
+                img={twitter}
+              />
+            </div>
+            <div className="col-span-6 sm:col-span-12">
+              <Project
+                title="Twitter Backend"
+                github="https://github.com/GeroWalther/twitterBackend"
+                summary="Custom Express Backend written for twitter-clone"
+                img={node}
+              />
+            </div>
+            <div className="col-span-12">
+              <FeaturedProject
+                title="Gewitter"
+                type="Featured Project"
+                img={gewitter}
+                github="https://github.com/GeroWalther/gewitter"
+                link="https://gewitter.vercel.app"
+                summary="T3 Stack Application using technologies such as TypeScript NextJS, TailwindCSS, tRPC, Prisma, NextAuth for Authentication and a Planetbase database to build a fully functional tweeting, liking, following application."
+              />
+            </div>
+            <div className="col-span-6 sm:col-span-12">
+              <Project
+                title="Next Blog"
+                github="https://github.com/GeroWalther/next-blog"
+                summary="Simple Blog written in NextJS"
+                img={blog}
+                link="https://next-blog-beryl-six.vercel.app"
+              />
+            </div>
+            <div className="col-span-6 sm:col-span-12">
+              <Project
+                title="Omnifood"
+                github="https://github.com/GeroWalther/Omnifood-gero"
+                summary="Pure Html and CSS Website"
+                img={omnifood}
+                link="https://omnifood-gero.netlify.app"
+              />
+            </div>
+            <div className="col-span-6 sm:col-span-12">
+              <Project
+                title="Nike backend"
+                github="https://github.com/GeroWalther/twitterBackend"
+                summary="Custom Express Backend written for nike shoe store with stripe for payments"
+                img={node}
+              />
+            </div>
+            <div className="col-span-6 sm:col-span-12">
+              <Project
+                title="Nike Shoe Store"
+                github="https://github.com/GeroWalther/nike"
+                summary="React-Native Mobile App Store Frontend - Redux Toolkit, Redux Query etc."
+                img={nike}
+              />
+            </div>
+            <div className="col-span-6 sm:col-span-12">
+              <Project
+                title="UPS inspired delivery App"
+                github="https://github.com/GeroWalther/UPS"
+                summary="React-Native Mobile App - TypeScript, TailwindCSS, StepZen for GraphQL Queries and a Firebase Backend"
+                img={RNAPP}
+              />
+            </div>
+            <div className="col-span-6 sm:col-span-12">
+              <Project
+                title="AI Code-G"
+                github="https://github.com/GeroWalther/ai-code-g"
+                summary="AI Chat Bot using OpenAI's API"
+                img={openAI}
+              />
+            </div>
+          </div>
+        </Layout>
+      </main>
+    </>
+  );
+};
+
+export default projects;
