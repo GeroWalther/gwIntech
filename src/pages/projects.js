@@ -6,6 +6,8 @@ import Layout from "../components/Layout";
 import AnimatedTxt from "../components/AnimatedTxt";
 import { GithubIcon } from "@/components/Icons";
 import chirp from "../../public/images/projects/chirp3.png";
+import dontforget from "../../public/images/projects/dontforget.jpeg";
+
 import node from "../../public/images/projects/node.png";
 import twitter from "../../public/images/projects/twitterExpoRouter.jpeg";
 import blog from "../../public/images/projects/blog.png";
@@ -77,7 +79,15 @@ const Project = ({ title, type, img, link = "", github, summary = "" }) => {
   );
 };
 
-const FeaturedProject = ({ type, title, summary, img, link = "", github }) => {
+const FeaturedProject = ({
+  type,
+  title,
+  summary,
+  img,
+  link = "",
+  github,
+  appStore,
+}) => {
   return (
     <article className="w-full flex items-center justify-center rounded-3xl border border-solid border-dark bg-light shadow-2xl p-12 lg:flex-col lg:p-8 xs:rounded-2xl xs:p-4 ">
       <Link
@@ -88,7 +98,7 @@ const FeaturedProject = ({ type, title, summary, img, link = "", github }) => {
         <FramerImage
           src={img}
           alt={title}
-          className="w-full h-auto"
+          className="w-full h-auto max-h-96 object-contain"
           whileHover={{ scale: 1.05 }}
           transition={{ duration: 0.5 }}
           priority
@@ -120,7 +130,7 @@ const FeaturedProject = ({ type, title, summary, img, link = "", github }) => {
               target="_blank"
               className="ml-4 rounded-lg bg-black text-light p-2 px-6 text-lg font-semibold sm:px-4 sm:text-base"
             >
-              Visit Project
+              {appStore ? "Download from the AppStore" : "Visit Project"}
             </Link>
           )}
         </div>
@@ -149,14 +159,16 @@ const projects = () => {
           <div className="grid grid-cols-12 gap-20 gap-y-28 lg:gap-x-6 md:gap-y-10">
             <div className="col-span-12">
               <FeaturedProject
-                title="Chirp"
+                title="Don't Forget! Take a Note!"
                 type="Featured Project"
-                img={chirp}
-                github="https://github.com/GeroWalther/chirp"
-                link="https://chirp-gules-nu.vercel.app"
-                summary="T3 Stack Application using technologies such as TypeScript NextJS, TailwindCSS, tRPC, Prisma, Clerk for Authentication and a Planetbase database to build a fully functional emoji only tweeting application."
+                img={dontforget}
+                github="https://github.com/GeroWalther/dontforget-g"
+                link="https://apps.apple.com/ph/app/dont-forget-take-a-note/id6450320648"
+                summary="React-Native Expo App available on the Apple AppStore. Capture, organize, and never forget! Boost your productivity with Don't Forget! Take Notes! The ultimate note-taking app. Get it now!"
+                appStore={true}
               />
             </div>
+
             <div className="col-span-6 sm:col-span-12">
               <Project
                 title="Twitter-Clone"
@@ -179,8 +191,8 @@ const projects = () => {
                 type="Featured Project"
                 img={gewitter}
                 github="https://github.com/GeroWalther/gewitter"
-                link="https://gewitter.vercel.app"
-                summary="T3 Stack Application using technologies such as TypeScript NextJS, TailwindCSS, tRPC, Prisma, NextAuth for Authentication and a Planetbase database to build a fully functional tweeting, liking, following application."
+                // link="https://gewitter.vercel.app"
+                summary="T3 Stack Application using technologies such as TypeScript NextJS, TailwindCSS, tRPC, Prisma, NextAuth for Authentication and a PlanetScale database to build a fully functional tweeting, liking, following application."
               />
             </div>
             <div className="col-span-6 sm:col-span-12">
@@ -215,6 +227,16 @@ const projects = () => {
                 github="https://github.com/GeroWalther/nike"
                 summary="React-Native Mobile App Store Frontend - Redux Toolkit, Redux Query etc."
                 img={nike}
+              />
+            </div>
+            <div className="col-span-12">
+              <FeaturedProject
+                title="Chirp"
+                type="Featured Project"
+                img={chirp}
+                github="https://github.com/GeroWalther/chirp"
+                // link="https://chirp-gules-nu.vercel.app"
+                summary="T3 Stack Application using technologies such as TypeScript NextJS, TailwindCSS, tRPC, Prisma, Clerk for Authentication and a Planetscale database to build a fully functional emoji only tweeting application."
               />
             </div>
             <div className="col-span-6 sm:col-span-12">
