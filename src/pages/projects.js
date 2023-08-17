@@ -8,6 +8,7 @@ import { GithubIcon } from '@/components/Icons';
 import chirp from '../../public/images/projects/chirp3.png';
 import dontforget from '../../public/images/projects/dontforget.jpeg';
 import wildoasis from '../../public/images/projects/wild-oasis.png';
+import threads from '../../public/images/projects/threads.png';
 
 import node from '../../public/images/projects/node.png';
 import twitter from '../../public/images/projects/twitterExpoRouter.jpeg';
@@ -151,6 +152,16 @@ const projects = () => {
           />
 
           <div className='grid grid-cols-12 gap-20 gap-y-28 lg:gap-x-6 md:gap-y-10'>
+            <div className='col-span-12'>
+              <FeaturedProject
+                title='Full Stack Threads App'
+                type='Featured Project'
+                img={threads}
+                github='https://github.com/GeroWalther/threads'
+                link='https://threads-wine.vercel.app/'
+                summary='TypeScript Full Stack Threads App. Built with the brand new Next.js 13 features such as the new App Router, server and client side components, MongoDB with Mongoose and Schemas, Clerk for authentication, TailwindCSS for styling, ShadCN with Zod and React-Hook-Form for input validation etc. Check out the App!'
+              />
+            </div>
             <div className='col-span-12'>
               <FeaturedProject
                 title='The Wild Oasis'
