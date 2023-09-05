@@ -9,6 +9,7 @@ import chirp from '../../public/images/projects/chirp3.png';
 import dontforget from '../../public/images/projects/dontforget.jpeg';
 import wildoasis from '../../public/images/projects/wild-oasis.png';
 import threads from '../../public/images/projects/threads.png';
+import polo from '../../public/images/projects/polo.png';
 
 import node from '../../public/images/projects/node.png';
 import twitter from '../../public/images/projects/twitterExpoRouter.jpeg';
@@ -22,7 +23,14 @@ import { motion } from 'framer-motion';
 
 const FramerImage = motion(Image);
 
-const Project = ({ title, type, img, link = '', github, summary = '' }) => {
+const Project = ({
+  title,
+  type,
+  img,
+  link = '',
+  github = '',
+  summary = '',
+}) => {
   return (
     <article className='w-full flex flex-col items-center justify-center rounded-2xl border border-solid border-dark bg-light p-6 relative shadow-xl sm:p-4'>
       <Link
@@ -83,7 +91,7 @@ const FeaturedProject = ({
   summary,
   img,
   link = '',
-  github,
+  github = '',
   appStore,
 }) => {
   return (
@@ -117,9 +125,11 @@ const FeaturedProject = ({
         </Link>
         <p className='my-2 font-medium text-dark sm:text-sm'>{summary}</p>
         <div className='mt-2 flex items-center'>
-          <Link href={github} target='_blank' className='w-10'>
-            <GithubIcon />
-          </Link>
+          {github && (
+            <Link href={github} target='_blank' className='w-10'>
+              <GithubIcon />
+            </Link>
+          )}
           {link && (
             <Link
               href={link}
@@ -160,6 +170,15 @@ const projects = () => {
                 github='https://github.com/GeroWalther/threads'
                 link='https://threads-wine.vercel.app/'
                 summary='TypeScript Full Stack Threads App. Built with the brand new Next.js 13 features such as the new App Router, server and client side components, MongoDB with Mongoose and Schemas, Clerk for authentication, TailwindCSS for styling, ShadCN with Zod and React-Hook-Form for input validation etc. Check out the App!'
+              />
+            </div>
+            <div className='col-span-12'>
+              <FeaturedProject
+                title='Polo and Lyfestyle Magazine'
+                type='Client Project'
+                img={polo}
+                link='https://poloandlifestylemagazine.com'
+                summary='The official Polo and Lyfestyle Magazine website. WordPress Website for Online Magazine.'
               />
             </div>
             <div className='col-span-12'>
