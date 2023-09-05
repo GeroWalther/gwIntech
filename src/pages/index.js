@@ -1,6 +1,5 @@
 import AnimatedTxt from '@/components/AnimatedTxt';
 import HireMe from '@/components/HireMe';
-import { LinkArrow } from '@/components/Icons';
 import Layout from '@/components/Layout';
 import { SkillsLogos } from '@/components/SkillsLogos';
 import Head from 'next/head';
