@@ -10,6 +10,8 @@ import dontforget from '../../public/images/projects/dontforget.jpeg';
 import wildoasis from '../../public/images/projects/wild-oasis.png';
 import threads from '../../public/images/projects/threads.png';
 import polo from '../../public/images/projects/polo.png';
+import moonlamp from '../../public/images/projects/moonlamp.png';
+import justConvert from '../../public/images/projects/justConvert.jpeg';
 
 import node from '../../public/images/projects/node.png';
 import twitter from '../../public/images/projects/twitterExpoRouter.jpeg';
@@ -164,6 +166,35 @@ const projects = () => {
           <div className='grid grid-cols-12 gap-20 gap-y-28 lg:gap-x-6 md:gap-y-10'>
             <div className='col-span-12'>
               <FeaturedProject
+                title='justConvert'
+                type='Comming soon to the AppStore'
+                img={justConvert}
+                github='https://github.com/GeroWalther/justConvert'
+                // link='https://threads-wine.vercel.app/'
+                summary='React Native Expo managed ios/android App using the official API from the Frankfurter Stock Exchange to precisely calculate and convert currencies. It also converts lenghts, weights, areas and volume units in an easy manner. Native Wind for styling and RevenueCat for the in app subscription implemented'
+              />
+            </div>
+            <div className='col-span-6 sm:col-span-12'>
+              <Project
+                title='Moonlamp Online Shop'
+                summary='E-Commerce showcase example built in TypeScript, React.js, Next.js 13 with the new app router, Framer-Motion for effects, Zustand for global state management, TailwindCSS, Prisma and payments fully integrated with Stripe.'
+                img={moonlamp}
+                github='https://github.com/GeroWalther/moonlamp-onlineshop'
+                link='https://moonlamp.gw-intech.com/'
+              />
+            </div>
+            <div className='col-span-6 sm:col-span-12'>
+              <Project
+                title='Full Stack Threads App'
+                summary='TypeScript Full Stack Threads App. Next.js 13, server and client side components, MongoDB with Mongoose and Schemas, Clerk for authentication, TailwindCSS for styling, ShadCN with Zod and React-Hook-Form for input validation etc.'
+                img={threads}
+                github='https://github.com/GeroWalther/threads'
+                link='https://threads.gw-intech.com/'
+              />
+            </div>
+
+            {/* <div className='col-span-12'>
+              <FeaturedProject
                 title='Full Stack Threads App'
                 type='Featured Project'
                 img={threads}
@@ -171,10 +202,10 @@ const projects = () => {
                 link='https://threads-wine.vercel.app/'
                 summary='TypeScript Full Stack Threads App. Built with the brand new Next.js 13 features such as the new App Router, server and client side components, MongoDB with Mongoose and Schemas, Clerk for authentication, TailwindCSS for styling, ShadCN with Zod and React-Hook-Form for input validation etc. Check out the App!'
               />
-            </div>
+            </div> */}
             <div className='col-span-12'>
               <FeaturedProject
-                title='Polo and Lyfestyle Magazine'
+                title='POLO and Lifestyle Magazine'
                 type='Client Project'
                 img={polo}
                 link='https://poloandlifestylemagazine.com'
@@ -235,7 +266,7 @@ const projects = () => {
                 github='https://github.com/GeroWalther/next-blog'
                 summary='Simple Blog written in NextJS'
                 img={blog}
-                link='https://next-blog-beryl-six.vercel.app'
+                link='https://blog.gw-intech.com/'
               />
             </div>
             <div className='col-span-6 sm:col-span-12'>
