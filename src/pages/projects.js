@@ -171,7 +171,7 @@ const projects = () => {
                 img={justConvert}
                 github='https://github.com/GeroWalther/justConvert'
                 link='https://apps.apple.com/us/app/justconvert/id6464125917'
-                summary='React Native Expo managed ios/android App using the official API from the Frankfurter Stock Exchange to precisely calculate and convert currencies. It also converts lenghts, weights, areas and volume units in an easy manner. Native Wind for styling and RevenueCat for the in app subscription implemented'
+                summary='React Native Expo managed ios/android App using the official API from the Frankfurter Stock Exchange to precisely calculate and convert currencies. It also converts lenghts, weights, areas and volume units in an easy manner. Native Wind for styling and RevenueCat for in app purchase implemented'
               />
             </div>
             <div className='col-span-6 sm:col-span-12'>
