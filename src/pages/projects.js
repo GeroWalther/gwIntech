@@ -11,6 +11,7 @@ import wildoasis from '../../public/images/projects/wild-oasis.png';
 import threads from '../../public/images/projects/threads.png';
 import polo from '../../public/images/projects/polo.png';
 import moonlamp from '../../public/images/projects/moonlamp.png';
+import graphQLNode from '../../public/images/projects/GraphQL_NodeJS.webp';
 import justConvert from '../../public/images/projects/justConvert.jpeg';
 
 import node from '../../public/images/projects/node.png';
@@ -172,6 +173,7 @@ const projects = () => {
                 github='https://github.com/GeroWalther/justConvert'
                 link='https://apps.apple.com/us/app/justconvert/id6464125917'
                 summary='React Native Expo managed ios/android App using the official API from the Frankfurter Stock Exchange to precisely calculate and convert currencies. It also converts lenghts, weights, areas and volume units in an easy manner. Native Wind for styling and RevenueCat for in app purchase implemented'
+                appStore={true}
               />
             </div>
             <div className='col-span-6 sm:col-span-12'>
@@ -185,11 +187,28 @@ const projects = () => {
             </div>
             <div className='col-span-6 sm:col-span-12'>
               <Project
+                title='GraphQL + Node API'
+                summary='Backend API written in Node, using the power of GraphQL powered by Yoga and connected to MongoDB. In this project I defined a custom schema and wrote resolver functions for all CRUD operations in order to leverage the power of GraphQL.'
+                img={graphQLNode}
+                github='https://github.com/GeroWalther/graphQLNodejs'
+              />
+            </div>
+            <div className='col-span-6 sm:col-span-12'>
+              <Project
                 title='Full Stack Threads App'
                 summary='TypeScript Full Stack Threads App. Next.js 13, server and client side components, MongoDB with Mongoose and Schemas, Clerk for authentication, TailwindCSS for styling, ShadCN with Zod and React-Hook-Form for input validation etc.'
                 img={threads}
                 github='https://github.com/GeroWalther/threads'
                 link='https://threads.gw-intech.com/'
+              />
+            </div>
+            <div className='col-span-6 sm:col-span-12'>
+              <Project
+                title='The Wild Oasis'
+                summary='Full Stack React App using best advanced practices like compound component pattern and a modern tech-stack: react-query, context api, styled components, react-error-boundary, date-fns, recharts, react-icons,  react-hook-form, react-router, hot-toast and supabase for the backend authentication/ authorisation/ data storage. Login using the default credentials and explore my work.'
+                img={wildoasis}
+                github='https://github.com/GeroWalther/world-oasis'
+                link='https://wild-oasis-g.netlify.app/'
               />
             </div>
 
@@ -212,7 +231,7 @@ const projects = () => {
                 summary='The official Polo and Lyfestyle Magazine website. WordPress Website for Online Magazine.'
               />
             </div>
-            <div className='col-span-12'>
+            {/* <div className='col-span-12'>
               <FeaturedProject
                 title='The Wild Oasis'
                 type='Featured Project'
@@ -221,7 +240,7 @@ const projects = () => {
                 link='https://wild-oasis-g.netlify.app/'
                 summary='Full Stack React App using best advanced practices like compound component pattern and a modern tech-stack: react-query, context api, styled components, react-error-boundary, date-fns, recharts, react-icons,  react-hook-form, react-router, hot-toast and supabase for the backend authentication/ authorisation/ data storage. Login using the default credentials and explore my work.'
               />
-            </div>
+            </div> */}
             <div className='col-span-12'>
               <FeaturedProject
                 title="Don't Forget! Take a Note!"

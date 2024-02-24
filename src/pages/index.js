@@ -44,9 +44,9 @@ export default function Home() {
               </p>
               <div className='flex items-center self-start my-4 ml-6 lg:ml-0 px-2 lg:self-center'>
                 <Link
-                  href='/solutions'
+                  href='/projects'
                   className='flex items-center bg-dark text-light p-3.5 px-6 rounded-lg text-lg font-semibold hover:bg-slate-800 md:text-base'>
-                  Explore Solutions
+                  See Projects
                   {/* <LinkArrow className={"w-4 ml-2 mb-[2px] md:w-4"} /> */}
                 </Link>
                 <Link
