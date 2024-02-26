@@ -271,12 +271,12 @@ const projects = () => {
             </div>
             <div className='col-span-12'>
               <FeaturedProject
-                title='Gewitter'
+                title='Chirp'
                 type='Featured Project'
-                img={gewitter}
-                github='https://github.com/GeroWalther/gewitter'
-                // link="https://gewitter.vercel.app"
-                summary='T3 Stack Application using technologies such as TypeScript NextJS, TailwindCSS, tRPC, Prisma, NextAuth for Authentication and a PlanetScale database to build a fully functional tweeting, liking, following application.'
+                img={chirp}
+                github='https://github.com/GeroWalther/chirp'
+                link='https://chirp-gules-nu.vercel.app'
+                summary='T3 Stack Application using technologies such as TypeScript NextJS, TailwindCSS, tRPC, Prisma, Clerk for Authentication and a Planetscale database to build a fully functional emoji only tweeting application.'
               />
             </div>
             <div className='col-span-6 sm:col-span-12'>
@@ -315,12 +315,12 @@ const projects = () => {
             </div>
             <div className='col-span-12'>
               <FeaturedProject
-                title='Chirp'
+                title='Gewitter'
                 type='Featured Project'
-                img={chirp}
-                github='https://github.com/GeroWalther/chirp'
-                // link="https://chirp-gules-nu.vercel.app"
-                summary='T3 Stack Application using technologies such as TypeScript NextJS, TailwindCSS, tRPC, Prisma, Clerk for Authentication and a Planetscale database to build a fully functional emoji only tweeting application.'
+                img={gewitter}
+                github='https://github.com/GeroWalther/gewitter'
+                // link='https://gewitter.vercel.app'
+                summary='T3 Stack Application using technologies such as TypeScript NextJS, TailwindCSS, tRPC, Prisma, NextAuth for Authentication and a PlanetScale database to build a fully functional tweeting, liking, following application.'
               />
             </div>
             <div className='col-span-6 sm:col-span-12'>
