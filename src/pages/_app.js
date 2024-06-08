@@ -22,7 +22,7 @@ export default function App({ Component, pageProps }) {
         <meta name='viewport' content='width=device-width, initial-scale=1' />
         <meta
           name='keywords'
-          content='GW-InTech, developer, web development, mobile apps, mobile app development, full-stack, software engineer, e-commerce, React Native, Next.js, GraphQL, Node.js, TypeScript, TailwindCSS, MongoDB, Prisma, Stripe, trpc, Frankfurter Stock Exchange, Framer-Motion, Zustand, Yoga, Clerk, ShadCN, Zod, React-Hook-Form, react-query, context api, styled components, react-error-boundary, date-fns, recharts, react-icons, react-router, hot-toast, supabase, StepZen, Firebase, OpenAI, Next-Auth'
+          content='GW-InTech, JavaScript, developer, web development, mobile apps, mobile app development, full-stack, software engineer, e-commerce, React, React Native, Next.js, GraphQL, Node.js, TypeScript, TailwindCSS, MongoDB, Prisma, Stripe, trpc, Frankfurter Stock Exchange, Framer-Motion, Zustand, Yoga, Clerk, ShadCN, Zod, React-Hook-Form, react-query, context api, styled components, react-error-boundary, date-fns, recharts, react-icons, react-router, hot-toast, supabase, StepZen, Firebase, OpenAI, Next-Auth'
         />
         <link rel='icon' href='/favicon.ico' />
       </Head>
