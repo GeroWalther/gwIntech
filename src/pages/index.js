@@ -14,7 +14,7 @@ export default function Home() {
         <title>Home - GW-InTech</title>
         <meta
           name='description'
-          content='GW-InTech Official Website - Home Explore Solutions, Check out the Languages and Frameworks I am using'
+          content='GW-InTech Official Website - Home Explore Solutions, Check out the Languages and Frameworks I am using for mobile apps and web-developent. '
         />
       </Head>
       <main className='flex items-center text-dark w-full min-h-screen'>

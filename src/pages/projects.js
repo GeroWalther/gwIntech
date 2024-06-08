@@ -155,7 +155,7 @@ const projects = () => {
         <title>My Projects - GW-InTech</title>
         <meta
           name='description'
-          content='GW-InTech Official Website - My Projects GW-InTech, have a look at my most recent projects and see my skills in action'
+          content='GW-InTech Official Website - My Projects GW-InTech, have a look at my most recent projects and see my skills in action. Mobile apps and web-developent.'
         />
       </Head>
       <main className='w-full flex flex-col items-center justify-center'>
