@@ -13,6 +13,7 @@ import polo from '../../public/images/projects/polo.png';
 import moonlamp from '../../public/images/projects/moonlamp.png';
 import graphQLNode from '../../public/images/projects/GraphQL_NodeJS.webp';
 import justConvert from '../../public/images/projects/justConvert.jpeg';
+import pluto from '../../public/images/projects/pluto-hero.png';
 
 import node from '../../public/images/projects/node.png';
 import twitter from '../../public/images/projects/twitterExpoRouter.jpeg';
@@ -167,8 +168,18 @@ const projects = () => {
           <div className='grid grid-cols-12 gap-20 gap-y-28 lg:gap-x-6 md:gap-y-10'>
             <div className='col-span-12'>
               <FeaturedProject
+                title='Pluto Market'
+                type='Under Construction'
+                img={pluto}
+                github='https://github.com/GeroWalther/pluto'
+                link='https://pluto-market.gw-intech.com/'
+                summary='Modern Fullstack E-Commerce Marketplace for Digital Products using Next.js 14 with App Router, Next Auth, tRPC, TypeScript, TailwindCSS, ShadCN, Stripe for payments, MongoDB with a Prisma ORM and more. Still under construction (payments in test mode) but you can create an account and explore the App. Once it is finished, you will be able to buy and sell digital products. Have ideas to improve it? Do not hesitate and contact me.'
+              />
+            </div>
+            <div className='col-span-12'>
+              <FeaturedProject
                 title='justConvert'
-                type='New! Now Available in the AppStore.'
+                type='Now Available in the AppStore.'
                 img={justConvert}
                 github='https://github.com/GeroWalther/justConvert'
                 link='https://apps.apple.com/us/app/justconvert/id6464125917'
