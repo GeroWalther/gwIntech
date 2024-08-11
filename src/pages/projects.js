@@ -14,6 +14,7 @@ import moonlamp from '../../public/images/projects/moonlamp.png';
 import graphQLNode from '../../public/images/projects/GraphQL_NodeJS.webp';
 import justConvert from '../../public/images/projects/justConvert.jpeg';
 import pluto from '../../public/images/projects/pluto-hero.png';
+import misGloww from '../../public/images/projects/missGlow.png';
 
 import node from '../../public/images/projects/node.png';
 import twitter from '../../public/images/projects/twitterExpoRouter.jpeg';
@@ -166,6 +167,16 @@ const projects = () => {
           />
 
           <div className='grid grid-cols-12 gap-20 gap-y-28 lg:gap-x-6 md:gap-y-10'>
+            <div className='col-span-12'>
+              <FeaturedProject
+                title='Miss Glow'
+                type='Custom Online Shop'
+                img={misGloww}
+                github='https://github.com/GeroWalther/missglow'
+                link='https://missglow.vercel.app/'
+                summary='This is a custom Full Stack E-commerce Online-Shop to require the needs of my aspiring customer. Including custom Admin Dashboard and easy payment. - Techstack:  Next.js, Prisma, Stripe, TailwindCSS, MongoDB, Resend.'
+              />
+            </div>
             <div className='col-span-12'>
               <FeaturedProject
                 title='Pluto Market'
