@@ -173,7 +173,7 @@ const projects = () => {
                 type='Custom Online Shop'
                 img={misGloww}
                 github='https://github.com/GeroWalther/missglow'
-                link='https://missglow.vercel.app/'
+                link='https://www.missglowbeauty.com/'
                 summary='This is a custom Full Stack E-commerce Online-Shop to require the needs of my aspiring customer. Including custom Admin Dashboard and easy checkout solutions. Techstack:  Next.js, Prisma, Stripe, TailwindCSS, MongoDB, Resend.'
               />
             </div>
