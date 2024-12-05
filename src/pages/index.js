@@ -7,6 +7,11 @@ import Image from 'next/image';
 import Link from 'next/link';
 import birne from '../../public/images/hero/birne.jpeg';
 
+import dynamic from 'next/dynamic';
+const Dices = dynamic(() => import('@/components/Dices'), {
+  ssr: false,
+});
+
 export default function Home() {
   return (
     <>
@@ -57,7 +62,14 @@ export default function Home() {
               </div>
             </div>
           </div>
-          <SkillsLogos />
+          <div className='grid md:grid-cols-1 grid-cols-2 gap-4'>
+            <div className='w-full'>
+              <SkillsLogos />
+            </div>
+            <div className='w-full bg-emerald-600 rounded-lg'>
+              <Dices />
+            </div>
+          </div>
         </Layout>
         <HireMe />
       </main>
