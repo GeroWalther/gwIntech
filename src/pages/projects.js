@@ -184,7 +184,7 @@ const projects = () => {
                 title='Climatic'
                 // type='Under Construction'
                 img={climatic}
-                github='https://github.com/GeroWalther/climatic'
+                github='https://github.com/GeroWalther/clima'
                 link='https://apps.apple.com/es/app/climatic-current-weather/id6737645840?l=en-GB'
                 summary='Native iOS App written in Swift using the OpenWeatherMap API to display accurate weather. The App is available in the AppStore now for download. Check your current weather based on location tracking or search for current weather in other cities!'
                 appStore={true}
