@@ -24,6 +24,7 @@ import nike from '../../public/images/projects/nike.png';
 import gewitter from '../../public/images/projects/gewitter.png';
 import RNAPP from '../../public/images/projects/rnapp.png';
 import openAI from '../../public/images/projects/openAI.webp';
+import climatic from '../../public/images/projects/climatic.png';
 import { motion } from 'framer-motion';
 
 const FramerImage = motion(Image);
@@ -35,6 +36,7 @@ const Project = ({
   link = '',
   github = '',
   summary = '',
+  appStore = false,
 }) => {
   return (
     <article className='w-full flex flex-col items-center justify-center rounded-2xl border border-solid border-dark bg-light p-6 relative shadow-xl sm:p-4'>
@@ -81,7 +83,7 @@ const Project = ({
               href={link}
               target='_blank'
               className='ml-5 rounded-lg bg-black text-light p-2 px-6 text-lg font-semibold md:text-base'>
-              Visit
+              {appStore ? 'Download from the AppStore' : 'Visit'}
             </Link>
           )}
         </div>
@@ -177,10 +179,21 @@ const projects = () => {
                 summary='This is a custom Full Stack E-commerce Online-Shop to require the needs of my aspiring customer. Including custom Admin Dashboard and easy checkout solutions. Techstack:  Next.js, Prisma, Stripe, TailwindCSS, MongoDB, Resend.'
               />
             </div>
-            <div className='col-span-12'>
-              <FeaturedProject
+            <div className='col-span-6 sm:col-span-12'>
+              <Project
+                title='Climatic'
+                // type='Under Construction'
+                img={climatic}
+                github='https://github.com/GeroWalther/climatic'
+                link='https://apps.apple.com/es/app/climatic-current-weather/id6737645840?l=en-GB'
+                summary='Native iOS App written in Swift using the OpenWeatherMap API to display accurate weather. The App is available in the AppStore now for download. Check your current weather based on location tracking or search for current weather in other cities!'
+                appStore={true}
+              />
+            </div>
+            <div className='col-span-6 sm:col-span-12'>
+              <Project
                 title='Pluto Market'
-                type='Under Construction'
+                // type='Under Construction'
                 img={pluto}
                 github='https://github.com/GeroWalther/pluto'
                 link='https://pluto-market.gw-intech.com/'
