@@ -66,7 +66,6 @@ export default function Home() {
             <div className='w-full'>
               <SkillsLogos />
             </div>
-
             <div className='w-full bg-emerald-600 rounded-lg'>
               <Dices />
             </div>
