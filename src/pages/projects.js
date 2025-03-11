@@ -15,7 +15,7 @@ import graphQLNode from '../../public/images/projects/GraphQL_NodeJS.webp';
 import justConvert from '../../public/images/projects/justConvert.jpeg';
 import pluto from '../../public/images/projects/pluto-hero.png';
 import misGloww from '../../public/images/projects/missGlow.png';
-import poloiOSApp from '../../public/images/projects/pololifestyleApp.png';
+import poloApp from '../../public/images/projects/pololifestyleApp.webp';
 
 import node from '../../public/images/projects/node.png';
 import twitter from '../../public/images/projects/twitterExpoRouter.jpeg';
@@ -174,7 +174,7 @@ const projects = () => {
               <FeaturedProject
                 title='Polo and Lifestyle Magazine'
                 type='Swift iOS App'
-                img={poloiOSApp}
+                img={poloApp}
                 github='https://github.com/GeroWalther/poloMobileApp'
                 link='https://apps.apple.com/us/app/polo-lifestyle-magazine/id6740444400'
                 summary='This is a custom Swift iOS App for the official Polo and Lifestyle Magazine. The App is available in the AppStore now for download. Check out the App and have a look at my skills in Swift and SwiftUI!'
