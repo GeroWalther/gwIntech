@@ -178,6 +178,7 @@ const projects = () => {
                 github='https://github.com/GeroWalther/poloMobileApp'
                 link='https://apps.apple.com/us/app/polo-lifestyle-magazine/id6740444400'
                 summary='This is a custom Swift iOS App for the official Polo and Lifestyle Magazine. The App is available in the AppStore now for download. Check out the App and have a look at my skills in Swift and SwiftUI!'
+                appStore={true}
               />
             </div>
             <div className='col-span-12'>
