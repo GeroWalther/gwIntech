@@ -15,6 +15,7 @@ import graphQLNode from '../../public/images/projects/GraphQL_NodeJS.webp';
 import justConvert from '../../public/images/projects/justConvert.jpeg';
 import pluto from '../../public/images/projects/pluto-hero.png';
 import misGloww from '../../public/images/projects/missGlow.png';
+import poloiOSApp from '../../public/images/projects/pololifestyleAPP.PNG';
 
 import node from '../../public/images/projects/node.png';
 import twitter from '../../public/images/projects/twitterExpoRouter.jpeg';
@@ -171,6 +172,16 @@ const projects = () => {
           <div className='grid grid-cols-12 gap-20 gap-y-28 lg:gap-x-6 md:gap-y-10'>
             <div className='col-span-12'>
               <FeaturedProject
+                title='Polo and Lifestyle Magazine'
+                type='Swift iOS App'
+                img={poloiOSApp}
+                github='https://github.com/GeroWalther/poloMobileApp'
+                link='https://apps.apple.com/us/app/polo-lifestyle-magazine/id6740444400'
+                summary='This is a custom Swift iOS App for the official Polo and Lifestyle Magazine. The App is available in the AppStore now for download. Check out the App and have a look at my skills in Swift and SwiftUI!'
+              />
+            </div>
+            <div className='col-span-12'>
+              <FeaturedProject
                 title='Miss Glow'
                 type='Custom Online Shop'
                 img={misGloww}
@@ -263,7 +274,7 @@ const projects = () => {
                 type='Client Project'
                 img={polo}
                 link='https://poloandlifestylemagazine.com'
-                summary='The official Polo and Lyfestyle Magazine website. WordPress Website for Online Magazine.'
+                summary='The official Polo and Lifestyle Magazine website. WordPress Website for Online Magazine.'
               />
             </div>
             {/* <div className='col-span-12'>
