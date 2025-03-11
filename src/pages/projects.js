@@ -15,7 +15,7 @@ import graphQLNode from '../../public/images/projects/GraphQL_NodeJS.webp';
 import justConvert from '../../public/images/projects/justConvert.jpeg';
 import pluto from '../../public/images/projects/pluto-hero.png';
 import misGloww from '../../public/images/projects/missGlow.png';
-import poloiOSApp from '../../public/images/projects/pololifestyleAPP.png';
+import poloiOSApp from '../../public/images/projects/pololifestyleApp.png';
 
 import node from '../../public/images/projects/node.png';
 import twitter from '../../public/images/projects/twitterExpoRouter.jpeg';
