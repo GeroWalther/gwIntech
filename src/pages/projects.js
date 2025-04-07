@@ -16,6 +16,7 @@ import justConvert from '../../public/images/projects/justConvert.jpeg';
 import pluto from '../../public/images/projects/pluto-hero.png';
 import misGloww from '../../public/images/projects/missGlow.png';
 import poloApp from '../../public/images/projects/pololifestyleApp.webp';
+import xTradeApp from '../../public/images/projects/XtradeAI.png';
 
 import node from '../../public/images/projects/node.png';
 import twitter from '../../public/images/projects/twitterExpoRouter.jpeg';
@@ -170,6 +171,17 @@ const projects = () => {
           />
 
           <div className='grid grid-cols-12 gap-20 gap-y-28 lg:gap-x-6 md:gap-y-10'>
+            <div className='col-span-12'>
+              <FeaturedProject
+                title='XTradeAI'
+                type='React Native App'
+                img={xTradeApp}
+                github='https://github.com/GeroWalther/XTradeAI_mobile'
+                link='https://apps.apple.com/es/app/xtradeai/id6743446333?l=en-GB'
+                summary='XTradeAI - allows you to analyze stocks, indicees, cryptocurrencies and commodities with the power of our custom Python Backend for an accurate analysis based on the latest news, macroeconomic data, technical analysis, sentiment and real timeprice action.'
+                appStore={true}
+              />
+            </div>
             <div className='col-span-12'>
               <FeaturedProject
                 title='Polo and Lifestyle Magazine'
