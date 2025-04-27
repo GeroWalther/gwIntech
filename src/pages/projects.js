@@ -17,6 +17,7 @@ import pluto from '../../public/images/projects/pluto-hero.png';
 import misGloww from '../../public/images/projects/missGlow.png';
 import poloApp from '../../public/images/projects/pololifestyleApp.webp';
 import xTradeApp from '../../public/images/projects/XtradeAI.png';
+import gDrive from '../../public/images/projects/g-drive.png';
 
 import node from '../../public/images/projects/node.png';
 import twitter from '../../public/images/projects/twitterExpoRouter.jpeg';
@@ -171,6 +172,16 @@ const projects = () => {
           />
 
           <div className='grid grid-cols-12 gap-20 gap-y-28 lg:gap-x-6 md:gap-y-10'>
+            <div className='col-span-12'>
+              <FeaturedProject
+                title='G-Drive'
+                type='File/Folder Management System'
+                img={gDrive}
+                github='https://github.com/GeroWalther/g-drive'
+                link='https://g-drive.gw-intech.com'
+                summary='Full Stack Web Application - Google Drive Clone using Next.js, TailwindCSS, Clerk for authentication, Custom File Upload mechanism which supports multiple file types, Single Store Database and AWS S3 for storage. Simply create an account and start uploading files.'
+              />
+            </div>
             <div className='col-span-12'>
               <FeaturedProject
                 title='XTradeAI'
