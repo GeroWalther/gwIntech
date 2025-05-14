@@ -18,6 +18,7 @@ import misGloww from '../../public/images/projects/missGlow.png';
 import poloApp from '../../public/images/projects/pololifestyleApp.webp';
 import xTradeApp from '../../public/images/projects/XtradeAI.png';
 import gDrive from '../../public/images/projects/g-drive.png';
+import visionX from '../../public/images/projects/vision-x.png';
 
 import node from '../../public/images/projects/node.png';
 import twitter from '../../public/images/projects/twitterExpoRouter.jpeg';
@@ -144,7 +145,9 @@ const FeaturedProject = ({
             <Link
               href={link}
               target='_blank'
-              className='ml-4 rounded-lg bg-black text-light p-2 px-6 text-lg font-semibold sm:px-4 sm:text-base'>
+              className={`ml-4 rounded-lg bg-black text-light p-2 px-6 text-lg font-semibold sm:px-4 sm:text-base 
+                ${github == '' ? 'ml-0' : ''}
+                `}>
               {appStore ? 'Download from the AppStore' : 'Visit Project'}
             </Link>
           )}
@@ -174,6 +177,16 @@ const projects = () => {
           <div className='grid grid-cols-12 gap-20 gap-y-28 lg:gap-x-6 md:gap-y-10'>
             <div className='col-span-12'>
               <FeaturedProject
+                title='Vision-X'
+                type='State of the art AI image & story NSFW generator'
+                img={visionX}
+                // github='https://github.com/GeroWalther/g-drive'
+                link='https://vision-x.gw-intech.com'
+                summary='AI-powered content generation platform built with Next.js, Supabase, and React Query. Features text and image generation using multiple AI models (Claude, Replicate etc), community sharing with likes and pagination, and responsive design with Framer Motion animations. Uses Tailwind CSS for styling and implements optimistic UI updates for smooth user interaction.'
+              />
+            </div>
+            <div className='col-span-6 sm:col-span-12'>
+              <Project
                 title='G-Drive'
                 type='File/Folder Management System'
                 img={gDrive}
@@ -182,8 +195,8 @@ const projects = () => {
                 summary='Full Stack Web Application - Google Drive Clone using Next.js, TailwindCSS, Clerk for authentication, Custom File Upload mechanism which supports multiple file types, Single Store Database and AWS S3 for storage. Simply create an account and start uploading files.'
               />
             </div>
-            <div className='col-span-12'>
-              <FeaturedProject
+            <div className='col-span-6 sm:col-span-12'>
+              <Project
                 title='XTradeAI'
                 type='React Native App'
                 img={xTradeApp}
