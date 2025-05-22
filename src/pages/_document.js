@@ -7,7 +7,7 @@ export default function Document() {
       <body>
         <Main />
         <NextScript />
-        {/* <script
+        <script
           src='http://51.92.83.204:7070/widget/assistant.js'
           data-company='gw-intech'
           data-api-key='gw-intech-api-key-456'
@@ -16,7 +16,16 @@ export default function Document() {
         <link
           rel='stylesheet'
           href='http://51.92.83.204:7070/widget/style.css'
-        /> */}
+        />
+        {/* For Testing on localhost with locally running backend on port 7070 */}
+        {/* <script
+          src='http://localhost:7070/widget/assistant.js'
+          data-company='gw-intech'
+          data-api-key='gw-intech-api-key-456'
+          data-api-url='http://localhost:7070/api/assistant'
+          async></script>
+
+        <link rel='stylesheet' href='http://localhost:7070/widget/style.css' /> */}
       </body>
     </Html>
   );
