@@ -217,7 +217,7 @@ const projects = () => {
                 appStore={true}
               />
             </div>
-            {/* <div className='col-span-12'>
+            <div className='col-span-12'>
               <FeaturedProject
                 title='Miss Glow'
                 type='Custom Online Shop'
@@ -226,7 +226,7 @@ const projects = () => {
                 link='https://www.missglowbeauty.com/'
                 summary='This is a custom Full Stack E-commerce Online-Shop to require the needs of my aspiring customer. Including custom Admin Dashboard and easy checkout solutions. Techstack:  Next.js, Prisma, Stripe, TailwindCSS, MongoDB, Resend.'
               />
-            </div> */}
+            </div>
             <div className='col-span-6 sm:col-span-12'>
               <Project
                 title='Climatic'
