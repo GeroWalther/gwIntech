@@ -29,6 +29,8 @@ import gewitter from '../../public/images/projects/gewitter.png';
 import RNAPP from '../../public/images/projects/rnapp.png';
 import openAI from '../../public/images/projects/openAI.webp';
 import climatic from '../../public/images/projects/climatic.png';
+import mernDocker from '../../public/images/projects/mernDocker.webp';
+
 import { motion } from 'framer-motion';
 
 const FramerImage = motion(Image);
@@ -175,6 +177,16 @@ const projects = () => {
           />
 
           <div className='grid grid-cols-12 gap-20 gap-y-28 lg:gap-x-6 md:gap-y-10'>
+            <div className='col-span-12'>
+              <FeaturedProject
+                title='MERN Stack + DOCKER'
+                type='Full Stack Application with MERN Stack and Docker'
+                img={mernDocker}
+                github='https://github.com/GeroWalther/assignment-node-react'
+                // link='https://vision-x.gw-intech.com'
+                summary='In-depth Node.js & Express.js backend implementation. Modern React.js frontend architecture. Complete MongoDB + Mongoose ODM database engineering. Professional Docker develop ment and production workflows. MVC architecture with proper separation of concerns. Enterprise-level documentation and technical depth.'
+              />
+            </div>
             <div className='col-span-12'>
               <FeaturedProject
                 title='Vision-X'
