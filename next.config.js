@@ -28,12 +28,12 @@ const nextConfig = {
           {
             key: 'Content-Security-Policy',
             value: [
-              "default-src 'self'", // Only allow resources from same origin by default
-              "script-src 'self' 'unsafe-inline' 'unsafe-eval'", // Allow inline scripts (adjust as needed)
-              "style-src 'self' 'unsafe-inline'", // Allow inline styles
+              "default-src 'self' https://widget.gw-intech.com", // Only allow resources from same origin by default
+              "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://widget.gw-intech.com https://va.vercel-scripts.com", // Allow inline scripts and external scripts
+              "style-src 'self' 'unsafe-inline' https://widget.gw-intech.com", // Allow inline styles
               "img-src 'self' data: https:", // Allow images from self, data URLs, and HTTPS
               "font-src 'self' https:", // Allow fonts from self and HTTPS
-              "connect-src 'self' https:", // Allow API calls to self and HTTPS
+              "connect-src 'self' https: ws: wss:", // Allow API calls to self, HTTPS, and WebSocket connections
               "frame-ancestors 'self'", // Equivalent to X-Frame-Options
               "base-uri 'self'", // Prevent base tag injection
               "form-action 'self'", // Only allow form submissions to same origin
