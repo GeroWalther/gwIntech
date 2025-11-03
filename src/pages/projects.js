@@ -183,7 +183,6 @@ const projects = () => {
                 type='Full Stack Application with MERN Stack and Docker'
                 img={mernDocker}
                 github='https://github.com/GeroWalther/assignment-node-react'
-                // link='https://vision-x.gw-intech.com'
                 summary='In-depth Node.js & Express.js backend implementation. Modern React.js frontend architecture. Complete MongoDB + Mongoose ODM database engineering. Professional Docker develop ment and production workflows. MVC architecture with proper separation of concerns. Enterprise-level documentation and technical depth.'
               />
             </div>
@@ -192,8 +191,8 @@ const projects = () => {
                 title='Vision-X'
                 type='State of the art AI image & story NSFW generator'
                 img={visionX}
-                // github='https://github.com/GeroWalther/g-drive'
-                link='https://vision-x.gw-intech.com'
+                github='https://github.com/GeroWalther/unlimited_ai'
+                //  link='https://vision-x.gw-intech.com'
                 summary='AI-powered content generation platform built with Next.js, Supabase, and React Query. Features text and image generation using multiple AI models (Claude, Replicate etc), community sharing with likes and pagination, and responsive design with Framer Motion animations. Uses Tailwind CSS for styling and implements optimistic UI updates for smooth user interaction.'
               />
             </div>
