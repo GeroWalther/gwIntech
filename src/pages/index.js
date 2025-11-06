@@ -6,6 +6,7 @@ import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
 import birne from '../../public/images/hero/birne.jpeg';
+import werbung from '../../public/images/mobileAppwerbung.jpeg';
 
 import dynamic from 'next/dynamic';
 const Dices = dynamic(() => import('@/components/Dices'), {
@@ -34,6 +35,7 @@ export default function Home() {
                 sizes='(max-width:768px) 100vw, (max-width:1200px) 50vw, 33vw'
               />
             </div>
+
             <div className='w-2/3 flex flex-col items-center self-center lg:w-full lg:text-center'>
               <AnimatedTxt
                 text='Turning Vision Into Reality With Code And Design.'
@@ -61,6 +63,16 @@ export default function Home() {
                 </Link>
               </div>
             </div>
+          </div>
+          {/* Advertising Section */}
+          <div className='w-full mb-20 -mt-6 md:mb-6 md:-mt-4'>
+            <Image
+              src={werbung}
+              alt='advertising campaign'
+              className='w-full h-auto rounded-lg shadow-lg'
+              priority
+              sizes='(max-width:768px) 100vw, (max-width:1200px) 100vw, 100vw'
+            />
           </div>
           <div className='grid md:grid-cols-1 grid-cols-2 gap-4'>
             <div className='w-full'>
