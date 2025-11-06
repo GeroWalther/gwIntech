@@ -10,6 +10,9 @@ import RNAPP from '../../public/images/projects/rnapp.png';
 import shop from '../../public/images/projects/nike.png';
 import rn from '../../public/images/projects/twitterExpoRouter.jpeg';
 import node from '../../public/images/projects/node.png';
+import devObs from '../../public/images/projects/mernDocker.webp';
+import openAI from '../../public/images/projects/openAI.webp';
+import AWS from '../../public/images/projects/AWSlogo.webp';
 import { motion } from 'framer-motion';
 
 const FramerImage = motion(Image);
@@ -64,12 +67,12 @@ const solutions = () => {
           </h2>
           <p className='font-medium'>
             In today`s digital landscape, a strong online presence is essential
-            for businesses to thrive. As a web developer, I offer comprehensive
-            services tailored to help businesses establish and enhance their
-            online presence. By leveraging my expertise in web development, I
-            can provide customized solutions in various fields, including online
-            shops, blog websites, messenger/social media web platforms, and
-            React Native cross-platform mobile apps.
+            for businesses to thrive. As a web, mobile and full stack developer,
+            I offer comprehensive services tailored to help businesses establish
+            and enhance their online presence. By leveraging my expertise in web
+            development, I can provide customized solutions in various fields,
+            including online shops, blog websites, messenger/social media web
+            platforms, and React Native cross-platform mobile apps.
           </p>
           <ul className='grid grid-cols-2 gap-16 mt-10 gap-y-24 md:grid-cols-1'>
             <Solution
@@ -77,6 +80,32 @@ const solutions = () => {
               img={rn}
               title='React Native: Cross-Platform Mobile App Development'
               summary='For businesses seeking to reach a wider audience across iOS and Android devices, React Native provides an efficient cross-platform mobile app development solution. By leveraging the power of React Native, I build native-like mobile apps with a single codebase, reducing development time and costs. The resulting apps offer exceptional performance, a native user interface, and access to device-specific features, all while ensuring a consistent user experience across platforms.'
+              link='/'
+            />
+
+            <Solution
+              img={openAI}
+              title='AI implementations in WEB and MOBILE applications'
+              summary='Harness the power of artificial intelligence to transform your digital products. I integrate cutting-edge AI technologies including OpenAI GPT models, machine learning APIs, and intelligent automation into web and mobile applications. From chatbots and natural language processing to predictive analytics and computer vision, I deliver AI-powered features that enhance user experience, automate workflows, and provide intelligent insights that give your business a competitive edge.'
+              link='/'
+            />
+            <Solution
+              img={devObs}
+              title='Full Stack SAAS Applications'
+              summary='Transform your business idea into a scalable Software as a Service platform. I architect and develop complete SaaS solutions from the ground up, including multi-tenant architectures, subscription management, role-based access control, and seamless third-party integrations. Utilizing modern tech stacks with React, Next.js, Node.js, and cloud databases, I build robust, revenue-generating platforms that scale with your business growth and deliver exceptional value to your customers.'
+              link='/'
+            />
+            <Solution
+              img={AWS}
+              title='DevOps, AWS and Cloud Engineering'
+              summary='Ensure your applications run reliably and efficiently with professional DevOps and cloud infrastructure solutions. I specialize in AWS cloud architecture, containerization with Docker, CI/CD pipeline automation, and infrastructure as code. From setting up scalable microservices to implementing monitoring, logging, and automated deployments, I help businesses achieve faster release cycles, improved system reliability, and optimized cloud costs while maintaining enterprise-grade security standards.'
+              link='/'
+            />
+            <Solution
+              className='self-end'
+              img={node}
+              title='Powerful Custom Backend: Secure, Scalable, and Type-Safe Solutions'
+              summary='As a custom backend developer specializing in Node.js, Express, GraphQL, Prisma, tRPC, and TypeScript, I provide secure, scalable, and type-safe solutions. With these technologies, I build high-performance backend systems that ensure data integrity, handle heavy traffic loads, and seamlessly integrate with various databases like MongoDB, PlanetScale, and AWS.'
               link='/'
             />
 
@@ -97,8 +126,7 @@ const solutions = () => {
             <Solution
               img={blog}
               title='Blog Website: Expertise for Driving Engagement'
-              summary="In today's digital age, a blog website serves as a powerful platform for businesses and individuals to share their knowledge, insights, and expertise with the world. As a web developer, I specialize in creating captivating and feature-rich blog websites that enable businesses to establish themselves as thought leaders in their industry.
-"
+              summary="In today's digital age, a blog website serves as a powerful platform for businesses and individuals to share their knowledge, insights, and expertise with the world. As a web developer, I specialize in creating captivating and feature-rich blog websites that enable businesses to establish themselves as thought leaders in their industry."
               link='/'
             />
 
@@ -106,13 +134,6 @@ const solutions = () => {
               img={omnifood}
               title='Custom Solutions: Tailored to Your Unique Requirements'
               summary='One of the key benefits of working with a professional web developer is the ability to receive custom solutions tailored to your unique requirements. Whether you need specific functionalities integrated, complex workflows implemented, or specialized features developed, I can deliver a custom solution that aligns perfectly with your business goals. With clean and scalable code, adherence to industry standards, and a focus on security and performance optimization, I ensure that your custom solution is robust, efficient, and future-proof.'
-              link='/'
-            />
-            <Solution
-              className='self-end'
-              img={node}
-              title='Powerful Custom Backend: Secure, Scalable, and Type-Safe Solutions'
-              summary='As a custom backend developer specializing in Node.js, Express, GraphQL, Prisma, tRPC, and TypeScript, I provide secure, scalable, and type-safe solutions. With these technologies, I build high-performance backend systems that ensure data integrity, handle heavy traffic loads, and seamlessly integrate with various databases like MongoDB, PlanetScale, and AWS.'
               link='/'
             />
           </ul>
