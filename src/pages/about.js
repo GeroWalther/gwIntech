@@ -116,7 +116,7 @@ const about = () => {
             <div className='col-span-8 flex items-center justify-around md:flex-col'>
               <div className='flex flex-col items-end justify-center md:self-end md:mt-5'>
                 <span className='inline-block text-5xl font-bold'>
-                  <AnimatedNumbers value={20} />+
+                  <AnimatedNumbers value={60} />+
                 </span>
                 <h3 className='text-lg font-medium capitalize text-dark/75'>
                   Clients Satisfied
@@ -125,7 +125,7 @@ const about = () => {
 
               <div className='flex flex-col items-end justify-center md:my-16 md:self-start'>
                 <span className='inline-block text-5xl font-bold'>
-                  <AnimatedNumbers value={40} />+
+                  <AnimatedNumbers value={100} />+
                 </span>
                 <h3 className='text-lg font-medium capitalize text-dark/75'>
                   Projects
@@ -134,7 +134,7 @@ const about = () => {
 
               <div className='flex flex-col items-end justify-center md:self-end'>
                 <span className='inline-block text-5xl font-bold'>
-                  <AnimatedNumbers value={18} />+
+                  <AnimatedNumbers value={25} />+
                 </span>
                 <h3 className='text-lg font-medium capitalize text-dark/75'>
                   Languages &amp; Frameworks
