@@ -69,10 +69,13 @@ const solutions = () => {
             In today`s digital landscape, a strong online presence is essential
             for businesses to thrive. As a web, mobile and full stack developer,
             I offer comprehensive services tailored to help businesses establish
-            and enhance their online presence. By leveraging my expertise in web
-            development, I can provide customized solutions in various fields,
-            including online shops, blog websites, messenger/social media web
-            platforms, and React Native cross-platform mobile apps.
+            and enhance their online presence. By leveraging my expertise in
+            modern development technologies, I provide customized solutions
+            across diverse fields, including AI-powered applications, scalable
+            SaaS platforms, DevOps and cloud infrastructure, custom backend
+            systems, React Native cross-platform mobile apps, online shops, blog
+            websites, and messenger/social media platforms as well as custom
+            solutions tailored to your unique requirements.
           </p>
           <ul className='grid grid-cols-2 gap-16 mt-10 gap-y-24 md:grid-cols-1'>
             <Solution
@@ -92,7 +95,7 @@ const solutions = () => {
             <Solution
               img={devObs}
               title='Full Stack SAAS Applications'
-              summary='Transform your business idea into a scalable Software as a Service platform. I architect and develop complete SaaS solutions from the ground up, including multi-tenant architectures, subscription management, role-based access control, and seamless third-party integrations. Utilizing modern tech stacks with React, Next.js, Node.js, and cloud databases, I build robust, revenue-generating platforms that scale with your business growth and deliver exceptional value to your customers.'
+              summary='Transform your business idea into a scalable Software as a Service platform. I architect and develop complete SaaS solutions from the ground up, including multi-tenant architectures, subscription management, role-based access control, and seamless third-party integrations. Utilizing modern tech stacks with React, Next.js, Node.js, Docker, CI/CD pipeline automation, AWS EC2, RDS and S3 or MONGODB cloud databases, I build robust, revenue-generating platforms that scale with your business growth and deliver exceptional value to your customers.'
               link='/'
             />
             <Solution
