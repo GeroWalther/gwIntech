@@ -1,5 +1,6 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import RainbowTrail from './RainbowTrail';
 
 export const generateStars = (count) => {
   return Array.from({ length: count }, (_, i) => ({
@@ -14,6 +15,7 @@ const PartyModeOverlay = ({ isOpen, onClose }) => {
   const [stars, setStars] = useState([]);
   const [isMobile, setIsMobile] = useState(false);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+  const [catLoaded, setCatLoaded] = useState(false);
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -129,6 +131,35 @@ const PartyModeOverlay = ({ isOpen, onClose }) => {
               aria-hidden="true"
             />
           ))}
+
+          {/* Rainbow Trail */}
+          <RainbowTrail />
+
+          {/* Cat GIF */}
+          <div
+            style={{
+              position: 'absolute',
+              left: isMobile ? '10%' : '15%',
+              top: '50%',
+              transform: 'translateY(-50%)',
+              zIndex: 2,
+            }}
+            data-testid="cat-container"
+          >
+            <img
+              src="/hiddenCat/technyancolor.gif"
+              alt="Nyan cat flying through space with a rainbow trail"
+              style={{
+                width: isMobile ? '150px' : '250px',
+                height: 'auto',
+                display: 'block',
+                opacity: catLoaded ? 1 : 0,
+                transition: prefersReducedMotion ? 'none' : 'opacity 0.3s ease',
+              }}
+              onLoad={() => setCatLoaded(true)}
+              data-testid="cat-gif"
+            />
+          </div>
 
           {/* Close button */}
           <button

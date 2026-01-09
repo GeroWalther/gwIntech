@@ -216,7 +216,11 @@ describe('PartyModeOverlay', () => {
       const { container, unmount } = render(<PartyModeOverlay isOpen={true} onClose={() => {}} />);
 
       await waitFor(() => {
-        const stars = container.querySelectorAll('[aria-hidden="true"]');
+        // Stars are white circular divs with aria-hidden, filter by background color
+        const allAriaHidden = container.querySelectorAll('[aria-hidden="true"]');
+        const stars = Array.from(allAriaHidden).filter(
+          (el) => el.style.backgroundColor === 'rgb(255, 255, 255)' && el.style.borderRadius === '50%'
+        );
         expect(stars.length).toBe(75);
       });
 
@@ -252,7 +256,11 @@ describe('PartyModeOverlay', () => {
       const { container } = render(<PartyModeOverlay isOpen={true} onClose={() => {}} />);
 
       await waitFor(() => {
-        const stars = container.querySelectorAll('[aria-hidden="true"]');
+        // Stars are white circular divs with aria-hidden
+        const allAriaHidden = container.querySelectorAll('[aria-hidden="true"]');
+        const stars = Array.from(allAriaHidden).filter(
+          (el) => el.style.borderRadius === '50%'
+        );
         expect(stars.length).toBeGreaterThan(0);
 
         stars.forEach((star) => {
@@ -356,6 +364,135 @@ describe('PartyModeOverlay', () => {
       unmount();
 
       expect(removeEventListenerSpy).toHaveBeenCalled();
+    });
+  });
+
+  describe('Cat GIF integration', () => {
+    it('should render cat GIF image', () => {
+      Object.defineProperty(window, 'innerWidth', {
+        writable: true,
+        configurable: true,
+        value: 1024,
+      });
+
+      render(<PartyModeOverlay isOpen={true} onClose={() => {}} />);
+
+      const catGif = screen.getByTestId('cat-gif');
+      expect(catGif).toBeInTheDocument();
+    });
+
+    it('should have correct image src', () => {
+      Object.defineProperty(window, 'innerWidth', {
+        writable: true,
+        configurable: true,
+        value: 1024,
+      });
+
+      render(<PartyModeOverlay isOpen={true} onClose={() => {}} />);
+
+      const catGif = screen.getByTestId('cat-gif');
+      expect(catGif).toHaveAttribute('src', '/hiddenCat/technyancolor.gif');
+    });
+
+    it('should have descriptive alt text for accessibility', () => {
+      Object.defineProperty(window, 'innerWidth', {
+        writable: true,
+        configurable: true,
+        value: 1024,
+      });
+
+      render(<PartyModeOverlay isOpen={true} onClose={() => {}} />);
+
+      const catGif = screen.getByTestId('cat-gif');
+      expect(catGif).toHaveAttribute('alt', 'Nyan cat flying through space with a rainbow trail');
+    });
+
+    it('should have 250px width on desktop', () => {
+      Object.defineProperty(window, 'innerWidth', {
+        writable: true,
+        configurable: true,
+        value: 1024,
+      });
+
+      render(<PartyModeOverlay isOpen={true} onClose={() => {}} />);
+
+      const catGif = screen.getByTestId('cat-gif');
+      expect(catGif).toHaveStyle({ width: '250px' });
+    });
+
+    it('should have cat container positioned center-left', () => {
+      Object.defineProperty(window, 'innerWidth', {
+        writable: true,
+        configurable: true,
+        value: 1024,
+      });
+
+      render(<PartyModeOverlay isOpen={true} onClose={() => {}} />);
+
+      const catContainer = screen.getByTestId('cat-container');
+      expect(catContainer).toHaveStyle({
+        position: 'absolute',
+        left: '15%',
+        top: '50%',
+        transform: 'translateY(-50%)',
+      });
+    });
+
+    it('should have cat container with z-index above rainbow trail', () => {
+      Object.defineProperty(window, 'innerWidth', {
+        writable: true,
+        configurable: true,
+        value: 1024,
+      });
+
+      render(<PartyModeOverlay isOpen={true} onClose={() => {}} />);
+
+      const catContainer = screen.getByTestId('cat-container');
+      expect(catContainer).toHaveStyle({ zIndex: 2 });
+    });
+
+    it('should start with opacity 0 before image loads', () => {
+      Object.defineProperty(window, 'innerWidth', {
+        writable: true,
+        configurable: true,
+        value: 1024,
+      });
+
+      render(<PartyModeOverlay isOpen={true} onClose={() => {}} />);
+
+      const catGif = screen.getByTestId('cat-gif');
+      expect(catGif).toHaveStyle({ opacity: '0' });
+    });
+
+    it('should set opacity to 1 after image loads', () => {
+      Object.defineProperty(window, 'innerWidth', {
+        writable: true,
+        configurable: true,
+        value: 1024,
+      });
+
+      render(<PartyModeOverlay isOpen={true} onClose={() => {}} />);
+
+      const catGif = screen.getByTestId('cat-gif');
+
+      // Simulate image load
+      fireEvent.load(catGif);
+
+      expect(catGif).toHaveStyle({ opacity: '1' });
+    });
+
+    it('should render rainbow trail component', () => {
+      Object.defineProperty(window, 'innerWidth', {
+        writable: true,
+        configurable: true,
+        value: 1024,
+      });
+
+      const { container } = render(<PartyModeOverlay isOpen={true} onClose={() => {}} />);
+
+      // RainbowTrail has rainbow bars with data-testid
+      const rainbowBar = container.querySelector('[data-testid="rainbow-bar-0"]');
+      expect(rainbowBar).toBeInTheDocument();
     });
   });
 });
