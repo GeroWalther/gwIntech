@@ -21,7 +21,7 @@ export default function Dices() {
       <div className='flex items-center justify-center h-full'>
         <div className='text-center p-4'>
           <h3 className='font-bold'>3D Graphics Not Available</h3>
-          <p>Your device doesn't support WebGL</p>
+          <p>Your device doesn&apos;t support WebGL</p>
         </div>
       </div>
     );
