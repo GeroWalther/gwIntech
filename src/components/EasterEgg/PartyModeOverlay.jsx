@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import RainbowTrail from './RainbowTrail';
 
@@ -11,11 +11,33 @@ export const generateStars = (count) => {
   }));
 };
 
+export const BEST_SCORE_KEY = 'nyanBestScore';
+
+export const getBestScore = () => {
+  if (typeof window === 'undefined') return 0;
+  const stored = localStorage.getItem(BEST_SCORE_KEY);
+  return stored ? parseInt(stored, 10) : 0;
+};
+
+export const saveBestScore = (score) => {
+  if (typeof window === 'undefined') return;
+  const currentBest = getBestScore();
+  if (score > currentBest) {
+    localStorage.setItem(BEST_SCORE_KEY, score.toString());
+    return true;
+  }
+  return false;
+};
+
 const PartyModeOverlay = ({ isOpen, onClose }) => {
   const [stars, setStars] = useState([]);
   const [isMobile, setIsMobile] = useState(false);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
   const [catLoaded, setCatLoaded] = useState(false);
+  const [currentScore, setCurrentScore] = useState(0);
+  const [bestScore, setBestScore] = useState(0);
+  const timerRef = useRef(null);
+  const isPausedRef = useRef(false);
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -70,6 +92,68 @@ const PartyModeOverlay = ({ isOpen, onClose }) => {
       window.removeEventListener('keydown', handleEscape);
     };
   }, [isOpen, onClose]);
+
+  // Load best score on mount
+  useEffect(() => {
+    setBestScore(getBestScore());
+  }, []);
+
+  // Timer logic
+  useEffect(() => {
+    if (isOpen) {
+      // Reset and start timer when overlay opens
+      setCurrentScore(0);
+      isPausedRef.current = false;
+
+      timerRef.current = setInterval(() => {
+        if (!isPausedRef.current) {
+          setCurrentScore((prev) => prev + 1);
+        }
+      }, 1000);
+
+      return () => {
+        if (timerRef.current) {
+          clearInterval(timerRef.current);
+          timerRef.current = null;
+        }
+      };
+    } else {
+      // Stop and reset timer when overlay closes
+      if (timerRef.current) {
+        clearInterval(timerRef.current);
+        timerRef.current = null;
+      }
+      // Save best score when closing (if we had a score)
+      setCurrentScore((prev) => {
+        if (prev > 0) {
+          const newBestSaved = saveBestScore(prev);
+          if (newBestSaved) {
+            setBestScore(prev);
+          }
+        }
+        return 0;
+      });
+    }
+  }, [isOpen]);
+
+  // Visibility change handler
+  useEffect(() => {
+    if (typeof document === 'undefined') return;
+
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'hidden') {
+        isPausedRef.current = true;
+      } else {
+        isPausedRef.current = false;
+      }
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
+  }, []);
 
   const overlayVariants = {
     hidden: {
@@ -194,6 +278,37 @@ const PartyModeOverlay = ({ isOpen, onClose }) => {
           >
             ×
           </button>
+
+          {/* Score Display */}
+          <div
+            style={{
+              position: 'absolute',
+              top: '20px',
+              left: '20px',
+              color: '#FFFFFF',
+              fontFamily: 'monospace',
+              fontSize: isMobile ? '14px' : '18px',
+              zIndex: 10000,
+              textAlign: 'left',
+            }}
+            data-testid="score-display"
+          >
+            <div aria-live="polite" data-testid="current-score">
+              Nyan score: {currentScore} seconds
+            </div>
+            {bestScore > 0 && (
+              <div
+                style={{
+                  marginTop: '8px',
+                  color: '#FFD700',
+                  fontSize: isMobile ? '12px' : '14px',
+                }}
+                data-testid="best-score"
+              >
+                Best: {bestScore} seconds
+              </div>
+            )}
+          </div>
         </motion.div>
       )}
     </AnimatePresence>
