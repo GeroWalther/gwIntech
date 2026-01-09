@@ -273,7 +273,7 @@
       "id": "DESIGN-1",
       "title": "Add blue gradient stripe to footer",
       "priority": 11,
-      "status": "todo",
+      "status": "done",
       "assigned_to": null,
       "category": "design-enhancement",
       "description": "Add a decorative blue gradient stripe (3 thin lines) at the bottom of the footer that fades in from the sides as a design enhancement",

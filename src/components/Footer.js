@@ -2,6 +2,24 @@ import React from 'react';
 import Layout from './Layout';
 import Link from 'next/link';
 
+const GradientStripe = () => {
+  const lineStyle = {
+    height: '2px',
+    background: 'linear-gradient(90deg, transparent 0%, #3B82F6 25%, #3B82F6 75%, transparent 100%)',
+  };
+
+  return (
+    <div
+      className="w-full flex flex-col gap-[3px]"
+      aria-hidden="true"
+    >
+      <div style={lineStyle} />
+      <div style={lineStyle} />
+      <div style={lineStyle} />
+    </div>
+  );
+};
+
 const Footer = () => {
   return (
     <footer className='w-full border-t-2 border-solid border-dark text-lg sm:text-sm'>
@@ -19,6 +37,7 @@ const Footer = () => {
           Contact & Business Inquiries
         </Link>
       </Layout>
+      <GradientStripe />
     </footer>
   );
 };
