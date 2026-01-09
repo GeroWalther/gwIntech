@@ -325,7 +325,7 @@
       "id": "EE-12",
       "title": "Hidden cat mode at fixed location",
       "priority": 13,
-      "status": "todo",
+      "status": "done",
       "assigned_to": null,
       "category": "easter-egg",
       "description": "Implement hidden mode where cat is partially hidden at a specific fixed spot on the page. Cat does not float, stays in place, and peeks out from edges or content.",

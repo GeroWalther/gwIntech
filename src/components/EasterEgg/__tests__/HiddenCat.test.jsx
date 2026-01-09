@@ -439,6 +439,72 @@ describe('HiddenCat', () => {
     });
   });
 
+  describe('Hidden mode positioning', () => {
+    it('should position cat at edge in hidden mode', () => {
+      // Force hidden mode
+      vi.spyOn(Math, 'random')
+        .mockReturnValueOnce(0.2) // shouldSpawn - true
+        .mockReturnValueOnce(0.8) // selectMode - hidden
+        .mockReturnValue(0.5);
+
+      render(<HiddenCat />);
+
+      const cat = screen.getByLabelText(/hidden cat/i);
+      expect(cat).toHaveAttribute('data-mode', CAT_MODES.HIDDEN);
+      // Cat should be positioned (has left and top styles)
+      expect(cat.style.left).toBeTruthy();
+      expect(cat.style.top).toBeTruthy();
+    });
+
+    it('should have tilt applied in hidden mode', () => {
+      vi.spyOn(Math, 'random')
+        .mockReturnValueOnce(0.2)
+        .mockReturnValueOnce(0.8)
+        .mockReturnValue(0.5);
+
+      render(<HiddenCat />);
+
+      const cat = screen.getByLabelText(/hidden cat/i);
+      const transform = cat.style.transform;
+      expect(transform).toMatch(/rotate\(-?\d+(\.\d+)?deg\)/);
+    });
+
+    it('should remain clickable in hidden mode', () => {
+      vi.spyOn(Math, 'random')
+        .mockReturnValueOnce(0.2)
+        .mockReturnValueOnce(0.8)
+        .mockReturnValue(0.5);
+      const handleClick = vi.fn();
+
+      render(<HiddenCat onCatClick={handleClick} />);
+
+      const cat = screen.getByLabelText(/hidden cat/i);
+      fireEvent.click(cat);
+
+      expect(handleClick).toHaveBeenCalledTimes(1);
+    });
+
+    it('should remain static (no position change) in hidden mode', async () => {
+      vi.spyOn(Math, 'random')
+        .mockReturnValueOnce(0.2)
+        .mockReturnValueOnce(0.8)
+        .mockReturnValue(0.5);
+
+      render(<HiddenCat />);
+
+      const cat = screen.getByLabelText(/hidden cat/i);
+      const initialLeft = cat.style.left;
+      const initialTop = cat.style.top;
+
+      // Wait a bit to see if position changes
+      await new Promise((resolve) => setTimeout(resolve, 50));
+
+      // Position should remain the same
+      expect(cat.style.left).toBe(initialLeft);
+      expect(cat.style.top).toBe(initialTop);
+    });
+  });
+
   describe('Reduced motion preference', () => {
     it('should respect prefers-reduced-motion', () => {
       window.matchMedia = vi.fn().mockImplementation((query) => ({

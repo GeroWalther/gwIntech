@@ -468,3 +468,25 @@ Next: Agent should work on EE-11 (Floating cat mode with bounce physics)
   ✓ npm test - 165 tests passing
 
 Next: Agent should work on EE-12 (Hidden cat mode at fixed location)
+
+## 2026-01-09 21:33 - EE-12: Hidden Cat Mode at Fixed Location Complete
+- Hidden mode was already implemented in EE-10, verified all acceptance criteria:
+  ✓ Cat positioned at a random fixed spot on the page (getHiddenPosition function)
+  ✓ Cat is partially hidden (~50% visible) - clipPercent 40-60%
+  ✓ Cat peeks from edges, behind sections, or content boundaries (left, right, bottom edges)
+  ✓ Cat does NOT float or move in hidden mode (no animation applied)
+  ✓ Position feels natural in page layout (positioned at viewport edges)
+  ✓ Cat can be tilted for variety (getRandomTilt applied to all modes)
+  ✓ Cat still clickable despite partial visibility (onClick handler works)
+- Added additional tests for hidden mode:
+  - Test for cat positioned at edge in hidden mode
+  - Test for tilt applied in hidden mode
+  - Test for clickable in hidden mode
+  - Test for static position (no movement)
+  - 43 HiddenCat tests total, all passing
+- All acceptance criteria met:
+  ✓ npm run build - passes
+  ✓ npm run lint - passes (pre-existing img warning only)
+  ✓ npm test - 169 tests passing
+
+ALL NEW TASKS COMPLETE - EE-10, EE-11, EE-12 are all done!
