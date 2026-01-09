@@ -299,7 +299,7 @@
       "id": "EE-11",
       "title": "Floating cat mode with bounce physics",
       "priority": 12,
-      "status": "todo",
+      "status": "done",
       "assigned_to": null,
       "category": "easter-egg",
       "description": "Implement floating mode where cat moves freely across the page, bouncing off edges like a screensaver. Cat is fully visible and can be randomly tilted left or right.",

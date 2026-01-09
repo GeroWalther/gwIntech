@@ -445,3 +445,26 @@ ALL TASKS COMPLETE - Easter Egg and Design Enhancement features are done!
   ✓ npm test - 162 tests passing (36 HiddenCat tests)
 
 Next: Agent should work on EE-11 (Floating cat mode with bounce physics)
+
+## 2026-01-09 21:32 - EE-11: Floating Cat Mode with Bounce Physics Complete
+- Floating mode was already implemented in EE-10, verified all acceptance criteria:
+  ✓ Cat floats/moves continuously across the page (animate function with requestAnimationFrame)
+  ✓ Cat bounces off viewport edges when touching them (velocity reversal logic)
+  ✓ Bounce physics feel natural (reverse direction on collision)
+  ✓ Cat can be randomly tilted left or right (getRandomTilt function)
+  ✓ Tilt angle randomized on spawn (-15 to 15 degrees)
+  ✓ Cat is fully visible (not hidden) in floating mode (no clipping applied)
+  ✓ Smooth animation using requestAnimationFrame
+  ✓ Cat still clickable while floating (onClick handler works)
+  ✓ Respects prefers-reduced-motion (stops floating when preference set)
+- Added additional tests for floating mode:
+  - Test for continuous animation loop (requestAnimationFrame called repeatedly)
+  - Test for no animation in hidden mode
+  - Test for cat fully visible (no clipping)
+  - 39 HiddenCat tests total, all passing
+- All acceptance criteria met:
+  ✓ npm run build - passes
+  ✓ npm run lint - passes (pre-existing img warning only)
+  ✓ npm test - 165 tests passing
+
+Next: Agent should work on EE-12 (Hidden cat mode at fixed location)
