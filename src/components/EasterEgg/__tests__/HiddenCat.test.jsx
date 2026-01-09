@@ -3,10 +3,9 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import HiddenCat, {
   SPAWN_PROBABILITY,
   CAT_MODES,
-  STORAGE_KEYS,
   CAT_SIZE,
   getHiddenPosition,
-  getFloatingStartPosition,
+  getRandomPagePosition,
   getRandomVelocity,
   getRandomTilt,
   shouldSpawn,
@@ -15,10 +14,12 @@ import HiddenCat, {
 
 describe('HiddenCat', () => {
   beforeEach(() => {
-    sessionStorage.clear();
     vi.clearAllMocks();
     global.innerWidth = 1024;
     global.innerHeight = 768;
+    // Mock document dimensions
+    Object.defineProperty(document.body, 'scrollHeight', { value: 2000, configurable: true });
+    Object.defineProperty(document.documentElement, 'scrollHeight', { value: 2000, configurable: true });
     // Mock requestAnimationFrame
     vi.spyOn(window, 'requestAnimationFrame').mockImplementation((cb) => {
       return setTimeout(cb, 16);
@@ -40,13 +41,12 @@ describe('HiddenCat', () => {
   });
 
   afterEach(() => {
-    sessionStorage.clear();
     vi.restoreAllMocks();
   });
 
   describe('Constants', () => {
-    it('should have spawn probability of 50%', () => {
-      expect(SPAWN_PROBABILITY).toBe(0.5);
+    it('should have spawn probability of 30%', () => {
+      expect(SPAWN_PROBABILITY).toBe(0.3);
     });
 
     it('should have floating and hidden modes', () => {
@@ -54,13 +54,8 @@ describe('HiddenCat', () => {
       expect(CAT_MODES.HIDDEN).toBe('hidden');
     });
 
-    it('should have correct storage keys', () => {
-      expect(STORAGE_KEYS.SPAWNED).toBe('hiddenCatSpawned');
-      expect(STORAGE_KEYS.MODE).toBe('hiddenCatMode');
-    });
-
-    it('should have cat size of 80px', () => {
-      expect(CAT_SIZE).toBe(80);
+    it('should have cat size of 40px', () => {
+      expect(CAT_SIZE).toBe(40);
     });
   });
 
@@ -70,7 +65,7 @@ describe('HiddenCat', () => {
       expect(typeof result).toBe('boolean');
     });
 
-    it('should return true approximately 50% of the time', () => {
+    it('should return true approximately 30% of the time', () => {
       const iterations = 1000;
       let trueCount = 0;
 
@@ -81,8 +76,8 @@ describe('HiddenCat', () => {
       }
 
       const percentage = trueCount / iterations;
-      expect(percentage).toBeGreaterThan(0.4);
-      expect(percentage).toBeLessThan(0.6);
+      expect(percentage).toBeGreaterThan(0.2);
+      expect(percentage).toBeLessThan(0.4);
     });
   });
 
@@ -118,16 +113,17 @@ describe('HiddenCat', () => {
     });
   });
 
-  describe('getFloatingStartPosition', () => {
-    it('should return position within viewport bounds with margin', () => {
-      const margin = CAT_SIZE + 20;
+  describe('getRandomPagePosition', () => {
+    it('should return position within page bounds', () => {
+      const margin = CAT_SIZE + 50;
+      const pageHeight = 2000; // mocked in beforeEach
 
       for (let i = 0; i < 10; i++) {
-        const pos = getFloatingStartPosition();
+        const pos = getRandomPagePosition();
         expect(pos.x).toBeGreaterThanOrEqual(margin);
         expect(pos.x).toBeLessThanOrEqual(global.innerWidth - margin);
-        expect(pos.y).toBeGreaterThanOrEqual(margin);
-        expect(pos.y).toBeLessThanOrEqual(global.innerHeight - margin);
+        expect(pos.y).toBeGreaterThanOrEqual(200);
+        expect(pos.y).toBeLessThanOrEqual(pageHeight - 200); // 200 + (pageHeight - 400)
       }
     });
   });
@@ -150,9 +146,9 @@ describe('HiddenCat', () => {
   });
 
   describe('getHiddenPosition', () => {
-    it('should return position with edge property', () => {
+    it('should return position with edge property (left or right)', () => {
       const pos = getHiddenPosition();
-      expect(['left', 'right', 'bottom']).toContain(pos.edge);
+      expect(['left', 'right']).toContain(pos.edge);
     });
 
     it('should return clipPercent between 40 and 60', () => {
@@ -176,7 +172,7 @@ describe('HiddenCat', () => {
 
     it('should position cat partially off-screen for right edge', () => {
       vi.spyOn(Math, 'random')
-        .mockReturnValueOnce(0.4) // Select 'right' edge
+        .mockReturnValueOnce(0.6) // Select 'right' edge
         .mockReturnValueOnce(0.5) // clipPercent
         .mockReturnValueOnce(0.5); // y position
 
@@ -185,29 +181,17 @@ describe('HiddenCat', () => {
       expect(pos.x).toBeGreaterThan(global.innerWidth - CAT_SIZE);
     });
 
-    it('should position cat partially off-screen for bottom edge', () => {
-      vi.spyOn(Math, 'random')
-        .mockReturnValueOnce(0.8) // Select 'bottom' edge
-        .mockReturnValueOnce(0.5) // clipPercent
-        .mockReturnValueOnce(0.5); // x position
-
+    it('should position y within page height', () => {
+      const pageHeight = 2000; // mocked in beforeEach
       const pos = getHiddenPosition();
-      expect(pos.edge).toBe('bottom');
-      expect(pos.y).toBeGreaterThan(global.innerHeight - CAT_SIZE);
+      expect(pos.y).toBeGreaterThanOrEqual(200);
+      expect(pos.y).toBeLessThanOrEqual(pageHeight - 200);
     });
   });
 
   describe('HiddenCat component', () => {
-    it('should not render if sessionStorage indicates already spawned', () => {
-      sessionStorage.setItem(STORAGE_KEYS.SPAWNED, 'true');
-
-      const { container } = render(<HiddenCat />);
-
-      expect(container.firstChild).toBeNull();
-    });
-
     it('should render when spawn probability succeeds', () => {
-      vi.spyOn(Math, 'random').mockReturnValue(0.2);
+      vi.spyOn(Math, 'random').mockReturnValue(0.1); // Less than 0.3
 
       render(<HiddenCat />);
 
@@ -216,7 +200,7 @@ describe('HiddenCat', () => {
     });
 
     it('should not render when spawn probability fails', () => {
-      vi.spyOn(Math, 'random').mockReturnValue(0.8);
+      vi.spyOn(Math, 'random').mockReturnValue(0.5); // Greater than 0.3
 
       const { container } = render(<HiddenCat />);
 
@@ -268,30 +252,13 @@ describe('HiddenCat', () => {
       expect(handleClick).not.toHaveBeenCalled();
     });
 
-    it('should set sessionStorage when spawning', () => {
-      vi.spyOn(Math, 'random').mockReturnValue(0.2);
-
-      render(<HiddenCat />);
-
-      expect(sessionStorage.getItem(STORAGE_KEYS.SPAWNED)).toBe('true');
-    });
-
-    it('should store mode in sessionStorage', () => {
-      vi.spyOn(Math, 'random').mockReturnValue(0.2);
-
-      render(<HiddenCat />);
-
-      const mode = sessionStorage.getItem(STORAGE_KEYS.MODE);
-      expect([CAT_MODES.FLOATING, CAT_MODES.HIDDEN]).toContain(mode);
-    });
-
-    it('should have fixed position styling', () => {
+    it('should have absolute position styling (not fixed)', () => {
       vi.spyOn(Math, 'random').mockReturnValue(0.2);
 
       render(<HiddenCat />);
 
       const cat = screen.getByLabelText(/hidden cat/i);
-      expect(cat).toHaveStyle({ position: 'fixed' });
+      expect(cat).toHaveStyle({ position: 'absolute' });
     });
 
     it('should have cursor pointer styling', () => {
@@ -303,13 +270,13 @@ describe('HiddenCat', () => {
       expect(cat).toHaveStyle({ cursor: 'pointer' });
     });
 
-    it('should have larger font size (80px)', () => {
+    it('should have font size of 40px', () => {
       vi.spyOn(Math, 'random').mockReturnValue(0.2);
 
       render(<HiddenCat />);
 
       const cat = screen.getByLabelText(/hidden cat/i);
-      expect(cat).toHaveStyle({ fontSize: '80px' });
+      expect(cat).toHaveStyle({ fontSize: '40px' });
     });
 
     it('should have data-mode attribute', () => {

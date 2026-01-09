@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 
-// Spawn probability - 50%
-export const SPAWN_PROBABILITY = 0.5;
+// Spawn probability - 30%
+export const SPAWN_PROBABILITY = 0.3;
 
 // Cat modes
 export const CAT_MODES = {
@@ -9,58 +9,54 @@ export const CAT_MODES = {
   HIDDEN: 'hidden',
 };
 
-// Session storage keys
-export const STORAGE_KEYS = {
-  SPAWNED: 'hiddenCatSpawned',
-  MODE: 'hiddenCatMode',
-  POSITION: 'hiddenCatPosition',
-  VELOCITY: 'hiddenCatVelocity',
-  TILT: 'hiddenCatTilt',
-};
+// Cat size
+export const CAT_SIZE = 40; // px
 
-// Cat size (larger than before)
-export const CAT_SIZE = 80; // px
+// Generate random position within the page (not viewport)
+export const getRandomPagePosition = () => {
+  if (typeof document === 'undefined') return { x: 100, y: 500 };
+
+  const pageHeight = Math.max(
+    document.body.scrollHeight,
+    document.documentElement.scrollHeight,
+    1000
+  );
+  const pageWidth = typeof window !== 'undefined' ? window.innerWidth : 1000;
+
+  const margin = CAT_SIZE + 50;
+  const x = margin + Math.random() * (pageWidth - margin * 2);
+  const y = 200 + Math.random() * (pageHeight - 400); // Avoid header/footer areas
+
+  return { x, y };
+};
 
 // Generate random position for hidden mode (peeking from edges)
 export const getHiddenPosition = () => {
-  if (typeof window === 'undefined') return { x: 0, y: 0, edge: 'bottom', clipPercent: 50 };
+  if (typeof document === 'undefined') return { x: 0, y: 500, edge: 'right', clipPercent: 50 };
 
-  const edges = ['left', 'right', 'bottom'];
+  const pageHeight = Math.max(
+    document.body.scrollHeight,
+    document.documentElement.scrollHeight,
+    1000
+  );
+  const pageWidth = typeof window !== 'undefined' ? window.innerWidth : 1000;
+
+  const edges = ['left', 'right'];
   const edge = edges[Math.floor(Math.random() * edges.length)];
 
-  let x, y, clipPercent;
-  clipPercent = 40 + Math.random() * 20; // 40-60% visible
+  let x, y;
+  const clipPercent = 40 + Math.random() * 20; // 40-60% visible
 
-  const padding = 100; // Keep away from corners
+  // Random Y position along the page
+  y = 200 + Math.random() * (pageHeight - 400);
 
-  switch (edge) {
-    case 'left':
-      x = -(CAT_SIZE * (1 - clipPercent / 100));
-      y = padding + Math.random() * (window.innerHeight - padding * 2 - CAT_SIZE);
-      break;
-    case 'right':
-      x = window.innerWidth - (CAT_SIZE * clipPercent / 100);
-      y = padding + Math.random() * (window.innerHeight - padding * 2 - CAT_SIZE);
-      break;
-    case 'bottom':
-    default:
-      x = padding + Math.random() * (window.innerWidth - padding * 2 - CAT_SIZE);
-      y = window.innerHeight - (CAT_SIZE * clipPercent / 100);
-      break;
+  if (edge === 'left') {
+    x = -(CAT_SIZE * (1 - clipPercent / 100));
+  } else {
+    x = pageWidth - (CAT_SIZE * clipPercent / 100);
   }
 
   return { x, y, edge, clipPercent };
-};
-
-// Generate random position for floating mode
-export const getFloatingStartPosition = () => {
-  if (typeof window === 'undefined') return { x: 100, y: 100 };
-
-  const margin = CAT_SIZE + 20;
-  const x = margin + Math.random() * (window.innerWidth - margin * 2);
-  const y = margin + Math.random() * (window.innerHeight - margin * 2);
-
-  return { x, y };
 };
 
 // Generate random velocity for floating mode
@@ -94,68 +90,65 @@ const HiddenCat = ({ onCatClick }) => {
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [velocity, setVelocity] = useState({ vx: 0, vy: 0 });
   const [tilt, setTilt] = useState(0);
-  const [hiddenEdge, setHiddenEdge] = useState(null);
-  const [clipPercent, setClipPercent] = useState(100);
 
   const animationRef = useRef(null);
   const prefersReducedMotion = useRef(false);
 
-  // Initialize spawn and mode on mount
+  // Initialize spawn and mode on mount - NO sessionStorage
   useEffect(() => {
     if (typeof window === 'undefined') return;
 
     // Check for reduced motion preference
     prefersReducedMotion.current = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    const hasSpawned = sessionStorage.getItem(STORAGE_KEYS.SPAWNED);
+    const willSpawn = shouldSpawn();
 
-    if (!hasSpawned) {
-      const willSpawn = shouldSpawn();
+    if (willSpawn) {
+      const selectedMode = selectMode();
+      const randomTilt = getRandomTilt();
 
-      if (willSpawn) {
-        const selectedMode = selectMode();
-        const randomTilt = getRandomTilt();
+      setMode(selectedMode);
+      setTilt(randomTilt);
 
-        setMode(selectedMode);
-        setTilt(randomTilt);
-
-        if (selectedMode === CAT_MODES.FLOATING) {
-          const startPos = getFloatingStartPosition();
-          const startVel = getRandomVelocity();
-          setPosition(startPos);
-          setVelocity(startVel);
-        } else {
-          const hiddenPos = getHiddenPosition();
-          setPosition({ x: hiddenPos.x, y: hiddenPos.y });
-          setHiddenEdge(hiddenPos.edge);
-          setClipPercent(hiddenPos.clipPercent);
-        }
-
-        setShouldShow(true);
-        sessionStorage.setItem(STORAGE_KEYS.SPAWNED, 'true');
-        sessionStorage.setItem(STORAGE_KEYS.MODE, selectedMode);
+      if (selectedMode === CAT_MODES.FLOATING) {
+        const startPos = getRandomPagePosition();
+        const startVel = getRandomVelocity();
+        setPosition(startPos);
+        setVelocity(startVel);
+      } else {
+        const hiddenPos = getHiddenPosition();
+        setPosition({ x: hiddenPos.x, y: hiddenPos.y });
       }
+
+      setShouldShow(true);
     }
   }, []);
 
-  // Floating animation loop
+  // Floating animation loop - bounces within page bounds
   const animate = useCallback(() => {
     if (mode !== CAT_MODES.FLOATING || prefersReducedMotion.current) return;
 
     setPosition((prevPos) => {
+      const pageHeight = Math.max(
+        document.body.scrollHeight,
+        document.documentElement.scrollHeight,
+        1000
+      );
+      const pageWidth = window.innerWidth;
+
       let newX = prevPos.x + velocity.vx;
       let newY = prevPos.y + velocity.vy;
       let newVx = velocity.vx;
       let newVy = velocity.vy;
 
-      // Bounce off edges
-      if (newX <= 0 || newX >= window.innerWidth - CAT_SIZE) {
+      // Bounce off edges (page bounds, not viewport)
+      if (newX <= 0 || newX >= pageWidth - CAT_SIZE) {
         newVx = -newVx;
-        newX = Math.max(0, Math.min(newX, window.innerWidth - CAT_SIZE));
+        newX = Math.max(0, Math.min(newX, pageWidth - CAT_SIZE));
       }
-      if (newY <= 0 || newY >= window.innerHeight - CAT_SIZE) {
+      if (newY <= 100 || newY >= pageHeight - 100) {
         newVy = -newVy;
-        newY = Math.max(0, Math.min(newY, window.innerHeight - CAT_SIZE));
+        newY = Math.max(100, Math.min(newY, pageHeight - 100));
       }
 
       // Update velocity if changed
@@ -198,9 +191,9 @@ const HiddenCat = ({ onCatClick }) => {
     return null;
   }
 
-  // Styles based on mode
+  // Use absolute positioning (relative to page, not viewport)
   const baseStyle = {
-    position: 'fixed',
+    position: 'absolute',
     left: `${position.x}px`,
     top: `${position.y}px`,
     cursor: 'pointer',
@@ -211,11 +204,6 @@ const HiddenCat = ({ onCatClick }) => {
     transition: prefersReducedMotion.current ? 'none' : undefined,
     userSelect: 'none',
   };
-
-  // For hidden mode, add clip styling based on edge
-  if (mode === CAT_MODES.HIDDEN) {
-    // The cat is already positioned partially off-screen, so it naturally clips
-  }
 
   return (
     <div
