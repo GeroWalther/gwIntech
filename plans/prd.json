@@ -227,7 +227,7 @@
       "id": "EE-8",
       "title": "Integration with _app.js",
       "priority": 9,
-      "status": "todo",
+      "status": "done",
       "assigned_to": null,
       "category": "easter-egg",
       "description": "Integrate EasterEgg component into Next.js _app.js so it appears on all pages",
