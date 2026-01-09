@@ -36,8 +36,10 @@ const PartyModeOverlay = ({ isOpen, onClose }) => {
   const [catLoaded, setCatLoaded] = useState(false);
   const [currentScore, setCurrentScore] = useState(0);
   const [bestScore, setBestScore] = useState(0);
+  const [isMuted, setIsMuted] = useState(false);
   const timerRef = useRef(null);
   const isPausedRef = useRef(false);
+  const audioRef = useRef(null);
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -136,15 +138,62 @@ const PartyModeOverlay = ({ isOpen, onClose }) => {
     }
   }, [isOpen]);
 
-  // Visibility change handler
+  // Audio playback logic
+  useEffect(() => {
+    if (isOpen) {
+      // Start playing audio when overlay opens (user-initiated via cat click)
+      if (audioRef.current) {
+        audioRef.current.currentTime = 0;
+        const playPromise = audioRef.current.play();
+        // Handle both Promise and non-Promise returns
+        if (playPromise && typeof playPromise.catch === 'function') {
+          playPromise.catch(() => {
+            // Ignore play errors (e.g., autoplay policy)
+          });
+        }
+      }
+    } else {
+      // Stop and reset audio when overlay closes
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current.currentTime = 0;
+      }
+    }
+  }, [isOpen]);
+
+  // Toggle mute handler
+  const handleToggleMute = useCallback(() => {
+    setIsMuted((prev) => {
+      if (audioRef.current) {
+        audioRef.current.muted = !prev;
+      }
+      return !prev;
+    });
+  }, []);
+
+  // Visibility change handler for timer and audio
   useEffect(() => {
     if (typeof document === 'undefined') return;
 
     const handleVisibilityChange = () => {
       if (document.visibilityState === 'hidden') {
         isPausedRef.current = true;
+        // Pause audio when tab is hidden
+        if (audioRef.current && !audioRef.current.paused) {
+          audioRef.current.pause();
+        }
       } else {
         isPausedRef.current = false;
+        // Resume audio when tab becomes visible (if overlay is open and not muted)
+        if (isOpen && audioRef.current && audioRef.current.paused) {
+          const playPromise = audioRef.current.play();
+          // Handle both Promise and non-Promise returns
+          if (playPromise && typeof playPromise.catch === 'function') {
+            playPromise.catch(() => {
+              // Ignore play errors (e.g., if user hasn't interacted yet)
+            });
+          }
+        }
       }
     };
 
@@ -153,7 +202,7 @@ const PartyModeOverlay = ({ isOpen, onClose }) => {
     return () => {
       document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
-  }, []);
+  }, [isOpen]);
 
   const overlayVariants = {
     hidden: {
@@ -245,6 +294,14 @@ const PartyModeOverlay = ({ isOpen, onClose }) => {
             />
           </div>
 
+          {/* Audio element */}
+          <audio
+            ref={audioRef}
+            src="/hiddenCat/technyancolor.mp3"
+            loop
+            data-testid="nyan-audio"
+          />
+
           {/* Close button */}
           <button
             onClick={onClose}
@@ -277,6 +334,41 @@ const PartyModeOverlay = ({ isOpen, onClose }) => {
             }}
           >
             ×
+          </button>
+
+          {/* Mute toggle button */}
+          <button
+            onClick={handleToggleMute}
+            aria-label={isMuted ? 'Unmute audio' : 'Mute audio'}
+            data-testid="mute-toggle"
+            style={{
+              position: 'absolute',
+              top: '20px',
+              right: '70px',
+              backgroundColor: 'transparent',
+              border: '2px solid #FFFFFF',
+              color: '#FFFFFF',
+              width: '40px',
+              height: '40px',
+              borderRadius: '50%',
+              cursor: 'pointer',
+              fontSize: '18px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              transition: 'all 0.2s ease',
+              zIndex: 10000,
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = '#FFFFFF';
+              e.currentTarget.style.color = '#000000';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = 'transparent';
+              e.currentTarget.style.color = '#FFFFFF';
+            }}
+          >
+            {isMuted ? '🔇' : '🔊'}
           </button>
 
           {/* Score Display */}

@@ -46,6 +46,11 @@ Object.defineProperty(window, 'sessionStorage', {
   value: sessionStorageMock,
 });
 
+// Mock HTMLMediaElement methods
+window.HTMLMediaElement.prototype.play = vi.fn(() => Promise.resolve());
+window.HTMLMediaElement.prototype.pause = vi.fn();
+window.HTMLMediaElement.prototype.load = vi.fn();
+
 beforeEach(() => {
   localStorageMock.clear();
   sessionStorageMock.clear();

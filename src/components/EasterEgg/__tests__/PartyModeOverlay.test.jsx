@@ -495,4 +495,176 @@ describe('PartyModeOverlay', () => {
       expect(rainbowBar).toBeInTheDocument();
     });
   });
+
+  describe('Audio playback', () => {
+    beforeEach(() => {
+      Object.defineProperty(window, 'innerWidth', {
+        writable: true,
+        configurable: true,
+        value: 1024,
+      });
+    });
+
+    it('should render audio element', () => {
+      render(<PartyModeOverlay isOpen={true} onClose={() => {}} />);
+
+      const audio = screen.getByTestId('nyan-audio');
+      expect(audio).toBeInTheDocument();
+    });
+
+    it('should have correct audio src', () => {
+      render(<PartyModeOverlay isOpen={true} onClose={() => {}} />);
+
+      const audio = screen.getByTestId('nyan-audio');
+      expect(audio).toHaveAttribute('src', '/hiddenCat/technyancolor.mp3');
+    });
+
+    it('should have loop attribute', () => {
+      render(<PartyModeOverlay isOpen={true} onClose={() => {}} />);
+
+      const audio = screen.getByTestId('nyan-audio');
+      expect(audio).toHaveAttribute('loop');
+    });
+
+    it('should render mute toggle button', () => {
+      render(<PartyModeOverlay isOpen={true} onClose={() => {}} />);
+
+      const muteButton = screen.getByTestId('mute-toggle');
+      expect(muteButton).toBeInTheDocument();
+    });
+
+    it('should have correct aria-label when unmuted', () => {
+      render(<PartyModeOverlay isOpen={true} onClose={() => {}} />);
+
+      const muteButton = screen.getByTestId('mute-toggle');
+      expect(muteButton).toHaveAttribute('aria-label', 'Mute audio');
+    });
+
+    it('should show unmuted icon initially', () => {
+      render(<PartyModeOverlay isOpen={true} onClose={() => {}} />);
+
+      const muteButton = screen.getByTestId('mute-toggle');
+      expect(muteButton).toHaveTextContent('🔊');
+    });
+
+    it('should toggle to muted when mute button is clicked', () => {
+      render(<PartyModeOverlay isOpen={true} onClose={() => {}} />);
+
+      const muteButton = screen.getByTestId('mute-toggle');
+      fireEvent.click(muteButton);
+
+      expect(muteButton).toHaveTextContent('🔇');
+      expect(muteButton).toHaveAttribute('aria-label', 'Unmute audio');
+    });
+
+    it('should toggle back to unmuted when clicked again', () => {
+      render(<PartyModeOverlay isOpen={true} onClose={() => {}} />);
+
+      const muteButton = screen.getByTestId('mute-toggle');
+      fireEvent.click(muteButton);
+      fireEvent.click(muteButton);
+
+      expect(muteButton).toHaveTextContent('🔊');
+      expect(muteButton).toHaveAttribute('aria-label', 'Mute audio');
+    });
+
+    it('should call play when overlay opens', async () => {
+      const playSpy = vi.spyOn(window.HTMLMediaElement.prototype, 'play');
+
+      render(<PartyModeOverlay isOpen={true} onClose={() => {}} />);
+
+      await waitFor(() => {
+        expect(playSpy).toHaveBeenCalled();
+      });
+    });
+
+    it('should call pause when overlay closes', async () => {
+      const pauseSpy = vi.spyOn(window.HTMLMediaElement.prototype, 'pause');
+
+      const { rerender } = render(<PartyModeOverlay isOpen={true} onClose={() => {}} />);
+
+      rerender(<PartyModeOverlay isOpen={false} onClose={() => {}} />);
+
+      await waitFor(() => {
+        expect(pauseSpy).toHaveBeenCalled();
+      });
+    });
+
+    it('should position mute button correctly', () => {
+      render(<PartyModeOverlay isOpen={true} onClose={() => {}} />);
+
+      const muteButton = screen.getByTestId('mute-toggle');
+      expect(muteButton).toHaveStyle({
+        position: 'absolute',
+        top: '20px',
+        right: '70px',
+      });
+    });
+
+    it('should pause audio when tab becomes hidden', async () => {
+      const pauseSpy = vi.spyOn(window.HTMLMediaElement.prototype, 'pause');
+
+      render(<PartyModeOverlay isOpen={true} onClose={() => {}} />);
+
+      // Mock paused property to be false (audio is playing)
+      Object.defineProperty(HTMLMediaElement.prototype, 'paused', {
+        writable: true,
+        configurable: true,
+        value: false,
+      });
+
+      // Simulate tab becoming hidden
+      Object.defineProperty(document, 'visibilityState', {
+        writable: true,
+        configurable: true,
+        value: 'hidden',
+      });
+      fireEvent(document, new Event('visibilitychange'));
+
+      await waitFor(() => {
+        expect(pauseSpy).toHaveBeenCalled();
+      });
+    });
+
+    it('should resume audio when tab becomes visible', async () => {
+      const playSpy = vi.spyOn(window.HTMLMediaElement.prototype, 'play');
+
+      render(<PartyModeOverlay isOpen={true} onClose={() => {}} />);
+
+      // Wait for initial play
+      await waitFor(() => {
+        expect(playSpy).toHaveBeenCalled();
+      });
+
+      // Simulate tab becoming hidden
+      Object.defineProperty(document, 'visibilityState', {
+        writable: true,
+        configurable: true,
+        value: 'hidden',
+      });
+      fireEvent(document, new Event('visibilitychange'));
+
+      // Clear mock to track new play call
+      playSpy.mockClear();
+
+      // Mock paused property to be true (audio was paused when hidden)
+      Object.defineProperty(HTMLMediaElement.prototype, 'paused', {
+        writable: true,
+        configurable: true,
+        value: true,
+      });
+
+      // Simulate tab becoming visible again
+      Object.defineProperty(document, 'visibilityState', {
+        writable: true,
+        configurable: true,
+        value: 'visible',
+      });
+      fireEvent(document, new Event('visibilitychange'));
+
+      await waitFor(() => {
+        expect(playSpy).toHaveBeenCalled();
+      });
+    });
+  });
 });

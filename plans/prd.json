@@ -178,7 +178,7 @@
       "id": "EE-6",
       "title": "Audio playback with loop and mute",
       "priority": 7,
-      "status": "todo",
+      "status": "done",
       "assigned_to": null,
       "category": "easter-egg",
       "description": "Add looping music that starts on cat click with mute toggle",
