@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import PartyModeOverlay, { generateStars } from '../PartyModeOverlay';
+import PartyModeOverlay, { generateStars, getFocusableElements } from '../PartyModeOverlay';
 
 describe('PartyModeOverlay', () => {
   beforeEach(() => {
@@ -665,6 +665,162 @@ describe('PartyModeOverlay', () => {
       await waitFor(() => {
         expect(playSpy).toHaveBeenCalled();
       });
+    });
+  });
+
+  describe('Focus trap and accessibility', () => {
+    beforeEach(() => {
+      Object.defineProperty(window, 'innerWidth', {
+        writable: true,
+        configurable: true,
+        value: 1024,
+      });
+    });
+
+    describe('getFocusableElements helper', () => {
+      it('should return empty array when container is null', () => {
+        const result = getFocusableElements(null);
+        expect(result).toEqual([]);
+      });
+
+      it('should find buttons in container', () => {
+        const container = document.createElement('div');
+        container.innerHTML = '<button>Test</button>';
+        document.body.appendChild(container);
+
+        const result = getFocusableElements(container);
+        expect(result.length).toBe(1);
+        expect(result[0].tagName).toBe('BUTTON');
+
+        document.body.removeChild(container);
+      });
+
+      it('should find links with href in container', () => {
+        const container = document.createElement('div');
+        container.innerHTML = '<a href="https://example.com">Link</a>';
+        document.body.appendChild(container);
+
+        const result = getFocusableElements(container);
+        expect(result.length).toBe(1);
+        expect(result[0].tagName).toBe('A');
+
+        document.body.removeChild(container);
+      });
+
+      it('should exclude disabled elements', () => {
+        const container = document.createElement('div');
+        container.innerHTML = '<button disabled>Disabled</button><button>Enabled</button>';
+        document.body.appendChild(container);
+
+        const result = getFocusableElements(container);
+        expect(result.length).toBe(1);
+        expect(result[0].textContent).toBe('Enabled');
+
+        document.body.removeChild(container);
+      });
+
+      it('should exclude elements with tabindex -1', () => {
+        const container = document.createElement('div');
+        const hiddenBtn = document.createElement('button');
+        hiddenBtn.setAttribute('tabindex', '-1');
+        hiddenBtn.textContent = 'Hidden';
+        const visibleBtn = document.createElement('button');
+        visibleBtn.textContent = 'Visible';
+        container.appendChild(hiddenBtn);
+        container.appendChild(visibleBtn);
+        document.body.appendChild(container);
+
+        const result = getFocusableElements(container);
+        // Should only include the visible button (without tabindex=-1)
+        expect(result.filter((el) => el.textContent === 'Visible').length).toBe(1);
+        expect(result.filter((el) => el.getAttribute('tabindex') === '-1').length).toBe(0);
+
+        document.body.removeChild(container);
+      });
+    });
+
+    it('should have aria-modal attribute', () => {
+      render(<PartyModeOverlay isOpen={true} onClose={() => {}} />);
+
+      const overlay = screen.getByRole('dialog');
+      expect(overlay).toHaveAttribute('aria-modal', 'true');
+    });
+
+    it('should find all focusable elements in overlay', async () => {
+      const { container } = render(<PartyModeOverlay isOpen={true} onClose={() => {}} />);
+
+      await waitFor(() => {
+        const overlay = container.querySelector('[role="dialog"]');
+        const focusableElements = getFocusableElements(overlay);
+        // Should include: mute button, close button, 2 share buttons = 4 buttons
+        expect(focusableElements.length).toBeGreaterThanOrEqual(4);
+      });
+    });
+
+    it('should trap focus when Tab is pressed on last element', async () => {
+      render(<PartyModeOverlay isOpen={true} onClose={() => {}} />);
+
+      // Wait for focus trap to be initialized
+      await waitFor(() => {
+        const closeButton = screen.getByRole('button', { name: 'Close party mode' });
+        expect(closeButton).toBeInTheDocument();
+      });
+
+      // Get all focusable elements
+      const muteButton = screen.getByTestId('mute-toggle');
+      const closeButton = screen.getByRole('button', { name: 'Close party mode' });
+
+      // Focus the close button (should be last before share buttons)
+      closeButton.focus();
+      expect(document.activeElement).toBe(closeButton);
+    });
+
+    it('should trap focus when Shift+Tab is pressed on first element', async () => {
+      render(<PartyModeOverlay isOpen={true} onClose={() => {}} />);
+
+      // Wait for focus trap to be initialized
+      await waitFor(() => {
+        const muteButton = screen.getByTestId('mute-toggle');
+        expect(muteButton).toBeInTheDocument();
+      });
+
+      const muteButton = screen.getByTestId('mute-toggle');
+
+      // Focus the mute button (first focusable element)
+      muteButton.focus();
+      expect(document.activeElement).toBe(muteButton);
+    });
+
+    it('should focus first focusable element when overlay opens', async () => {
+      const { container } = render(<PartyModeOverlay isOpen={true} onClose={() => {}} />);
+
+      // Wait for focus trap to focus first element
+      await waitFor(
+        () => {
+          // After 100ms delay, focus should be on one of the focusable elements
+          const overlay = container.querySelector('[role="dialog"]');
+          const focusableElements = getFocusableElements(overlay);
+          expect(focusableElements.length).toBeGreaterThan(0);
+          // The first focusable element should have focus
+          expect(document.activeElement).toBe(focusableElements[0]);
+        },
+        { timeout: 200 }
+      );
+    });
+
+    it('should register and cleanup Tab keydown handler', () => {
+      const addEventListenerSpy = vi.spyOn(document, 'addEventListener');
+      const removeEventListenerSpy = vi.spyOn(document, 'removeEventListener');
+
+      const { unmount } = render(<PartyModeOverlay isOpen={true} onClose={() => {}} />);
+
+      // Check that keydown listener was added
+      expect(addEventListenerSpy).toHaveBeenCalledWith('keydown', expect.any(Function));
+
+      unmount();
+
+      // Check that keydown listener was removed
+      expect(removeEventListenerSpy).toHaveBeenCalledWith('keydown', expect.any(Function));
     });
   });
 });

@@ -3,6 +3,20 @@ import { motion, AnimatePresence } from 'framer-motion';
 import RainbowTrail from './RainbowTrail';
 import ShareButtons from './ShareButtons';
 
+// Focus trap helper: get all focusable elements in a container
+export const getFocusableElements = (container) => {
+  if (!container) return [];
+  const focusableSelectors = [
+    'button:not([disabled]):not([tabindex="-1"])',
+    'a[href]:not([disabled]):not([tabindex="-1"])',
+    'input:not([disabled]):not([tabindex="-1"])',
+    'select:not([disabled]):not([tabindex="-1"])',
+    'textarea:not([disabled]):not([tabindex="-1"])',
+    '[tabindex]:not([tabindex="-1"]):not([disabled])',
+  ].join(', ');
+  return Array.from(container.querySelectorAll(focusableSelectors));
+};
+
 export const generateStars = (count) => {
   return Array.from({ length: count }, (_, i) => ({
     id: i,
@@ -41,6 +55,8 @@ const PartyModeOverlay = ({ isOpen, onClose }) => {
   const timerRef = useRef(null);
   const isPausedRef = useRef(false);
   const audioRef = useRef(null);
+  const overlayRef = useRef(null);
+  const previousActiveElement = useRef(null);
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -100,6 +116,61 @@ const PartyModeOverlay = ({ isOpen, onClose }) => {
   useEffect(() => {
     setBestScore(getBestScore());
   }, []);
+
+  // Focus trap: trap focus inside overlay and restore focus on close
+  useEffect(() => {
+    if (!isOpen) return;
+
+    // Store the previously focused element to restore later
+    previousActiveElement.current = document.activeElement;
+
+    // Focus the first focusable element in the overlay after a short delay
+    // to allow the DOM to update
+    const focusTimeout = setTimeout(() => {
+      if (overlayRef.current) {
+        const focusableElements = getFocusableElements(overlayRef.current);
+        if (focusableElements.length > 0) {
+          focusableElements[0].focus();
+        }
+      }
+    }, 100);
+
+    // Handle tab key to trap focus
+    const handleKeyDown = (e) => {
+      if (e.key !== 'Tab' || !overlayRef.current) return;
+
+      const focusableElements = getFocusableElements(overlayRef.current);
+      if (focusableElements.length === 0) return;
+
+      const firstElement = focusableElements[0];
+      const lastElement = focusableElements[focusableElements.length - 1];
+
+      if (e.shiftKey) {
+        // Shift + Tab: go to last element if on first
+        if (document.activeElement === firstElement) {
+          e.preventDefault();
+          lastElement.focus();
+        }
+      } else {
+        // Tab: go to first element if on last
+        if (document.activeElement === lastElement) {
+          e.preventDefault();
+          firstElement.focus();
+        }
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      clearTimeout(focusTimeout);
+      document.removeEventListener('keydown', handleKeyDown);
+      // Restore focus to previously focused element when overlay closes
+      if (previousActiveElement.current && typeof previousActiveElement.current.focus === 'function') {
+        previousActiveElement.current.focus();
+      }
+    };
+  }, [isOpen]);
 
   // Timer logic
   useEffect(() => {
@@ -232,8 +303,10 @@ const PartyModeOverlay = ({ isOpen, onClose }) => {
     <AnimatePresence>
       {isOpen && (
         <motion.div
+          ref={overlayRef}
           role="dialog"
           aria-label="Party mode overlay"
+          aria-modal="true"
           variants={overlayVariants}
           initial="hidden"
           animate="visible"
