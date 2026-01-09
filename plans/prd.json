@@ -270,9 +270,85 @@
       "estimated_iterations": 2
     },
     {
+      "id": "EE-10",
+      "title": "Cat spawn mode selection (floating vs hidden)",
+      "priority": 11,
+      "status": "done",
+      "assigned_to": null,
+      "category": "easter-egg",
+      "description": "Implement two spawn modes for the hidden cat: floating mode and hidden mode. On each page load with 50% spawn chance, randomly select one mode. Remove current fixed top positioning.",
+      "acceptance_criteria": [
+        "Spawn probability changed from 30% to 50%",
+        "Remove current fixed positioning behavior",
+        "Randomly select between 'floating' or 'hidden' mode on spawn",
+        "Cat can spawn on ANY page",
+        "Maximum one cat per page load",
+        "Make cat larger than current size",
+        "Mode selection stored for session consistency",
+        "Cat still triggers party mode on click",
+        "Build succeeds"
+      ],
+      "dependencies": ["EE-9"],
+      "estimated_iterations": 2,
+      "files_to_update": [
+        "src/components/EasterEgg/HiddenCat.jsx",
+        "src/components/EasterEgg/__tests__/HiddenCat.test.jsx"
+      ]
+    },
+    {
+      "id": "EE-11",
+      "title": "Floating cat mode with bounce physics",
+      "priority": 12,
+      "status": "todo",
+      "assigned_to": null,
+      "category": "easter-egg",
+      "description": "Implement floating mode where cat moves freely across the page, bouncing off edges like a screensaver. Cat is fully visible and can be randomly tilted left or right.",
+      "acceptance_criteria": [
+        "Cat floats/moves continuously across the page",
+        "Cat bounces off viewport edges when touching them",
+        "Bounce physics feel natural (reverse direction on collision)",
+        "Cat can be randomly tilted left or right (rotation)",
+        "Tilt angle randomized on spawn",
+        "Cat is fully visible (not hidden) in floating mode",
+        "Smooth animation using requestAnimationFrame or CSS",
+        "Cat still clickable while floating",
+        "Respects prefers-reduced-motion (stops floating)",
+        "Build succeeds"
+      ],
+      "dependencies": ["EE-10"],
+      "estimated_iterations": 3,
+      "files_to_update": [
+        "src/components/EasterEgg/HiddenCat.jsx"
+      ]
+    },
+    {
+      "id": "EE-12",
+      "title": "Hidden cat mode at fixed location",
+      "priority": 13,
+      "status": "todo",
+      "assigned_to": null,
+      "category": "easter-egg",
+      "description": "Implement hidden mode where cat is partially hidden at a specific fixed spot on the page. Cat does not float, stays in place, and peeks out from edges or content.",
+      "acceptance_criteria": [
+        "Cat positioned at a random fixed spot on the page",
+        "Cat is partially hidden (~50% visible)",
+        "Cat peeks from edges, behind sections, or content boundaries",
+        "Cat does NOT float or move in hidden mode",
+        "Position feels natural in page layout",
+        "Cat can be tilted for variety",
+        "Cat still clickable despite partial visibility",
+        "Build succeeds"
+      ],
+      "dependencies": ["EE-10"],
+      "estimated_iterations": 2,
+      "files_to_update": [
+        "src/components/EasterEgg/HiddenCat.jsx"
+      ]
+    },
+    {
       "id": "DESIGN-1",
       "title": "Add blue gradient stripe to footer",
-      "priority": 11,
+      "priority": 14,
       "status": "done",
       "assigned_to": null,
       "category": "design-enhancement",

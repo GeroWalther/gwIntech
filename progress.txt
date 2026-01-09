@@ -400,3 +400,48 @@ Next: Agent should work on DESIGN-1 (Add blue gradient stripe to footer)
   ✓ npm test - 142 tests passing
 
 ALL TASKS COMPLETE - Easter Egg and Design Enhancement features are done!
+
+## 2026-01-09 21:30 - EE-10: Cat Spawn Mode Selection Complete
+- Updated src/components/EasterEgg/HiddenCat.jsx with:
+  - Changed spawn probability from 30% to 50% (SPAWN_PROBABILITY constant)
+  - Added two modes: CAT_MODES.FLOATING and CAT_MODES.HIDDEN
+  - Mode is randomly selected (50/50) when cat spawns
+  - Removed previous fixed positioning behavior
+  - Cat size increased from emoji default to 80px (CAT_SIZE constant)
+  - Added random tilt (-15 to 15 degrees) for visual variety
+  - Mode stored in sessionStorage for session consistency
+  - Floating mode: starts at random position within viewport margins
+  - Hidden mode: cat peeks from edges (left, right, or bottom)
+  - Added helper functions: getHiddenPosition, getFloatingStartPosition, getRandomVelocity, getRandomTilt, selectMode
+  - Exported constants for testing: SPAWN_PROBABILITY, CAT_MODES, STORAGE_KEYS, CAT_SIZE
+  - Added data-mode attribute for testing/debugging
+  - Respects prefers-reduced-motion preference
+- Updated src/components/EasterEgg/__tests__/HiddenCat.test.jsx with:
+  - Tests for 50% spawn probability
+  - Tests for mode selection (floating/hidden)
+  - Tests for constants (SPAWN_PROBABILITY, CAT_MODES, STORAGE_KEYS, CAT_SIZE)
+  - Tests for getRandomTilt (range -15 to 15)
+  - Tests for getFloatingStartPosition (within margins)
+  - Tests for getRandomVelocity (speed 1.5-2.5)
+  - Tests for getHiddenPosition (edge detection, clip percent)
+  - Tests for sessionStorage mode persistence
+  - Tests for data-mode attribute
+  - Tests for larger font size (80px)
+  - Tests for tilt transform application
+  - Tests for requestAnimationFrame setup/cleanup
+  - Tests for prefers-reduced-motion support
+  - 36 tests passing
+- All acceptance criteria met:
+  ✓ Spawn probability changed from 30% to 50%
+  ✓ Remove current fixed positioning behavior (refactored)
+  ✓ Randomly select between 'floating' or 'hidden' mode on spawn
+  ✓ Cat can spawn on ANY page
+  ✓ Maximum one cat per page load (sessionStorage)
+  ✓ Make cat larger than current size (80px)
+  ✓ Mode selection stored for session consistency
+  ✓ Cat still triggers party mode on click
+  ✓ npm run build - passes
+  ✓ npm run lint - passes (pre-existing img warning only)
+  ✓ npm test - 162 tests passing (36 HiddenCat tests)
+
+Next: Agent should work on EE-11 (Floating cat mode with bounce physics)
