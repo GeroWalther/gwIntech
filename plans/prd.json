@@ -1,0 +1,308 @@
+{
+  "project": "GW-InTech Portfolio - Feature Development",
+  "description": "Ongoing feature development for the GW-InTech portfolio site. Includes Easter egg, design enhancements, and other features.",
+  "assets": {
+    "cat_gif": "/hiddenCat/technyancolor.gif",
+    "music": "/hiddenCat/technyancolor.mp3"
+  },
+  "visual_reference": "https://www.nyan.cat/index.php?cat=technyancolor",
+  "tech_stack": {
+    "framework": "Next.js 13 (Pages Router)",
+    "react": "18.2.0",
+    "styling": "Tailwind CSS",
+    "animation": "Framer Motion",
+    "testing": "Vitest + React Testing Library"
+  },
+  "rules": {
+    "one_task_at_a_time": true,
+    "must_pass_before_complete": [
+      "npm run build",
+      "npm run lint",
+      "npm test"
+    ],
+    "commit_each_task": true,
+    "append_to_progress": true
+  },
+  "tasks": [
+    {
+      "id": "SETUP-1",
+      "title": "Setup test infrastructure",
+      "priority": 1,
+      "status": "todo",
+      "assigned_to": null,
+      "category": "infrastructure",
+      "description": "Add Vitest, React Testing Library, and TypeScript checking to the project",
+      "acceptance_criteria": [
+        "package.json has vitest, @testing-library/react, @testing-library/jest-dom as devDependencies",
+        "vitest.config.js exists with proper React setup",
+        "package.json has 'test' and 'typecheck' scripts",
+        "tsconfig.json exists for type checking",
+        "npm test runs without errors (even if no tests yet)",
+        "npm run typecheck runs without errors"
+      ],
+      "dependencies": [],
+      "estimated_iterations": 2
+    },
+    {
+      "id": "EE-1",
+      "title": "Hidden cat spawn system",
+      "priority": 2,
+      "status": "todo",
+      "assigned_to": null,
+      "category": "easter-egg",
+      "description": "Create a component that spawns a small cat at random positions with 30% probability",
+      "acceptance_criteria": [
+        "Component spawns at random visible position on page load",
+        "Spawn probability is 30% (uses Math.random())",
+        "Cat never overlaps header/footer (100px top/bottom, 50px side margins)",
+        "Uses sessionStorage to prevent multiple spawns in same session",
+        "Cat is keyboard-focusable (tabIndex={0})",
+        "Cat responds to click and Enter key",
+        "Component has unit tests for position calculation",
+        "Component has tests for spawn probability logic"
+      ],
+      "dependencies": ["SETUP-1"],
+      "estimated_iterations": 3,
+      "files_to_create": [
+        "src/components/EasterEgg/HiddenCat.jsx",
+        "src/components/EasterEgg/index.js",
+        "src/components/EasterEgg/__tests__/HiddenCat.test.jsx"
+      ]
+    },
+    {
+      "id": "EE-2",
+      "title": "Party mode overlay with starry background",
+      "priority": 3,
+      "status": "todo",
+      "assigned_to": null,
+      "category": "easter-egg",
+      "description": "Create full-screen overlay with black starry space background that opens when cat is clicked",
+      "acceptance_criteria": [
+        "Clicking hidden cat opens full-screen overlay (fixed position, z-index 9999)",
+        "Background is pure black (#000000)",
+        "50-100 small white stars randomly positioned (generated once on mount)",
+        "Stars are 2-3px, white (#FFFFFF)",
+        "Fewer stars on mobile (40 vs 75)",
+        "ESC key closes overlay",
+        "Close button in top-right corner (white, hover effect)",
+        "Overlay uses Framer Motion AnimatePresence for smooth entrance/exit",
+        "Tests verify overlay opens/closes on click and ESC key",
+        "Respects prefers-reduced-motion (disable animations)"
+      ],
+      "dependencies": ["EE-1"],
+      "estimated_iterations": 3,
+      "files_to_create": [
+        "src/components/EasterEgg/PartyModeOverlay.jsx",
+        "src/components/EasterEgg/__tests__/PartyModeOverlay.test.jsx"
+      ]
+    },
+    {
+      "id": "EE-3",
+      "title": "Animated rainbow trail",
+      "priority": 4,
+      "status": "todo",
+      "assigned_to": null,
+      "category": "easter-egg",
+      "description": "Create the iconic 6-colored rainbow trail that flows horizontally behind the cat",
+      "acceptance_criteria": [
+        "RainbowTrail component renders 6 horizontal bars stacked vertically",
+        "Colors (top to bottom): #FF0000, #FF7F00, #FFFF00, #00FF00, #0000FF, #8B00FF",
+        "Bars animate horizontally (flowing effect from left to right)",
+        "Each bar has slightly offset timing for wave effect",
+        "Uses CSS @keyframes or Framer Motion for smooth animation",
+        "Animation is continuous loop",
+        "Positioned behind cat (z-index layering)",
+        "Animation stops if prefers-reduced-motion is set",
+        "Bars are responsive (adjust height on mobile)",
+        "Tests verify correct colors are rendered"
+      ],
+      "dependencies": ["EE-2"],
+      "estimated_iterations": 4,
+      "files_to_create": [
+        "src/components/EasterEgg/RainbowTrail.jsx",
+        "src/components/EasterEgg/__tests__/RainbowTrail.test.jsx"
+      ]
+    },
+    {
+      "id": "EE-4",
+      "title": "Cat GIF integration and positioning",
+      "priority": 5,
+      "status": "todo",
+      "assigned_to": null,
+      "category": "easter-egg",
+      "description": "Display the technyancolor.gif properly positioned over the rainbow trail",
+      "acceptance_criteria": [
+        "Cat GIF loaded from /hiddenCat/technyancolor.gif",
+        "Cat positioned center-left of screen",
+        "Cat size: ~250px on desktop, ~150px on mobile",
+        "Cat is above rainbow trail (correct z-index)",
+        "GIF has alt text for accessibility",
+        "Loading state handled gracefully",
+        "Tests verify image src and positioning"
+      ],
+      "dependencies": ["EE-3"],
+      "estimated_iterations": 2,
+      "files_to_update": [
+        "src/components/EasterEgg/PartyModeOverlay.jsx"
+      ]
+    },
+    {
+      "id": "EE-5",
+      "title": "Score timer with localStorage",
+      "priority": 6,
+      "status": "todo",
+      "assigned_to": null,
+      "category": "easter-egg",
+      "description": "Timer that counts seconds while overlay is open, pauses on tab switch, saves best score",
+      "acceptance_criteria": [
+        "Timer starts when overlay opens",
+        "Displays as 'Nyan score: X seconds'",
+        "Pauses when document.visibilityState is 'hidden'",
+        "Resumes when tab becomes visible again",
+        "Stops and resets when overlay closes",
+        "Best score saved to localStorage under key 'nyanBestScore'",
+        "Best score displayed next to current score",
+        "Timer logic has unit tests",
+        "Tests verify pause/resume on visibility change"
+      ],
+      "dependencies": ["EE-2"],
+      "estimated_iterations": 3,
+      "files_to_update": [
+        "src/components/EasterEgg/PartyModeOverlay.jsx"
+      ],
+      "files_to_create": [
+        "src/components/EasterEgg/__tests__/timer.test.js"
+      ]
+    },
+    {
+      "id": "EE-6",
+      "title": "Audio playback with loop and mute",
+      "priority": 7,
+      "status": "todo",
+      "assigned_to": null,
+      "category": "easter-egg",
+      "description": "Add looping music that starts on cat click with mute toggle",
+      "acceptance_criteria": [
+        "Audio element loads /hiddenCat/technyancolor.mp3",
+        "Audio starts playing ONLY after user clicks cat (no autoplay)",
+        "Audio has 'loop' attribute set",
+        "Mute/unmute toggle button visible in overlay (icon shows state)",
+        "Audio pauses when tab is hidden",
+        "Audio resumes when tab becomes visible",
+        "Audio stops and resets when overlay closes",
+        "Tests verify audio element properties and controls"
+      ],
+      "dependencies": ["EE-2"],
+      "estimated_iterations": 3,
+      "files_to_update": [
+        "src/components/EasterEgg/PartyModeOverlay.jsx"
+      ]
+    },
+    {
+      "id": "EE-7",
+      "title": "Social share buttons",
+      "priority": 8,
+      "status": "todo",
+      "assigned_to": null,
+      "category": "easter-egg",
+      "description": "Add X (Twitter) and LinkedIn share buttons with score",
+      "acceptance_criteria": [
+        "Two share buttons visible in overlay",
+        "X button opens: https://twitter.com/intent/tweet?text=I%20just%20achieved%20a%20Nyan%20score%20of%20X%20seconds%20on%20@gwIntech's%20portfolio!%20🌈🐱&url=https://www.gw-intech.com",
+        "LinkedIn button opens: https://www.linkedin.com/sharing/share-offsite/?url=https://www.gw-intech.com&summary=I%20just%20achieved%20a%20Nyan%20score%20of%20X%20seconds!",
+        "Score (X) is dynamically injected into URLs",
+        "Links open in new tab (target='_blank' rel='noopener noreferrer')",
+        "Buttons styled with brand colors (X: #1DA1F2, LinkedIn: #0A66C2)",
+        "Buttons have hover effects",
+        "Tests verify URL generation with score"
+      ],
+      "dependencies": ["EE-5"],
+      "estimated_iterations": 2,
+      "files_to_create": [
+        "src/components/EasterEgg/ShareButtons.jsx",
+        "src/components/EasterEgg/__tests__/ShareButtons.test.jsx"
+      ]
+    },
+    {
+      "id": "EE-8",
+      "title": "Integration with _app.js",
+      "priority": 9,
+      "status": "todo",
+      "assigned_to": null,
+      "category": "easter-egg",
+      "description": "Integrate EasterEgg component into Next.js _app.js so it appears on all pages",
+      "acceptance_criteria": [
+        "Import EasterEgg component in src/pages/_app.js",
+        "EasterEgg rendered after <Component {...pageProps} />",
+        "Easter egg works on all routes",
+        "No hydration errors in console",
+        "Build succeeds without errors",
+        "Lighthouse performance score not significantly impacted"
+      ],
+      "dependencies": ["EE-1", "EE-2"],
+      "estimated_iterations": 1,
+      "files_to_update": [
+        "src/pages/_app.js"
+      ]
+    },
+    {
+      "id": "EE-9",
+      "title": "Final polish and accessibility",
+      "priority": 10,
+      "status": "todo",
+      "assigned_to": null,
+      "category": "easter-egg",
+      "description": "Final touches, accessibility improvements, and full integration test",
+      "acceptance_criteria": [
+        "Overlay has role='dialog' and aria-label='Party mode overlay'",
+        "Close button has aria-label='Close party mode'",
+        "Timer has aria-live='polite' for screen readers",
+        "All interactive elements are keyboard accessible",
+        "Focus trap works inside overlay (tab cycles through controls)",
+        "Works on mobile (touch events)",
+        "Responsive on all screen sizes",
+        "All tests pass",
+        "Build succeeds",
+        "Lint passes",
+        "Manual smoke test on Chrome, Safari, Firefox"
+      ],
+      "dependencies": ["EE-1", "EE-2", "EE-3", "EE-4", "EE-5", "EE-6", "EE-7", "EE-8"],
+      "estimated_iterations": 2
+    },
+    {
+      "id": "DESIGN-1",
+      "title": "Add blue gradient stripe to footer",
+      "priority": 11,
+      "status": "todo",
+      "assigned_to": null,
+      "category": "design-enhancement",
+      "description": "Add a decorative blue gradient stripe (3 thin lines) at the bottom of the footer that fades in from the sides as a design enhancement",
+      "acceptance_criteria": [
+        "Three thin horizontal lines (1-2px each) positioned at the very bottom of the footer",
+        "Lines are blue (use brand color or complementary blue)",
+        "Gradient effect: fades from transparent at edges to solid blue in center (or vice versa)",
+        "Lines stack vertically with small gap between them (2-3px)",
+        "Responsive: works on all screen sizes",
+        "Subtle and elegant, doesn't distract from content",
+        "Uses CSS only (no images)",
+        "Located in footer component or global layout",
+        "Build succeeds",
+        "Lint passes",
+        "Visually reviewed on desktop and mobile"
+      ],
+      "dependencies": [],
+      "estimated_iterations": 1,
+      "files_to_update": [
+        "src/components/Footer.jsx (or wherever footer is located)",
+        "src/styles/globals.css (if using global styles)"
+      ]
+    }
+  ],
+  "completion_criteria": {
+    "all_tasks_complete": true,
+    "all_tests_pass": true,
+    "build_succeeds": true,
+    "lint_passes": true,
+    "manual_testing_complete": true
+  }
+}
