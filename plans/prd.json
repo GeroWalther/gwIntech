@@ -202,7 +202,7 @@
       "id": "EE-7",
       "title": "Social share buttons",
       "priority": 8,
-      "status": "todo",
+      "status": "done",
       "assigned_to": null,
       "category": "easter-egg",
       "description": "Add X (Twitter) and LinkedIn share buttons with score",

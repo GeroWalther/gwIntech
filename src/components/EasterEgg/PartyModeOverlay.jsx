@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import RainbowTrail from './RainbowTrail';
+import ShareButtons from './ShareButtons';
 
 export const generateStars = (count) => {
   return Array.from({ length: count }, (_, i) => ({
@@ -400,6 +401,19 @@ const PartyModeOverlay = ({ isOpen, onClose }) => {
                 Best: {bestScore} seconds
               </div>
             )}
+          </div>
+
+          {/* Share Buttons */}
+          <div
+            style={{
+              position: 'absolute',
+              bottom: '20px',
+              left: '20px',
+              zIndex: 10000,
+            }}
+            data-testid="share-buttons-container"
+          >
+            <ShareButtons score={currentScore} />
           </div>
         </motion.div>
       )}
