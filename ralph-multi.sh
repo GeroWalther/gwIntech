@@ -16,6 +16,9 @@ echo ""
 
 cd ~/Desktop/gwIntech
 
+# Skip permission prompts
+claude config set --global dangerously_skip_permissions true
+
 # Function to check if all tasks are done
 check_all_done() {
   local todo_count=$(grep -c '"status": "todo"' plans/prd.json || true)

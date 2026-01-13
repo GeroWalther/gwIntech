@@ -5,6 +5,9 @@ ITERATION=0
 echo "Starting agent..."
 cd ~/Desktop/gwIntech
 
+# Skip permission prompts
+claude config set --global dangerously_skip_permissions true
+
 # Get initial count of todo tasks
 INITIAL_TODO=$(grep -c '"status": "todo"' plans/prd.json || echo 0)
 
