@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="450" viewBox="0 0 800 450">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#131f25;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1a2f3a;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="shield" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#58e6ad;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#3bb88a;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="800" height="450" fill="url(#bg)" rx="12"/>
+  <!-- Shield icon -->
+  <g transform="translate(400, 160)">
+    <path d="M0-80 L60-55 L60 20 Q60 60 0 85 Q-60 60 -60 20 L-60-55 Z" fill="url(#shield)" opacity="0.9"/>
+    <path d="M-20 5 L-8 17 L25-15" stroke="#131f25" stroke-width="8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+  <!-- Text -->
+  <text x="400" y="290" font-family="system-ui, -apple-system, sans-serif" font-size="36" font-weight="700" fill="#ffffff" text-anchor="middle">Security Scanner Pro</text>
+  <text x="400" y="325" font-family="system-ui, -apple-system, sans-serif" font-size="18" fill="#58e6ad" text-anchor="middle">v0.1.0-beta.1 · macOS</text>
+  <!-- Decorative scan lines -->
+  <g opacity="0.1">
+    <line x1="100" y1="380" x2="700" y2="380" stroke="#58e6ad" stroke-width="1"/>
+    <line x1="150" y1="395" x2="650" y2="395" stroke="#58e6ad" stroke-width="1"/>
+    <line x1="200" y1="410" x2="600" y2="410" stroke="#58e6ad" stroke-width="1"/>
+  </g>
+</svg>
