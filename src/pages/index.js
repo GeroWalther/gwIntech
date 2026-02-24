@@ -8,6 +8,7 @@ import Link from 'next/link';
 import birne from '../../public/images/hero/birne.jpeg';
 import werbung from '../../public/images/mobileAppwerbung.jpeg';
 
+import ScannerDownloads from '@/components/ScannerDownloads';
 import dynamic from 'next/dynamic';
 const Dices = dynamic(() => import('@/components/Dices'), {
   ssr: false,
@@ -82,20 +83,7 @@ export default function Home() {
               <Dices />
             </div>
           </div>
-          <div className='w-full flex justify-center gap-6 mt-16 md:mt-10 sm:flex-col sm:items-center sm:gap-3'>
-            <Link
-              href='https://scanner-downloads-public.s3.amazonaws.com/community/v0.1.0-beta.5/Security%20Scanner%20Pro-0.1.0-beta.5-arm64.dmg'
-              target='_blank'
-              className='text-sm font-medium text-dark/60 hover:text-dark underline underline-offset-4 transition-colors'>
-              Try Security Scanner Pro for macOS (Beta)
-            </Link>
-            <Link
-              href='https://scanner-downloads-public.s3.amazonaws.com/community/v0.1.0-beta.5/Security%20Scanner%20Pro%20Setup%200.1.0-beta.5.exe'
-              target='_blank'
-              className='text-sm font-medium text-dark/60 hover:text-dark underline underline-offset-4 transition-colors'>
-              Try Security Scanner Pro for Windows (Beta)
-            </Link>
-          </div>
+          <ScannerDownloads />
         </Layout>
         <HireMe />
       </main>
