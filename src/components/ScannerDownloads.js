@@ -15,10 +15,10 @@ export default function ScannerDownloads() {
         const macDmg = data.files.find(
           (f) => f.platform === 'macOS' && f.format === 'DMG' && f.arch === 'Apple Silicon'
         );
-        const winExe = data.files.find(
-          (f) => f.platform === 'Windows' && f.format === 'Installer'
-        );
-        setDownloads({ macDmg, winExe, version: data.tag });
+        const winDownload =
+          data.files.find((f) => f.platform === 'Windows' && f.format === 'Installer') ||
+          data.files.find((f) => f.platform === 'Windows' && f.format === 'ZIP');
+        setDownloads({ macDmg, winDownload, version: data.tag });
       })
       .catch(() => {});
   }, []);
@@ -35,8 +35,8 @@ export default function ScannerDownloads() {
           Try Security Scanner Pro for macOS (Beta)
         </Link>
       )}
-      {downloads.winExe && (
-        <Link href={downloads.winExe.url} target='_blank' className={linkClass}>
+      {downloads.winDownload && (
+        <Link href={downloads.winDownload.url} target='_blank' className={linkClass}>
           Try Security Scanner Pro for Windows (Beta)
         </Link>
       )}
