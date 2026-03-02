@@ -1,9 +1,9 @@
 import Link from 'next/link';
 
 const MAC_URL =
-  'https://scanner-downloads-public.s3.amazonaws.com/community/v0.1.0-beta.12/AsSecurityScanner-0.1.0-beta.12-arm64.dmg';
+  'https://scanner-downloads-public.s3.amazonaws.com/community/v0.1.0-beta.13/AsSecurityScanner-0.1.0-beta.13-arm64.dmg';
 const WIN_URL =
-  'https://scanner-downloads-public.s3.amazonaws.com/community/v0.1.0-beta.12/AsSecurityScanner-0.1.0-beta.12-win.zip';
+  'https://scanner-downloads-public.s3.amazonaws.com/community/v0.1.0-beta.13/AsSecurityScanner-0.1.0-beta.13-win.zip';
 
 export default function ScannerDownloads() {
   const linkClass =
