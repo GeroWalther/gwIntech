@@ -8,7 +8,6 @@ import Link from 'next/link';
 import birne from '../../public/images/hero/birne.jpeg';
 import werbung from '../../public/images/mobileAppwerbung.jpeg';
 
-import ScannerDownloads from '@/components/ScannerDownloads';
 import dynamic from 'next/dynamic';
 const Dices = dynamic(() => import('@/components/Dices'), {
   ssr: false,
@@ -83,7 +82,6 @@ export default function Home() {
               <Dices />
             </div>
           </div>
-          <ScannerDownloads />
         </Layout>
         <HireMe />
       </main>
