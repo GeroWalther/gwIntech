@@ -2,7 +2,6 @@ import { EasterEgg } from '@/components/EasterEgg';
 import Footer from '@/components/Footer';
 import NavBar from '@/components/NavBar';
 import '@/styles/globals.css';
-import '@xterm/xterm/css/xterm.css';
 import { Montserrat } from 'next/font/google';
 import Head from 'next/head';
 import { Analytics } from '@vercel/analytics/react';

@@ -4,6 +4,17 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import dynamic from 'next/dynamic';
 
+// Load a script from CDN and return a promise
+function loadScript(src) {
+  return new Promise((resolve, reject) => {
+    const s = document.createElement('script');
+    s.src = src;
+    s.onload = resolve;
+    s.onerror = () => reject(new Error(`Failed to load ${src}`));
+    document.head.appendChild(s);
+  });
+}
+
 // xterm.js must be loaded client-side only (no SSR)
 function GameTerminal() {
   const termRef = useRef(null);
@@ -15,11 +26,21 @@ function GameTerminal() {
 
     async function init() {
       try {
-        // Dynamic imports (client-side only)
-        const { Terminal } = await import('@xterm/xterm');
-        const { FitAddon } = await import('@xterm/addon-fit');
+        // Load xterm from CDN to avoid webpack bundling issues
+        if (!window.Terminal) {
+          const cssLink = document.createElement('link');
+          cssLink.rel = 'stylesheet';
+          cssLink.href = 'https://cdn.jsdelivr.net/npm/@xterm/xterm@5.5.0/css/xterm.min.css';
+          document.head.appendChild(cssLink);
+
+          await loadScript('https://cdn.jsdelivr.net/npm/@xterm/xterm@5.5.0/lib/xterm.min.js');
+          await loadScript('https://cdn.jsdelivr.net/npm/@xterm/addon-fit@0.10.0/lib/addon-fit.min.js');
+        }
 
         if (disposed || !termRef.current) return;
+
+        const Terminal = window.Terminal;
+        const FitAddon = window.FitAddon;
 
         const keyQueue = [];
         window.termGetKey = () => keyQueue.length > 0 ? keyQueue.shift() : -1;
@@ -44,7 +65,7 @@ function GameTerminal() {
           allowTransparency: true,
         });
 
-        const fitAddon = new FitAddon();
+        const fitAddon = new FitAddon.FitAddon();
         term.loadAddon(fitAddon);
         term.open(termRef.current);
         // Delay fit to ensure container is fully rendered
