@@ -18,7 +18,6 @@ function GameTerminal() {
         // Dynamic imports (client-side only)
         const { Terminal } = await import('@xterm/xterm');
         const { FitAddon } = await import('@xterm/addon-fit');
-        await import('@xterm/xterm/css/xterm.css');
 
         if (disposed || !termRef.current) return;
 
