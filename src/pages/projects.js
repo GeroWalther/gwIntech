@@ -30,6 +30,8 @@ import RNAPP from '../../public/images/projects/rnapp.png';
 import openAI from '../../public/images/projects/openAI.webp';
 import climatic from '../../public/images/projects/climatic.png';
 import mernDocker from '../../public/images/projects/mernDocker.webp';
+import pourbeauty from '../../public/images/projects/porbeauty.png';
+import dungeon from '../../public/images/projects/dungeon.png';
 
 import { motion } from 'framer-motion';
 
@@ -177,6 +179,62 @@ const projects = () => {
           />
 
           <div className='grid grid-cols-12 gap-20 gap-y-28 lg:gap-x-6 md:gap-y-10'>
+            <div className='col-span-12'>
+              <article className='w-full flex items-center justify-center rounded-3xl border border-solid border-dark bg-light shadow-2xl p-12 lg:flex-col lg:p-8 xs:rounded-2xl xs:p-4'>
+                <Link
+                  href='https://github.com/GeroWalther/dungeon-monsters'
+                  target='_blank'
+                  className='w-1/2 cursor-pointer overflow-hidden rounded-lg lg:w-full'>
+                  <FramerImage
+                    src={dungeon}
+                    alt='Dungeon Monsters'
+                    className='w-full h-auto max-h-96 object-contain'
+                    whileHover={{ scale: 1.05 }}
+                    transition={{ duration: 0.5 }}
+                    priority
+                    sizes='(max-width:768px) 100vw, (max-width:1200px) 50vw, 50vw'
+                  />
+                </Link>
+                <div className='w-1/2 flex flex-col justify-between items-start pl-6 lg:w-full lg:pl-0 lg:pt-4'>
+                  <span className='text-primary font-medium text-xl xs:text-base'>
+                    Terminal C++ Game
+                  </span>
+                  <h2 className='my-2 w-full text-left text-4xl font-bold sm:text-sm'>
+                    Dungeon Monsters
+                  </h2>
+                  <p className='my-2 font-medium text-dark sm:text-sm'>
+                    A roguelike dungeon crawler with pixel art sprites and faction-based combat.
+                    8 monster types, 14 weapons, 10 procedurally generated floors.
+                  </p>
+                  <div className='my-3 w-full bg-gray-900 rounded-lg p-3 font-mono text-sm'>
+                    <p className='text-gray-400 text-xs mb-1'>Install via Homebrew:</p>
+                    <p className='text-green-400'>brew tap GeroWalther/dungeon</p>
+                    <p className='text-green-400'>brew install dungeon-monsters</p>
+                  </div>
+                  <div className='mt-2 flex items-center gap-4'>
+                    <Link href='https://github.com/GeroWalther/dungeon-monsters' target='_blank' className='w-10'>
+                      <GithubIcon />
+                    </Link>
+                    <Link
+                      href='/game'
+                      target='_blank'
+                      className='rounded-lg bg-black text-light p-2 px-6 text-lg font-semibold sm:px-4 sm:text-base hover:bg-gray-800 transition-colors'>
+                      Play Online
+                    </Link>
+                  </div>
+                </div>
+              </article>
+            </div>
+            <div className='col-span-12'>
+              <FeaturedProject
+                title='Pour Beauty'
+                type='Online Shop'
+                img={pourbeauty}
+                link='https://www.purebeautybiological.com'
+                github='https://github.com/GeroWalther/pourBeauty'
+                summary='Custom Full Stack E-Commerce Online Shop built with Next.js, TailwindCSS, Prisma, Stripe for payments, MongoDB for data storage and Resend for transactional emails. The shop is fully functional and includes a custom Admin Dashboard to manage products, orders and customers.'
+              />
+            </div>
             <div className='col-span-12'>
               <FeaturedProject
                 title='MERN Stack + DOCKER'
