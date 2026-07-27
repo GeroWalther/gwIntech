@@ -113,8 +113,8 @@ const NavBar = () => {
           <CustomLink href="/projects" className="mx-4">
             My Projects
           </CustomLink>
-          <CustomLink href="/ai-studio" className="mx-4">
-            AI Studio
+          <CustomLink href="/ai-box" className="mx-4">
+            AI Box
           </CustomLink>
           <CustomLink href="/solutions" className="mx-4">
             Solutions
@@ -174,11 +174,11 @@ const NavBar = () => {
               My Projects
             </CustomMobileLink>
             <CustomMobileLink
-              href="/ai-studio"
+              href="/ai-box"
               className=""
               toggle={handleClick}
             >
-              AI Studio
+              AI Box
             </CustomMobileLink>
             <CustomMobileLink
               href="/solutions"

@@ -2,6 +2,15 @@
 const nextConfig = {
   reactStrictMode: true,
 
+  // The product was renamed from AI Studio to AI Box. Anything already linking
+  // or indexed against the old path keeps working, and search engines move the
+  // ranking across rather than seeing two pages for one product.
+  async redirects() {
+    return [
+      { source: '/ai-studio', destination: '/ai-box', permanent: true },
+    ];
+  },
+
   // Security headers configuration
   async headers() {
     return [

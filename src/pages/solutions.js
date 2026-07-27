@@ -13,15 +13,19 @@ import node from '../../public/images/projects/node.png';
 import devObs from '../../public/images/projects/mernDocker.webp';
 import openAI from '../../public/images/projects/openAI.webp';
 import AWS from '../../public/images/projects/AWSlogo.webp';
+import aiBox from '../../public/images/projects/ai-box-card.png';
 import { motion } from 'framer-motion';
 
 const FramerImage = motion(Image);
 
-const Solution = ({ img, title, summary, className }) => {
+// `href` and `cta` are optional: the default is an email enquiry, which is right
+// for a service. A shipped product overrides them to link at its own page.
+const Solution = ({ img, title, summary, className, href, cta }) => {
+  const target = href || 'mailto:office@gw-intech.com';
   return (
     <li className={`${className}`}>
       <Link
-        href='mailto:office@gw-intech.com'
+        href={target}
         className='w-full inline-block cursor-pointer overflow-hidden rounded-lg'>
         <FramerImage
           src={img}
@@ -33,13 +37,13 @@ const Solution = ({ img, title, summary, className }) => {
           sizes='(max-width:768px) 100vw, (max-width:1200px) 50vw, 33vw'
         />
       </Link>
-      <Link href='mailto:office@gw-intech.com' className='flex flex-col'>
+      <Link href={target} className='flex flex-col'>
         <h2 className='capitalize text-2xl font-bold my-6 hover:underline-offset-2 md:text-xl md:font-semibold'>
           {title}
         </h2>
         <p className='text-sm mb-2'>{summary}</p>
         <button className='bg-dark text-light  py-2 rounded-lg mt-3'>
-          Contact
+          {cta || 'Contact'}
         </button>
       </Link>
     </li>
@@ -78,6 +82,14 @@ const solutions = () => {
             solutions tailored to your unique requirements.
           </p>
           <ul className='grid grid-cols-2 gap-16 mt-10 gap-y-24 md:grid-cols-1'>
+            <Solution
+              img={aiBox}
+              href='/ai-box'
+              cta='See how it works'
+              title='AI Box: Your Mac&apos;s AI Workstation, Controlled From Your Phone'
+              summary='A native macOS app that puts agentic chat, a writing studio, local image generation and a real terminal behind one window — then hands you the controls on your phone while the Mac does the work and keeps your API keys. Built with Tauri 2, Rust and React, signed and notarized, with conflict-free sync between devices. Free during public beta.'
+            />
+
             <Solution
               className='self-end'
               img={rn}
