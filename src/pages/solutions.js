@@ -13,7 +13,7 @@ import node from '../../public/images/projects/node.png';
 import devObs from '../../public/images/projects/mernDocker.webp';
 import openAI from '../../public/images/projects/openAI.webp';
 import AWS from '../../public/images/projects/AWSlogo.webp';
-import aiBox from '../../public/images/projects/ai-box-card.png';
+import realtimeAI from '../../public/images/projects/realtime-ai.png';
 import { motion } from 'framer-motion';
 
 const FramerImage = motion(Image);
@@ -83,11 +83,9 @@ const solutions = () => {
           </p>
           <ul className='grid grid-cols-2 gap-16 mt-10 gap-y-24 md:grid-cols-1'>
             <Solution
-              img={aiBox}
-              href='/ai-box'
-              cta='See how it works'
-              title='AI Box: Your Mac&apos;s AI Workstation, Controlled From Your Phone'
-              summary='A native macOS app that puts agentic chat, a writing studio, local image generation and a real terminal behind one window — then hands you the controls on your phone while the Mac does the work and keeps your API keys. Built with Tauri 2, Rust and React, signed and notarized, with conflict-free sync between devices. Free during public beta.'
+              img={realtimeAI}
+              title='Realtime AI: Voice Assistants and Live Camera Vision'
+              summary='AI that answers in the moment — and can see what your user is looking at. I build realtime voice assistants that hold a spoken conversation with sub-second latency, live camera experiences where the model watches the feed and guides the user step by step, and AI agents that resolve support conversations around the clock in any language. On-device with Apple Intelligence when privacy or offline use matters, streaming cloud models when capability matters, and a considered split between the two when cost matters. Shipped in Yomeru (live camera translation and conversation on iPhone), EyeGuide AI / Fixly (point your camera at a repair and be talked through it), and BlueberryChat AI (support automation that cuts first-response times to seconds).'
             />
 
             <Solution

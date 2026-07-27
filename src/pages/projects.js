@@ -33,6 +33,7 @@ import mernDocker from '../../public/images/projects/mernDocker.webp';
 import pourbeauty from '../../public/images/projects/porbeauty.png';
 import dungeon from '../../public/images/projects/dungeon.png';
 import aiBox from '../../public/images/projects/ai-box-card.png';
+import naturaVervae from '../../public/images/projects/natura-vervae.jpg';
 
 import { motion } from 'framer-motion';
 
@@ -240,6 +241,16 @@ const projects = () => {
                   </div>
                 </div>
               </article>
+            </div>
+            <div className='col-span-12'>
+              <FeaturedProject
+                title='Natura Vervae'
+                type='E-Commerce — Next.js 16, Stripe &amp; MongoDB'
+                img={naturaVervae}
+                link='https://natura-vervae.vercel.app'
+                github='https://github.com/GeroWalther/Natura-Vervae'
+                summary='A full storefront for a biological longevity supplement brand, built on Next.js 16 with the App Router and React 19. Stripe Checkout handles multi-item orders with EU and international shipping, MongoDB and Mongoose back the orders, blog and newsletter, and Resend sends the transactional order-confirmation and shipping mail. Styled with Tailwind CSS v4 on shadcn-style primitives.'
+              />
             </div>
             <div className='col-span-12'>
               <FeaturedProject
