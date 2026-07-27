@@ -34,6 +34,7 @@ import pourbeauty from '../../public/images/projects/porbeauty.png';
 import dungeon from '../../public/images/projects/dungeon.png';
 import aiBox from '../../public/images/projects/ai-box-card.png';
 import naturaVervae from '../../public/images/projects/natura-vervae.jpg';
+import skribble from '../../public/images/projects/skribble-card.png';
 
 import { motion } from 'framer-motion';
 
@@ -194,6 +195,17 @@ const projects = () => {
                 github='https://github.com/GeroWalther/ai-box'
                 cta='See how it works'
                 summary="A native macOS app that puts agentic chat, a writing studio, local image generation and a real terminal behind one window — then hands you the controls on your phone while the Mac does the work and keeps your API keys. Built with Tauri 2, Rust and React, signed and notarized, with conflict-free sync between devices. Free during public beta."
+              />
+            </div>
+            <div className='col-span-12'>
+              <FeaturedProject
+                title='Skribble'
+                type='macOS App — SwiftUI &amp; AppKit'
+                img={skribble}
+                link='/skribble'
+                github='https://github.com/GeroWalther/skribble'
+                cta='Download for macOS'
+                summary="A paint app in the spirit of the one everybody already knows — shapes, arrows, a fill bucket, text — with a second mode that turns the whole screen into the canvas, so you can circle the thing you are talking about instead of describing where it is. A palette slides in from the left edge, click-through keeps the apps underneath usable, and everything stays vector, so undo, resizing and PDF export never soften. Exports PNG, JPEG and true vector PDF. Free and open source."
               />
             </div>
             <div className='col-span-12'>
