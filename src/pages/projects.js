@@ -34,6 +34,7 @@ import pourbeauty from '../../public/images/projects/porbeauty.png';
 import dungeon from '../../public/images/projects/dungeon.png';
 import aiBox from '../../public/images/projects/ai-box-card.png';
 import naturaVervae from '../../public/images/projects/natura-vervae.jpg';
+import gridly from '../../public/images/projects/gridly.png';
 import skribble from '../../public/images/projects/skribble-card.png';
 
 import { motion } from 'framer-motion';
@@ -206,6 +207,17 @@ const projects = () => {
                 github='https://github.com/GeroWalther/skribble'
                 cta='Download for macOS'
                 summary="A paint app in the spirit of the one everybody already knows — shapes, arrows, a fill bucket, text — with a second mode that turns the whole screen into the canvas, so you can circle the thing you are talking about instead of describing where it is. A palette slides in from the left edge, click-through keeps the apps underneath usable, and everything stays vector, so undo, resizing and PDF export never soften. Exports PNG, JPEG and true vector PDF. Free and open source."
+              />
+            </div>
+            <div className='col-span-12'>
+              <FeaturedProject
+                title='Gridly'
+                type='macOS App — Electron &amp; Canvas'
+                img={gridly}
+                link='/gridly'
+                github='https://github.com/GeroWalther/gridly'
+                cta='Download for macOS'
+                summary="A Mac spreadsheet that opens the .xlsx someone actually sent you — fonts, fills, borders, number formats, merged cells and frozen panes all still where Excel left them — then writes it back out as a real Excel file. Formulas calculate rather than sit there, the grid paints to a canvas so large sheets stay fast, and dark mode leaves the workbook's own colours alone instead of repainting somebody else's formatting. No account, no upload, no subscription. Free and open source."
               />
             </div>
             <div className='col-span-12'>
