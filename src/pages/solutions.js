@@ -1,159 +1,415 @@
-import React from 'react';
-import Head from 'next/head';
-import AnimatedTxt from '@/components/AnimatedTxt';
-import Layout from '@/components/Layout';
-import Image from 'next/image';
-import Link from 'next/link';
-import blog from '../../public/images/projects/blog.png';
-import omnifood from '../../public/images/projects/Omnifood.png';
-import RNAPP from '../../public/images/projects/rnapp.png';
-import shop from '../../public/images/projects/nike.png';
-import rn from '../../public/images/projects/twitterExpoRouter.jpeg';
-import node from '../../public/images/projects/node.png';
-import devObs from '../../public/images/projects/mernDocker.webp';
-import openAI from '../../public/images/projects/openAI.webp';
-import AWS from '../../public/images/projects/AWSlogo.webp';
-import realtimeAI from '../../public/images/projects/realtime-ai.png';
-import { motion } from 'framer-motion';
+import React from "react";
+import Head from "next/head";
+import AnimatedTxt from "@/components/AnimatedTxt";
+import Layout from "@/components/Layout";
+import Image from "next/image";
+import Link from "next/link";
+import omnifood from "../../public/images/projects/Omnifood.png";
+import shop from "../../public/images/projects/nike.png";
+import rn from "../../public/images/projects/twitterExpoRouter.jpeg";
+import node from "../../public/images/projects/node.png";
+import devObs from "../../public/images/projects/mernDocker.webp";
+import openAI from "../../public/images/projects/openAI.webp";
+import AWS from "../../public/images/projects/AWSlogo.webp";
+import realtimeAI from "../../public/images/projects/realtime-ai.png";
+import nativeApps from "../../public/images/projects/native-apps.png";
+import { motion } from "framer-motion";
 
 const FramerImage = motion(Image);
+const CONTACT = "mailto:office@gw-intech.com";
 
-// `href` and `cta` are optional: the default is an email enquiry, which is right
-// for a service. A shipped product overrides them to link at its own page.
-const Solution = ({ img, title, summary, className, href, cta }) => {
-  const target = href || 'mailto:office@gw-intech.com';
-  return (
-    <li className={`${className}`}>
+/** The technologies a card is actually built on — concrete beats adjectives. */
+const Stack = ({ items }) => (
+  <ul className="mt-4 flex flex-wrap gap-2">
+    {items.map((t) => (
+      <li
+        key={t}
+        className="rounded-md border border-solid border-dark/15 bg-light px-2.5 py-1 text-xs font-semibold text-dark/70"
+      >
+        {t}
+      </li>
+    ))}
+  </ul>
+);
+
+const Solution = ({ img, title, summary, stack, className = "" }) => (
+  <motion.li
+    initial={{ opacity: 0, y: 24 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true, margin: "-80px" }}
+    transition={{ duration: 0.45 }}
+    className={`group flex flex-col overflow-hidden rounded-2xl border border-solid border-dark/15 bg-white shadow-lg transition-shadow hover:shadow-2xl ${className}`}
+  >
+    <div className="overflow-hidden border-b border-solid border-dark/10">
+      <FramerImage
+        src={img}
+        alt={title}
+        className="h-56 w-full object-cover sm:h-44"
+        whileHover={{ scale: 1.04 }}
+        transition={{ duration: 0.5 }}
+        sizes="(max-width:768px) 100vw, (max-width:1200px) 50vw, 33vw"
+      />
+    </div>
+
+    <div className="flex flex-1 flex-col p-7 md:p-5">
+      <h3 className="text-xl font-bold leading-snug text-dark md:text-lg">
+        {title}
+      </h3>
+      <p className="mt-3 flex-1 text-sm font-medium leading-relaxed text-dark/75">
+        {summary}
+      </p>
+      {stack && <Stack items={stack} />}
       <Link
-        href={target}
-        className='w-full inline-block cursor-pointer overflow-hidden rounded-lg'>
-        <FramerImage
-          src={img}
-          alt={title}
-          className='w-full h-auto'
-          whileHover={{ scale: 1.05 }}
-          transition={{ duration: 0.5 }}
-          priority
-          sizes='(max-width:768px) 100vw, (max-width:1200px) 50vw, 33vw'
-        />
+        href={CONTACT}
+        className="mt-6 inline-flex items-center gap-2 text-sm font-bold text-primary transition group-hover:gap-3"
+      >
+        Discuss your project
+        <span aria-hidden="true">&rarr;</span>
       </Link>
-      <Link href={target} className='flex flex-col'>
-        <h2 className='capitalize text-2xl font-bold my-6 hover:underline-offset-2 md:text-xl md:font-semibold'>
-          {title}
-        </h2>
-        <p className='text-sm mb-2'>{summary}</p>
-        <button className='bg-dark text-light  py-2 rounded-lg mt-3'>
-          {cta || 'Contact'}
-        </button>
-      </Link>
-    </li>
-  );
-};
+    </div>
+  </motion.li>
+);
 
-const solutions = () => {
+/** One row of the "how I work" list. */
+const Principle = ({ n, title, children }) => (
+  <li className="flex items-start gap-5">
+    <span className="mt-1 font-mono text-sm font-bold tracking-wider text-primaryDark">
+      {String(n).padStart(2, "0")}
+    </span>
+    <div>
+      <h3 className="text-lg font-bold text-light md:text-base">{title}</h3>
+      <p className="mt-1 text-base font-medium text-light/70 md:text-sm">
+        {children}
+      </p>
+    </div>
+  </li>
+);
+
+const StackGroup = ({ title, items }) => (
+  <div>
+    <h3 className="font-mono text-xs font-bold uppercase tracking-[0.15em] text-dark/50">
+      {title}
+    </h3>
+    <ul className="mt-3 flex flex-wrap gap-2">
+      {items.map((t) => (
+        <li
+          key={t}
+          className="rounded-lg border border-solid border-dark/15 bg-white px-3 py-1.5 text-sm font-semibold text-dark/80 shadow-sm"
+        >
+          {t}
+        </li>
+      ))}
+    </ul>
+  </div>
+);
+
+const Solutions = () => {
   return (
     <>
       <Head>
-        <title>My Projects - GW-InTech</title>
+        <title>Solutions — What I build | GW-InTech</title>
         <meta
-          name='description'
-          content='GW-InTech Official Website - Solutions GW-InTech, have a look at a couple of my example solutions I provide for my clients. You can take these as an inspiration to get an idea of my work.'
+          name="description"
+          content="Full-stack web, mobile, desktop and AI engineering: realtime voice and vision assistants, AI features and automation, SaaS platforms, native apps, type-safe backends, e-commerce and cloud infrastructure. Built with React, Next.js, React Native, Swift, Rust, Node.js and AWS."
         />
       </Head>
-      <main className='w-full flex flex-col items-center justify-center overflow-hidden pb-10'>
-        <Layout className='pt-16'>
-          <AnimatedTxt
-            text='Solutions which make a difference'
-            className='mb-16 lg:text-4xl md:text-3xl sm:mb-10 md:mt-10'
-          />
-          <h2 className='mb-3 text-lg font-bold uppercase text-dark/75 '>
-            Solutions
-          </h2>
-          <p className='font-medium'>
-            In today`s digital landscape, a strong online presence is essential
-            for businesses to thrive. As a web, mobile and full stack developer,
-            I offer comprehensive services tailored to help businesses establish
-            and enhance their online presence. By leveraging my expertise in
-            modern development technologies, I provide customized solutions
-            across diverse fields, including AI-powered applications, scalable
-            SaaS platforms, DevOps and cloud infrastructure, custom backend
-            systems, React Native cross-platform mobile apps, online shops, blog
-            websites, and messenger/social media platforms as well as custom
-            solutions tailored to your unique requirements.
-          </p>
-          <ul className='grid grid-cols-2 gap-16 mt-10 gap-y-24 md:grid-cols-1'>
-            <Solution
-              img={realtimeAI}
-              title='Realtime AI: Voice Assistants and Live Camera Vision'
-              summary='AI that answers in the moment — and can see what your user is looking at. I build realtime voice assistants that hold a spoken conversation with sub-second latency, live camera experiences where the model watches the feed and guides the user step by step, and AI agents that resolve support conversations around the clock in any language. On-device with Apple Intelligence when privacy or offline use matters, streaming cloud models when capability matters, and a considered split between the two when cost matters. Shipped in Yomeru (live camera translation and conversation on iPhone), EyeGuide AI / Fixly (point your camera at a repair and be talked through it), and BlueberryChat AI (support automation that cuts first-response times to seconds).'
+
+      <main className="flex w-full flex-col items-center justify-center overflow-hidden pb-10">
+        <Layout className="pt-16">
+          <div className="mx-auto w-full max-w-6xl">
+            <AnimatedTxt
+              text="Solutions which make a difference"
+              className="mb-16 lg:text-4xl md:text-3xl sm:mb-10 md:mt-10"
             />
 
-            <Solution
-              className='self-end'
-              img={rn}
-              title='React Native: Cross-Platform Mobile App Development'
-              summary='For businesses seeking to reach a wider audience across iOS and Android devices, React Native provides an efficient cross-platform mobile app development solution. By leveraging the power of React Native, I build native-like mobile apps with a single codebase, reducing development time and costs. The resulting apps offer exceptional performance, a native user interface, and access to device-specific features, all while ensuring a consistent user experience across platforms.'
-              link='/'
-            />
+            {/* ---------------- positioning ---------------- */}
+            <section className="mx-auto w-full max-w-4xl">
+              <h2 className="mb-4 font-mono text-xs font-bold uppercase tracking-[0.15em] text-primary">
+                What I do
+              </h2>
+              <p className="text-lg font-medium leading-relaxed text-dark md:text-base">
+                I design and build complete products — the interface people
+                touch, the API behind it, and the infrastructure it runs on. You
+                brief one person rather than three agencies, and the decisions
+                stay joined up from the database to the last pixel.
+              </p>
+              <p className="mt-4 text-base font-medium leading-relaxed text-dark/75 md:text-sm">
+                Much of my recent work sits where AI meets a real product: voice
+                assistants that answer in under a second, apps that watch a live
+                camera feed and talk a user through what they&apos;re doing, and
+                automation that quietly removes work nobody wanted to do anyway.
+                The rest is the craft that makes any of it worth shipping —
+                type-safe code, architecture that survives its second year, and
+                deployments that don&apos;t wake you up at night.
+              </p>
+            </section>
 
-            <Solution
-              img={openAI}
-              title='AI implementations in WEB and MOBILE applications'
-              summary='Harness the power of artificial intelligence to transform your digital products. I integrate cutting-edge AI technologies including OpenAI GPT models, machine learning APIs, and intelligent automation into web and mobile applications. From chatbots and natural language processing to predictive analytics and computer vision, I deliver AI-powered features that enhance user experience, automate workflows, and provide intelligent insights that give your business a competitive edge.'
-              link='/'
-            />
-            <Solution
-              img={devObs}
-              title='Full Stack SAAS Applications'
-              summary='Transform your business idea into a scalable Software as a Service platform. I architect and develop complete SaaS solutions from the ground up, including multi-tenant architectures, subscription management, role-based access control, and seamless third-party integrations. Utilizing modern tech stacks with React, Next.js, Node.js, Docker, CI/CD pipeline automation, AWS EC2, RDS and S3 or MONGODB cloud databases, I build robust, revenue-generating platforms that scale with your business growth and deliver exceptional value to your customers.'
-              link='/'
-            />
-            <Solution
-              img={AWS}
-              title='DevOps, AWS and Cloud Engineering'
-              summary='Ensure your applications run reliably and efficiently with professional DevOps and cloud infrastructure solutions. I specialize in AWS cloud architecture, containerization with Docker, CI/CD pipeline automation, and infrastructure as code. From setting up scalable microservices to implementing monitoring, logging, and automated deployments, I help businesses achieve faster release cycles, improved system reliability, and optimized cloud costs while maintaining enterprise-grade security standards.'
-              link='/'
-            />
-            <Solution
-              className='self-end'
-              img={node}
-              title='Powerful Custom Backend: Secure, Scalable, and Type-Safe Solutions'
-              summary='As a custom backend developer specializing in Node.js, Express, GraphQL, Prisma, tRPC, and TypeScript, I provide secure, scalable, and type-safe solutions. With these technologies, I build high-performance backend systems that ensure data integrity, handle heavy traffic loads, and seamlessly integrate with various databases like MongoDB, PlanetScale, and AWS.'
-              link='/'
-            />
+            {/* ---------------- capabilities ---------------- */}
+            <section className="mt-20 w-full md:mt-14">
+              <h2 className="mb-3 font-mono text-xs font-bold uppercase tracking-[0.15em] text-primary">
+                Capabilities
+              </h2>
+              <p className="mb-10 max-w-3xl text-base font-medium text-dark/75 md:text-sm">
+                Every one of these is something I have built and put into
+                production — not a service page written in the hope someone
+                asks.
+              </p>
 
-            <Solution
-              img={RNAPP}
-              title='Messenger/Social Media Web Platform: Facilitating Communication and Connection'
-              summary='In the age of social media, effective communication and connection are vital for businesses. By developing a messenger or social media web platform, I enable businesses to connect with their audience in real-time, foster engagement, and build strong relationships. With interactive chat features, social sharing capabilities, and personalized user experiences, businesses can strengthen their brand presence and cultivate a loyal community.'
-              link='/'
-            />
+              <ul className="grid grid-cols-3 gap-8 lg:grid-cols-2 md:grid-cols-1">
+                <Solution
+                  img={realtimeAI}
+                  title="Realtime AI: voice assistants & live camera vision"
+                  summary="AI that answers in the moment and can see what your user sees. Spoken conversation with sub-second latency, live camera understanding that guides someone through a task step by step, and assistants that handle conversations around the clock in any language. On-device when privacy or offline use matters; streaming cloud models when raw capability matters."
+                  stack={[
+                    "Realtime voice APIs",
+                    "Apple Intelligence",
+                    "Vision models",
+                    "Streaming speech",
+                    "WebSockets",
+                  ]}
+                />
+                <Solution
+                  img={openAI}
+                  title="AI features & automation inside your product"
+                  summary="The useful, unglamorous half of AI: retrieval over your own documents so answers cite real sources, structured extraction that turns messy input into clean records, classification and routing, and agents that take actions behind an approval gate. Built against cost and latency budgets, because a feature nobody can afford to run is not a feature."
+                  stack={[
+                    "OpenAI",
+                    "Anthropic",
+                    "RAG & vector search",
+                    "Tool calling",
+                    "Local models",
+                  ]}
+                />
+                <Solution
+                  img={nativeApps}
+                  title="Native apps for iPhone, Mac and Android"
+                  summary="Real native apps, not a website in a shell. SwiftUI where the platform matters, React Native and Expo where one codebase should serve both stores, and Tauri with a Rust core for desktop software that installs in megabytes instead of hundreds of them. Signed, notarized and shipped, with auto-updates that cryptographically verify what they install."
+                  stack={[
+                    "Swift / SwiftUI",
+                    "React Native",
+                    "Expo",
+                    "Tauri + Rust",
+                    "StoreKit",
+                  ]}
+                />
+                <Solution
+                  img={devObs}
+                  title="Full-stack SaaS platforms"
+                  summary="Your idea as a product that can actually take money: multi-tenant data, roles and permissions, subscription billing, onboarding, admin tooling, and the analytics to see what is happening. Architected so the second year of growth does not require a rewrite."
+                  stack={[
+                    "Next.js",
+                    "React",
+                    "Node.js",
+                    "Stripe",
+                    "Docker",
+                    "PostgreSQL",
+                  ]}
+                />
+                <Solution
+                  img={node}
+                  title="Type-safe backends & APIs"
+                  summary="The part clients never see and always feel. End-to-end type safety from database to client, so a schema change breaks the build instead of production. Designed for real traffic, with sensible caching, honest error handling, and integrations that degrade gracefully when a third party has a bad day."
+                  stack={[
+                    "TypeScript",
+                    "Node.js",
+                    "tRPC",
+                    "GraphQL",
+                    "Prisma",
+                    "MongoDB",
+                  ]}
+                />
+                <Solution
+                  img={shop}
+                  title="E-commerce & payments"
+                  summary="Storefronts that load fast and check out cleanly, with payment flows that hold up in the real world — multi-item baskets, EU and international shipping and tax, transactional email, refunds, and an admin view of orders and customers. Built to convert on a phone, because that is where the traffic is."
+                  stack={[
+                    "Next.js",
+                    "Stripe",
+                    "MongoDB",
+                    "Resend",
+                    "Tailwind CSS",
+                  ]}
+                />
+                <Solution
+                  img={AWS}
+                  title="Cloud, DevOps & deployment"
+                  summary="Infrastructure that stays boring. Containerized services, CI/CD that deploys on merge, monitoring and logging that tell you what happened before a customer does, and infrastructure as code so environments are reproducible rather than remembered. Costs reviewed, not assumed."
+                  stack={[
+                    "AWS (EC2, RDS, S3)",
+                    "Docker",
+                    "CI/CD",
+                    "Vercel",
+                    "Infrastructure as code",
+                  ]}
+                />
+                <Solution
+                  img={rn}
+                  title="Realtime & collaborative platforms"
+                  summary='Chat, live feeds, presence and notifications — anything where "refresh the page" is the wrong answer. Websocket-backed features that survive flaky mobile connections, reconnect cleanly, and keep state consistent across every device a person owns.'
+                  stack={[
+                    "WebSockets",
+                    "Server-sent events",
+                    "React Query",
+                    "Zustand",
+                    "Push notifications",
+                  ]}
+                />
+                <Solution
+                  img={omnifood}
+                  title="Custom software, shaped to your workflow"
+                  summary="The internal tool, the awkward integration, the process nobody sells software for. I start from how your business actually works, then build the smallest thing that removes the friction — clean, documented, and yours to keep."
+                  stack={[
+                    "Discovery",
+                    "Architecture",
+                    "Documentation",
+                    "Clean handover",
+                  ]}
+                />
+              </ul>
+            </section>
 
-            <Solution
-              className='self-end'
-              img={shop}
-              title='Online Shop Development: Reaching a Global Audience'
-              summary='An online shop is a powerful tool for businesses looking to expand their reach and tap into the global market. By developing a user-friendly and visually appealing online shop, I enable businesses to showcase their products or services to a wider audience. With seamless e-commerce functionalities, secure payment gateways, and intuitive navigation, I help businesses drive conversions and increase sales.'
-              link='/'
-            />
-            <Solution
-              img={blog}
-              title='Blog Website: Expertise for Driving Engagement'
-              summary="In today's digital age, a blog website serves as a powerful platform for businesses and individuals to share their knowledge, insights, and expertise with the world. As a web developer, I specialize in creating captivating and feature-rich blog websites that enable businesses to establish themselves as thought leaders in their industry."
-              link='/'
-            />
+            {/* ---------------- the toolkit ---------------- */}
+            <section className="mt-24 w-full md:mt-16">
+              <h2 className="mb-3 font-mono text-xs font-bold uppercase tracking-[0.15em] text-primary">
+                The toolkit
+              </h2>
+              <p className="mb-10 max-w-3xl text-base font-medium text-dark/75 md:text-sm">
+                Chosen per project rather than by habit — but this is what I
+                reach for, and what I can still support long after launch.
+              </p>
+              <div className="grid grid-cols-2 gap-10 md:grid-cols-1">
+                <StackGroup
+                  title="Frontend"
+                  items={[
+                    "React",
+                    "Next.js",
+                    "TypeScript",
+                    "Tailwind CSS",
+                    "Framer Motion",
+                    "Three.js / R3F",
+                    "shadcn/ui",
+                  ]}
+                />
+                <StackGroup
+                  title="Mobile & desktop"
+                  items={[
+                    "Swift / SwiftUI",
+                    "React Native",
+                    "Expo",
+                    "Tauri",
+                    "Rust",
+                    "SwiftData",
+                  ]}
+                />
+                <StackGroup
+                  title="Backend & data"
+                  items={[
+                    "Node.js",
+                    "Express",
+                    "tRPC",
+                    "GraphQL",
+                    "Prisma",
+                    "Drizzle",
+                    "MongoDB",
+                    "PostgreSQL",
+                    "Supabase",
+                    "Zod",
+                  ]}
+                />
+                <StackGroup
+                  title="AI"
+                  items={[
+                    "OpenAI",
+                    "Anthropic",
+                    "OpenRouter",
+                    "Apple Intelligence",
+                    "Local models (Ollama)",
+                    "RAG & vector search",
+                    "Stable Diffusion",
+                  ]}
+                />
+                <StackGroup
+                  title="Infrastructure"
+                  items={[
+                    "AWS",
+                    "Docker",
+                    "CI/CD",
+                    "Vercel",
+                    "Firebase",
+                    "Monitoring & logging",
+                  ]}
+                />
+                <StackGroup
+                  title="Product plumbing"
+                  items={[
+                    "Stripe",
+                    "Clerk",
+                    "NextAuth",
+                    "Resend",
+                    "React Query",
+                    "Zustand",
+                    "Recharts",
+                  ]}
+                />
+              </div>
+            </section>
 
-            <Solution
-              img={omnifood}
-              title='Custom Solutions: Tailored to Your Unique Requirements'
-              summary='One of the key benefits of working with a professional web developer is the ability to receive custom solutions tailored to your unique requirements. Whether you need specific functionalities integrated, complex workflows implemented, or specialized features developed, I can deliver a custom solution that aligns perfectly with your business goals. With clean and scalable code, adherence to industry standards, and a focus on security and performance optimization, I ensure that your custom solution is robust, efficient, and future-proof.'
-              link='/'
-            />
-          </ul>
+            {/* ---------------- how I work ---------------- */}
+            <section className="mt-24 w-full rounded-3xl bg-dark p-12 md:mt-16 md:p-8">
+              <h2 className="text-3xl font-bold text-light md:text-2xl">
+                What working together looks like
+              </h2>
+              <ul className="mt-8 flex flex-col gap-7">
+                <Principle n={1} title="We agree what success means first">
+                  Before any code, we settle what the thing has to do and how
+                  we&apos;ll know it worked. Most project failures are decided
+                  in that conversation, not in the build.
+                </Principle>
+                <Principle n={2} title="You see it running early, and often">
+                  Working software beats status reports. You get something you
+                  can click within the first weeks, and it stays deployable from
+                  then on — so feedback arrives while changing course is still
+                  cheap.
+                </Principle>
+                <Principle n={3} title="I tell you when I disagree">
+                  If a request will cost more than it returns, or a shortcut
+                  will hurt in six months, you hear it plainly — and then we do
+                  what you decide. You are paying for judgement, not agreement.
+                </Principle>
+                <Principle n={4} title="You own everything at the end">
+                  Your code, your repositories, your cloud accounts, documented
+                  well enough that another developer could pick it up tomorrow.
+                  No lock-in — and I&apos;m still here when you want the next
+                  phase.
+                </Principle>
+              </ul>
+            </section>
+
+            {/* ---------------- CTA ---------------- */}
+            <section className="mt-20 flex w-full flex-col items-center text-center md:mt-14">
+              <h2 className="max-w-2xl text-3xl font-bold text-dark md:text-2xl">
+                Have something in mind?
+              </h2>
+              <p className="mt-4 max-w-xl text-base font-medium text-dark/70 md:text-sm">
+                Tell me what you&apos;re trying to build — or what is currently
+                getting in the way. I&apos;ll tell you honestly whether I&apos;m
+                the right person for it, and what it would realistically take.
+              </p>
+              <Link
+                href={CONTACT}
+                className="mt-8 rounded-lg bg-dark px-8 py-4 text-lg font-semibold text-light shadow-lg transition hover:bg-primary md:text-base"
+              >
+                Start a conversation
+              </Link>
+              <p className="mt-4 text-sm font-medium text-dark/50">
+                office@gw-intech.com · usually a reply within a day
+              </p>
+            </section>
+          </div>
         </Layout>
       </main>
     </>
   );
 };
 
-export default solutions;
+export default Solutions;
