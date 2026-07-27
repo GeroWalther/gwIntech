@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import Layout from '@/components/Layout';
-import AnimatedTxt from '@/components/AnimatedTxt';
 import { motion } from 'framer-motion';
 
 // Falls back to the releases page; replaced at runtime with the exact .dmg URL
@@ -14,19 +13,34 @@ const ISSUES_URL = 'https://github.com/GeroWalther/ai-box/issues/new';
 const FEEDBACK_MAIL =
   'mailto:office@gw-intech.com?subject=AI%20Box%20beta%20feedback';
 
+// This page runs dark while the rest of the site is light, because it is a
+// product page for an app people will meet in dark mode. Colours are the app's
+// own dark theme pushed toward blue, written as literals rather than site
+// tokens so nothing here can drift when the site palette changes.
+const NAVY = '#0b1120'; // page ground
+const PANEL = '#131c30'; // cards
+const LINE = '#24304a'; // hairlines
+const TEXT = '#e8ecf5';
+const MUTED = '#93a0b8';
+const ACCENT = '#8b9cff'; // legible blue on navy
+
 const Card = ({ title, children, accent = false }) => (
   <motion.div
     initial={{ opacity: 0, y: 20 }}
     whileInView={{ opacity: 1, y: 0 }}
     viewport={{ once: true, margin: '-60px' }}
     transition={{ duration: 0.4 }}
-    className={`rounded-2xl border border-solid p-6 shadow-lg ${
-      accent
-        ? 'border-primary bg-primary/5'
-        : 'border-dark/15 bg-white'
-    }`}>
-    <h3 className='text-xl font-bold text-dark md:text-lg'>{title}</h3>
-    <div className='mt-2 text-base font-medium text-dark/75 md:text-sm'>
+    className='rounded-2xl border border-solid p-6'
+    style={{
+      background: accent ? 'rgba(139,156,255,0.09)' : PANEL,
+      borderColor: accent ? ACCENT : LINE,
+    }}>
+    <h3 className='text-xl font-bold md:text-lg' style={{ color: TEXT }}>
+      {title}
+    </h3>
+    <div
+      className='mt-2 text-base font-medium md:text-sm'
+      style={{ color: MUTED }}>
       {children}
     </div>
   </motion.div>
@@ -34,8 +48,11 @@ const Card = ({ title, children, accent = false }) => (
 
 const Point = ({ children }) => (
   <li className='flex items-start gap-3'>
-    <span className='mt-2 h-2 w-2 flex-none rounded-full bg-primaryDark' />
-    <span className='text-base font-medium text-light/85 md:text-sm'>
+    <span
+      className='mt-2 h-2 w-2 flex-none rounded-sm'
+      style={{ background: ACCENT }}
+    />
+    <span className='text-base font-medium md:text-sm' style={{ color: MUTED }}>
       {children}
     </span>
   </li>
@@ -43,13 +60,19 @@ const Point = ({ children }) => (
 
 /** A genuine sequence, so the numbering carries information. */
 const Step = ({ n, title, children }) => (
-  <li className='flex items-start gap-5 border-b border-solid border-dark/10 pb-6 last:border-none last:pb-0'>
-    <span className='mt-1 font-mono text-sm font-semibold tracking-wider text-primary'>
+  <li
+    className='flex items-start gap-5 border-b border-solid pb-6 last:border-none last:pb-0'
+    style={{ borderColor: LINE }}>
+    <span
+      className='mt-1 font-mono text-sm font-semibold tracking-wider'
+      style={{ color: ACCENT }}>
       {String(n).padStart(2, '0')}
     </span>
     <div>
-      <h3 className='text-lg font-bold text-dark md:text-base'>{title}</h3>
-      <p className='mt-1 text-base font-medium text-dark/75 md:text-sm'>
+      <h3 className='text-lg font-bold md:text-base' style={{ color: TEXT }}>
+        {title}
+      </h3>
+      <p className='mt-1 text-base font-medium md:text-sm' style={{ color: MUTED }}>
         {children}
       </p>
     </div>
@@ -57,16 +80,25 @@ const Step = ({ n, title, children }) => (
 );
 
 const SpecRow = ({ label, children }) => (
-  <tr className='border-b border-solid border-dark/10 last:border-none'>
+  <tr className='border-b border-solid last:border-none' style={{ borderColor: LINE }}>
     <th
       scope='row'
-      className='w-48 py-3 pr-6 text-left align-top font-mono text-xs font-medium uppercase tracking-widest text-dark/50 md:w-32'>
+      className='w-48 py-3 pr-6 text-left align-top font-mono text-xs font-medium uppercase tracking-widest md:w-32'
+      style={{ color: MUTED }}>
       {label}
     </th>
-    <td className='py-3 text-base font-medium text-dark/80 md:text-sm'>
+    <td className='py-3 text-base font-medium md:text-sm' style={{ color: TEXT }}>
       {children}
     </td>
   </tr>
+);
+
+const Mono = ({ children }) => (
+  <code
+    className='rounded px-1.5 py-0.5 font-mono text-[0.87em]'
+    style={{ background: 'rgba(139,156,255,0.14)', color: TEXT }}>
+    {children}
+  </code>
 );
 
 export default function AIBox() {
@@ -96,35 +128,58 @@ export default function AIBox() {
 
   const downloadHref = release?.url || RELEASES_URL;
 
+  const primaryBtn =
+    'rounded-lg px-8 py-4 text-lg font-semibold shadow-lg transition hover:brightness-110 md:text-base';
+  const ghostBtn =
+    'rounded-lg border border-solid px-8 py-4 text-lg font-semibold transition md:text-base';
+
   return (
     <>
       <Head>
-        <title>AI Box — Your Mac&apos;s AI workstation, from your phone | GW-InTech</title>
+        <title>
+          AI Box — Your Mac&apos;s AI workstation, from your phone | GW-InTech
+        </title>
         <meta
           name='description'
           content="AI Box turns your Mac into an AI workstation — agentic chat, a writing studio, local image generation and a real terminal — and lets you drive all of it from your phone. Free macOS beta, signed and notarized."
         />
-        <meta property='og:title' content="AI Box — Your Mac's AI workstation, from your phone" />
+        <meta name='theme-color' content={NAVY} />
+        <meta
+          property='og:title'
+          content="AI Box — Your Mac's AI workstation, from your phone"
+        />
         <meta
           property='og:description'
           content='Agentic chat, writing, local image generation and a real terminal on your Mac — controlled from your phone. Your keys never leave the machine. Free macOS beta.'
         />
       </Head>
 
-      <main className='flex w-full flex-col items-center text-dark'>
-        <Layout className='pt-16'>
+      <main className='flex w-full flex-col items-center' style={{ background: NAVY }}>
+        {/* !bg-transparent: Layout hard-codes bg-light, and two competing
+            background utilities resolve by stylesheet order, not by the order
+            they are written here. The important modifier removes the doubt. */}
+        <Layout className='pt-16 !bg-transparent'>
           {/* ---------------- hero ---------------- */}
           <section className='flex w-full flex-col items-center pb-16 text-center md:pb-10'>
-            <span className='mb-6 rounded-full border border-solid border-primary/30 bg-primary/5 px-4 py-1.5 text-sm font-semibold uppercase tracking-wide text-primary'>
+            <span
+              className='mb-6 rounded-full border border-solid px-4 py-1.5 text-sm font-semibold uppercase tracking-wide'
+              style={{
+                borderColor: 'rgba(139,156,255,0.35)',
+                background: 'rgba(139,156,255,0.08)',
+                color: ACCENT,
+              }}>
               macOS app · public beta · free
             </span>
 
-            <AnimatedTxt
-              text="Your Mac does the work. You just aren't there."
-              className='!text-6xl xl:!text-5xl lg:!text-4xl md:!text-3xl max-w-4xl'
-            />
+            <h1
+              className='max-w-4xl font-mono text-6xl font-semibold leading-tight tracking-tight xl:text-5xl lg:text-4xl md:text-3xl'
+              style={{ color: TEXT, textWrap: 'balance' }}>
+              Your Mac does the work. You just aren&apos;t there.
+            </h1>
 
-            <p className='mt-6 max-w-2xl text-lg font-medium text-dark/75 md:text-base'>
+            <p
+              className='mt-6 max-w-2xl text-lg font-medium md:text-base'
+              style={{ color: MUTED }}>
               AI Box turns the Mac on your desk into an AI workstation — agentic
               chat, a writing studio, image generation and a real terminal — then
               hands you the controls on your phone. The machine does the work.
@@ -135,18 +190,20 @@ export default function AIBox() {
               <Link
                 href={downloadHref}
                 target='_blank'
-                className='rounded-lg bg-dark px-8 py-4 text-lg font-semibold text-light shadow-lg transition hover:bg-primary md:text-base'>
+                className={primaryBtn}
+                style={{ background: ACCENT, color: NAVY }}>
                 Download for macOS
               </Link>
               <Link
                 href={REPO_URL}
                 target='_blank'
-                className='text-lg font-medium text-dark underline underline-offset-8 md:text-base'>
+                className={ghostBtn}
+                style={{ borderColor: LINE, color: TEXT }}>
                 Read the source
               </Link>
             </div>
 
-            <p className='mt-5 text-sm font-medium text-dark/55'>
+            <p className='mt-5 font-mono text-sm font-medium' style={{ color: MUTED }}>
               {release?.version ? `${release.version} · ` : ''}
               {release?.downloads > 0
                 ? `${release.downloads.toLocaleString()} downloads · `
@@ -155,22 +212,30 @@ export default function AIBox() {
               macOS 10.15+
             </p>
 
-            <p className='mt-8 max-w-2xl rounded-r-lg border-l-2 border-solid border-primary bg-primary/5 px-5 py-4 text-left text-base font-medium text-dark/75 md:text-sm'>
-              <b className='text-dark'>This is a public beta.</b> It&apos;s stable
-              enough that I use it for my own work every day, and free while
-              it&apos;s in testing. What I want back is what broke, what confused
-              you, and what you wish it did —{' '}
+            <p
+              className='mt-8 max-w-2xl rounded-r-lg border-l-2 border-solid px-5 py-4 text-left text-base font-medium md:text-sm'
+              style={{
+                borderColor: ACCENT,
+                background: 'rgba(139,156,255,0.07)',
+                color: MUTED,
+              }}>
+              <b style={{ color: TEXT }}>This is a public beta.</b> It&apos;s
+              stable enough that I use it for my own work every day, and free
+              while it&apos;s in testing. What I want back is what broke, what
+              confused you, and what you wish it did —{' '}
               <a
                 href={ISSUES_URL}
                 target='_blank'
                 rel='noopener noreferrer'
-                className='text-primary underline underline-offset-4'>
+                className='underline underline-offset-4'
+                style={{ color: ACCENT }}>
                 open an issue
               </a>{' '}
               or{' '}
               <a
                 href={FEEDBACK_MAIL}
-                className='text-primary underline underline-offset-4'>
+                className='underline underline-offset-4'
+                style={{ color: ACCENT }}>
                 email me
               </a>
               .
@@ -179,7 +244,9 @@ export default function AIBox() {
 
           {/* ---------------- the problem ---------------- */}
           <section className='w-full max-w-6xl pt-8'>
-            <h2 className='mb-3 text-center text-3xl font-bold text-dark md:text-2xl'>
+            <h2
+              className='mb-3 text-center font-mono text-3xl font-semibold md:text-2xl'
+              style={{ color: TEXT, textWrap: 'balance' }}>
               Powerful AI is either in someone else&apos;s cloud, or chained to
               your desk
             </h2>
@@ -197,15 +264,17 @@ export default function AIBox() {
               <Card title='AI Box does both' accent>
                 The Mac stays the source of truth and the only holder of secrets.
                 Your phone is a window onto it — same app, same documents, over
-                your own network. Nothing is hosted for you, because nothing needs
-                to be.
+                your own network. Nothing is hosted for you, because nothing
+                needs to be.
               </Card>
             </div>
           </section>
 
           {/* ---------------- what's inside ---------------- */}
           <section className='mt-24 w-full max-w-6xl md:mt-16'>
-            <h2 className='mb-10 text-center text-3xl font-bold text-dark md:text-2xl'>
+            <h2
+              className='mb-10 text-center font-mono text-3xl font-semibold md:text-2xl'
+              style={{ color: TEXT, textWrap: 'balance' }}>
               Four tools that already know about each other
             </h2>
             <div className='grid grid-cols-2 gap-6 lg:grid-cols-1'>
@@ -225,8 +294,8 @@ export default function AIBox() {
                 manuscript, with characters kept visually consistent.
               </Card>
               <Card title='A real terminal'>
-                An actual PTY, not a command box. <code>vim</code>,{' '}
-                <code>top</code>, <code>claude</code> — from the sofa, or from a
+                An actual PTY, not a command box. <Mono>vim</Mono>,{' '}
+                <Mono>top</Mono>, <Mono>claude</Mono> — from the sofa, or from a
                 train.
               </Card>
             </div>
@@ -234,12 +303,14 @@ export default function AIBox() {
 
           {/* ---------------- setup ---------------- */}
           <section className='mt-24 w-full max-w-4xl md:mt-16'>
-            <h2 className='mb-10 text-center text-3xl font-bold text-dark md:text-2xl'>
+            <h2
+              className='mb-10 text-center font-mono text-3xl font-semibold md:text-2xl'
+              style={{ color: TEXT, textWrap: 'balance' }}>
               Three steps, and one of them is optional
             </h2>
             <ul className='flex flex-col gap-6'>
               <Step n={1} title='Install it'>
-                Download the <code>.dmg</code> and drag it across. It&apos;s
+                Download the <Mono>.dmg</Mono> and drag it across. It&apos;s
                 signed and notarized by Apple, so it opens like any other app — no
                 right-click-to-open dance. It updates itself from then on.
               </Step>
@@ -258,10 +329,14 @@ export default function AIBox() {
 
           {/* ---------------- reaching your Mac / Tailscale ---------------- */}
           <section className='mt-24 w-full max-w-6xl md:mt-16'>
-            <h2 className='mb-3 text-center text-3xl font-bold text-dark md:text-2xl'>
+            <h2
+              className='mb-3 text-center font-mono text-3xl font-semibold md:text-2xl'
+              style={{ color: TEXT, textWrap: 'balance' }}>
               At home it just works. Away from home takes one more app.
             </h2>
-            <p className='mx-auto mb-10 max-w-2xl text-center text-base font-medium text-dark/70 md:text-sm'>
+            <p
+              className='mx-auto mb-10 max-w-2xl text-center text-base font-medium md:text-sm'
+              style={{ color: MUTED }}>
               AI Box never puts your Mac on the public internet, so how you reach
               it depends on where you are. Both routes carry the same pairing
               token, and neither opens a port to the world.
@@ -278,29 +353,35 @@ export default function AIBox() {
                   href='https://tailscale.com/download'
                   target='_blank'
                   rel='noopener noreferrer'
-                  className='text-primary underline underline-offset-4'>
+                  className='underline underline-offset-4'
+                  style={{ color: ACCENT }}>
                   Tailscale
                 </a>{' '}
                 on the Mac and on your phone, sign both into the same account, and
                 they join one private network of your own. Scan the QR code again
-                and the Mac is reachable from a train, an office, another country —
-                over an encrypted link between your two devices, with nothing
+                and the Mac is reachable from a train, an office, another country
+                — over an encrypted link between your two devices, with nothing
                 exposed publicly. Free for personal use.
               </Card>
               <Card title='Leave the Mac awake'>
-                A sleeping Mac answers nothing. Turn on <b>Away mode</b> before you
-                leave and AI Box holds the machine awake — display off, work
-                continuing — for as long as it&apos;s serving.
+                A sleeping Mac answers nothing. Turn on{' '}
+                <b style={{ color: TEXT }}>Away mode</b> before you leave and AI
+                Box holds the machine awake — display off, work continuing — for
+                as long as it&apos;s serving.
               </Card>
             </div>
           </section>
 
           {/* ---------------- how it's built ---------------- */}
           <section className='mt-24 w-full max-w-4xl md:mt-16'>
-            <h2 className='mb-3 text-3xl font-bold text-dark md:text-2xl'>
+            <h2
+              className='mb-3 font-mono text-3xl font-semibold md:text-2xl'
+              style={{ color: TEXT, textWrap: 'balance' }}>
               One codebase, two transports
             </h2>
-            <p className='mb-8 text-base font-medium text-dark/70 md:text-sm'>
+            <p
+              className='mb-8 text-base font-medium md:text-sm'
+              style={{ color: MUTED }}>
               Every capability is written once against a transport layer that
               resolves at runtime to either Tauri IPC or an HTTP + WebSocket
               connection. That is why the phone isn&apos;t a cut-down companion
@@ -340,43 +421,49 @@ export default function AIBox() {
           </section>
 
           {/* ---------------- guardrails ---------------- */}
-          <section className='mt-24 w-full max-w-4xl rounded-3xl bg-dark p-12 text-light md:mt-16 md:p-8'>
-            <h2 className='text-3xl font-bold md:text-2xl'>
+          <section
+            className='mt-24 w-full max-w-4xl rounded-3xl border border-solid p-12 md:mt-16 md:p-8'
+            style={{ background: PANEL, borderColor: LINE }}>
+            <h2
+              className='font-mono text-3xl font-semibold md:text-2xl'
+              style={{ color: TEXT, textWrap: 'balance' }}>
               An agent with real access needs real limits
             </h2>
             <ul className='mt-6 flex flex-col gap-4'>
               <Point>
-                <b>Your API key never leaves the Mac.</b> The phone gets a
-                placeholder so its interface knows a key exists; the Mac injects
-                the real one when the request goes out.
+                <b style={{ color: TEXT }}>Your API key never leaves the Mac.</b>{' '}
+                The phone gets a placeholder so its interface knows a key exists;
+                the Mac injects the real one when the request goes out.
               </Point>
               <Point>
-                <b>File access is jailed</b> to a workspace folder you choose,
-                with <code>..</code> traversal and symlink escapes rejected in
-                Rust, not in the interface.
+                <b style={{ color: TEXT }}>File access is jailed</b> to a
+                workspace folder you choose, with <Mono>..</Mono> traversal and
+                symlink escapes rejected in Rust, not in the interface.
               </Point>
               <Point>
-                <b>Credentials are off-limits, always.</b> <code>~/.ssh</code>,{' '}
-                <code>~/.aws</code>, keychains, shell startup files and
-                LaunchAgents are refused outright — and turning off approval
-                prompts does not turn this off.
+                <b style={{ color: TEXT }}>Credentials are off-limits, always.</b>{' '}
+                <Mono>~/.ssh</Mono>, <Mono>~/.aws</Mono>, keychains, shell startup
+                files and LaunchAgents are refused outright — and turning off
+                approval prompts does not turn this off.
               </Point>
               <Point>
-                <b>The Mac approves, not the phone.</b> A remote request to write
-                a file or run a command raises a prompt with a diff on the
-                desktop.
+                <b style={{ color: TEXT }}>The Mac approves, not the phone.</b> A
+                remote request to write a file or run a command raises a prompt
+                with a diff on the desktop.
               </Point>
               <Point>
-                <b>Your words stay yours.</b> Drafts are snapshotted to disk
-                continuously, restorable, and exportable to a folder you own. With
-                a local model, nothing leaves the machine at all.
+                <b style={{ color: TEXT }}>Your words stay yours.</b> Drafts are
+                snapshotted to disk continuously, restorable, and exportable to a
+                folder you own. With a local model, nothing leaves the machine at
+                all.
               </Point>
             </ul>
             <div className='mt-8'>
               <Link
                 href={downloadHref}
                 target='_blank'
-                className='inline-block rounded-lg bg-primaryDark px-8 py-4 text-lg font-semibold text-dark transition hover:brightness-110 md:text-base'>
+                className={primaryBtn}
+                style={{ background: ACCENT, color: NAVY }}>
                 Get the free beta
               </Link>
             </div>
@@ -384,10 +471,14 @@ export default function AIBox() {
 
           {/* ---------------- close ---------------- */}
           <section className='mt-20 flex w-full max-w-2xl flex-col items-center text-center md:mt-12'>
-            <h2 className='text-3xl font-bold text-dark md:text-2xl'>
+            <h2
+              className='font-mono text-3xl font-semibold md:text-2xl'
+              style={{ color: TEXT, textWrap: 'balance' }}>
               Take it for a run, then tell me what broke
             </h2>
-            <p className='mt-4 text-base font-medium text-dark/70 md:text-sm'>
+            <p
+              className='mt-4 text-base font-medium md:text-sm'
+              style={{ color: MUTED }}>
               AI Box is free during beta and never hosts your content or pays for
               inference — you choose the model and the account it bills to.
             </p>
@@ -395,19 +486,23 @@ export default function AIBox() {
               <Link
                 href={downloadHref}
                 target='_blank'
-                className='rounded-lg bg-dark px-8 py-4 text-lg font-semibold text-light shadow-lg transition hover:bg-primary md:text-base'>
+                className={primaryBtn}
+                style={{ background: ACCENT, color: NAVY }}>
                 Download for macOS
               </Link>
               <Link
                 href={ISSUES_URL}
                 target='_blank'
-                className='text-lg font-medium text-dark underline underline-offset-8 md:text-base'>
+                className='text-lg font-medium underline underline-offset-8 md:text-base'
+                style={{ color: TEXT }}>
                 Send feedback
               </Link>
             </div>
-            <p className='mt-10 border-t border-solid border-dark/10 pt-6 text-sm font-medium text-dark/50'>
+            <p
+              className='mt-10 w-full border-t border-solid pt-6 text-sm font-medium'
+              style={{ borderColor: LINE, color: MUTED }}>
               Designed and built by{' '}
-              <Link href='/' className='underline underline-offset-4'>
+              <Link href='/' className='underline underline-offset-4' style={{ color: ACCENT }}>
                 GW‑InTech
               </Link>{' '}
               — available for work.
