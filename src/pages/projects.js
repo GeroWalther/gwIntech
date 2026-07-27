@@ -32,6 +32,7 @@ import climatic from '../../public/images/projects/climatic.png';
 import mernDocker from '../../public/images/projects/mernDocker.webp';
 import pourbeauty from '../../public/images/projects/porbeauty.png';
 import dungeon from '../../public/images/projects/dungeon.png';
+import aiBox from '../../public/images/projects/ai-box-card.png';
 
 import { motion } from 'framer-motion';
 
@@ -108,12 +109,16 @@ const FeaturedProject = ({
   link = '',
   github = '',
   appStore,
+  cta,
 }) => {
+  // Internal links stay in the tab; external ones open a new one.
+  const isInternal = link.startsWith('/');
+  const newTab = isInternal ? undefined : '_blank';
   return (
     <article className='w-full flex items-center justify-center rounded-3xl border border-solid border-dark bg-light shadow-2xl p-12 lg:flex-col lg:p-8 xs:rounded-2xl xs:p-4 '>
       <Link
         href={link ? link : github}
-        target='_blank'
+        target={link ? newTab : '_blank'}
         className='w-1/2 cursor-pointer overflow-hidden rounded-lg lg:w-full'>
         <FramerImage
           src={img}
@@ -132,7 +137,7 @@ const FeaturedProject = ({
         </span>
         <Link
           href={link}
-          target='_blank'
+          target={newTab}
           className='hover:underline underline-offset-2'>
           <h2 className='my-2 w-full text-left text-4xl font-bold sm:text-sm'>
             {title}
@@ -148,11 +153,11 @@ const FeaturedProject = ({
           {link && (
             <Link
               href={link}
-              target='_blank'
+              target={newTab}
               className={`ml-4 rounded-lg bg-black text-light p-2 px-6 text-lg font-semibold sm:px-4 sm:text-base 
                 ${github == '' ? 'ml-0' : ''}
                 `}>
-              {appStore ? 'Download from the AppStore' : 'Visit Project'}
+              {cta || (appStore ? 'Download from the AppStore' : 'Visit Project')}
             </Link>
           )}
         </div>
@@ -179,6 +184,17 @@ const projects = () => {
           />
 
           <div className='grid grid-cols-12 gap-20 gap-y-28 lg:gap-x-6 md:gap-y-10'>
+            <div className='col-span-12'>
+              <FeaturedProject
+                title='AI Box'
+                type="macOS App — Tauri 2, Rust &amp; React"
+                img={aiBox}
+                link='/ai-box'
+                github='https://github.com/GeroWalther/ai-box'
+                cta='See how it works'
+                summary="A native macOS app that puts agentic chat, a writing studio, local image generation and a real terminal behind one window — then hands you the controls on your phone while the Mac does the work and keeps your API keys. Built with Tauri 2, Rust and React, signed and notarized, with conflict-free sync between devices. Free during public beta."
+              />
+            </div>
             <div className='col-span-12'>
               <article className='w-full flex items-center justify-center rounded-3xl border border-solid border-dark bg-light shadow-2xl p-12 lg:flex-col lg:p-8 xs:rounded-2xl xs:p-4'>
                 <Link
