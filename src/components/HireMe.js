@@ -1,12 +1,14 @@
 import Link from 'next/link';
 import React from 'react';
-import { useRouter } from 'next/router';
 import { FullStackCircularLogo } from './Icons';
-import { isDarkRoute } from '@/lib/theme';
+import { useTheme } from '@/lib/theme';
 
 const HireMe = ({ top = false }) => {
-  const router = useRouter();
-  const dark = isDarkRoute(router.pathname);
+  // The resolved theme, not the route. Reading the route was wrong the moment
+  // pages became switchable: on a themeable page it always reported light, so
+  // the badge rendered its light styling over a dark page.
+  const { theme } = useTheme();
+  const dark = theme === 'dark';
 
   return (
     <div
@@ -14,10 +16,11 @@ const HireMe = ({ top = false }) => {
         !top ? 'bottom-4' : 'top-6 '
       } lg:right-0 lg:left-auto lg:top-2 lg:bottom-auto flex items-center justify-center overflow-hidden lg:absolute `}>
       <div className='w-64 h-auto flex items-center justify-center relative sm:w-40 '>
-        {/* The ring text is the whole point of the badge, so it has to follow
-            the page under it — fill-dark left it invisible on the dark pages. */}
+        {/* The ring text is the whole point of the badge, so it follows the
+            page colour rather than being pinned to one ground. */}
         <FullStackCircularLogo
-          className={`animate-spin-slow ${dark ? 'fill-light' : 'fill-dark'}`}
+          className='animate-spin-slow'
+          style={{ fill: 'var(--gw-text)' }}
         />
 
         {/* wa.me wants the number in international form with no +, no leading
@@ -27,10 +30,9 @@ const HireMe = ({ top = false }) => {
           target='_blank'
           rel='noopener noreferrer'
           aria-label='Message Gero on WhatsApp'
-          className={`flex items-center justify-center absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 shadow-md border-2 border-solid h-20 w-20 rounded-full font-semibold transition sm:w-12 sm:h-12 sm:text-[9px] sm:text-center sm:font-normal ${
-            dark
-              ? 'bg-primaryDark text-dark border-white/25 hover:bg-light'
-              : 'bg-primary text-light border-dark hover:bg-light hover:text-dark'
+          style={{ background: 'var(--gw-blue)' }}
+          className={`gw-hire flex items-center justify-center absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 shadow-md border-2 border-solid h-20 w-20 rounded-full font-semibold text-white transition sm:w-12 sm:h-12 sm:text-[9px] sm:text-center sm:font-normal ${
+            dark ? 'border-white/30' : 'border-black/20'
           }`}>
           Hire Me
         </Link>

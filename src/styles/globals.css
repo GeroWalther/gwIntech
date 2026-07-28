@@ -36,6 +36,12 @@
   --gw-spot-border: rgba(13, 143, 99, 0.4);
   --gw-chip-mint: rgba(13, 143, 99, 0.1);
   --gw-vignette: inset 0 0 60px rgba(16, 23, 37, 0.12);
+
+  /* One blue for both grounds. It carries white text at 5.1:1, and the disc
+     itself separates from the page at ~4.6:1 on white and ~3.9:1 on near
+     black — so a single value stays legible either way, with no branch. */
+  --gw-blue: #2563eb;
+  --gw-blue-hover: #1d4ed8;
   --gw-halo: radial-gradient(circle, rgba(13,143,99,0.30), rgba(68,54,201,0.16) 55%, transparent 72%);
 }
 
@@ -60,6 +66,11 @@
   --gw-spot-border: rgba(88, 230, 173, 0.35);
   --gw-chip-mint: rgba(88, 230, 173, 0.1);
   --gw-vignette: inset 0 0 60px rgba(6, 7, 12, 0.75);
+
+  /* Same blue, same darker hover. A lighter hover would have looked livelier
+     on black but drops the white label to 3.7:1, under the 4.5:1 line. */
+  --gw-blue: #2563eb;
+  --gw-blue-hover: #1d4ed8;
   --gw-halo: radial-gradient(circle, rgba(88,230,173,0.55), rgba(139,123,255,0.28) 55%, transparent 72%);
 }
 
@@ -286,4 +297,10 @@
 /* Hover wash for outline buttons, themed rather than fixed to white. */
 .gw-hover-panel:hover {
   background: var(--gw-panel);
+}
+
+/* The Hire Me badge. Inline styles win over Tailwind utilities, so the hover
+   colour has to be applied the same way — as a rule, not a utility class. */
+.gw-hire:hover {
+  background: var(--gw-blue-hover) !important;
 }

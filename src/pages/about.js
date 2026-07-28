@@ -19,10 +19,11 @@ import {
 } from "@/components/fx/Ambient";
 
 const PARAGRAPHS = [
-  "Hi, I am GW-InTech, a web and mobile app developer with a passion for creating beautiful, functional, and user-centered digital experiences. Based on my extensive knowledge and experience in web, mobile app development and my work with React, technologies like Next.js, Node.js, Typescript, GraphQL, MongoDB, React-Native and the T3-Stack which also includes technologies like tRPC, Prisma, TailwindCSS etc. I am confident that I would be a valuable addition to your team or can make your project idea a reality.",
-  "With my expertise in the field. I am always looking for new and innovative ways to bring my clients visions to life. During my tenure at Hubspire, a New York based American company, I gained comprehensive experience in development. Particularly, I successfully applied my skills in JavaScript and React in various projects. I also worked in the React Native department, where I was entrusted with several major projects from inception to full development. I generally work in an agile environment and have had experience working in an international team.",
-  "I communicate effectively and take responsibility to successfully fulfill my tasks. I bring a strong discipline and know-how for developing appealing and functional user interfaces, always focusing on finding the best possible solution for the clients requirements. I believe that design is about more than just making things look pretty, it is about solving problems and creating intuitive, enjoyable experiences for users.",
-  "Whether I am working on a website, mobile app, or other digital product, I bring my commitment to design excellence and user-centered thinking to every project I work on. I look forward to the opportunity to bring my skills and passion to your next project. Do not hesitate in contacting me!",
+  "I am Gero Walther. I work as a full-stack software engineer at a Japanese software company, and take on freelance work under GW-InTech. I build for the web, for iOS, and increasingly for the desktop — and I ship things rather than leaving them as prototypes.",
+  "Keeping up is the part of this work I enjoy most. I started in React and Node and have kept moving since: Rust and Tauri for the desktop, Swift and SwiftUI for native Mac and iOS, C++ when a problem calls for it, and the current generation of AI models wired into products that people actually use. Most of what is on this site is something I had not built before I built it, and that is deliberate — a stack you stopped adding to is a stack that is quietly ageing.",
+  "So the proof is the work rather than the adjectives. AI Box is a native macOS app built with Tauri, Rust and React. Skribble is a Mac paint app in SwiftUI and AppKit that also draws straight over your live screen. Dungeon Monsters is a roguelike in C++ you install through Homebrew. The storefronts take real money through Stripe, with EU and international shipping, transactional mail that actually sends, and an admin behind them.",
+  "Before Japan I was at Hubspire, a New York company, working in JavaScript and React and later in their React Native department, where I took several projects from inception through to release. I have spent most of my career in international teams, working in an agile way.",
+  "For freelance work I take on web and mobile builds, native Mac apps and commerce — a single feature or the whole thing, including the parts nobody enjoys: code signing and notarization, App Store review, payments, and the mail that has to arrive. If you have something in mind, get in touch.",
 ];
 
 const SKILL_GROUPS = [
@@ -51,7 +52,7 @@ export default function About() {
         <title>About — GW-InTech</title>
         <meta
           name="description"
-          content="GW-InTech Official Website - About GW-InTech, my motivation and background, check out the languages and frameworks I use for mobile apps and web development."
+          content="Gero Walther — full-stack software engineer at a Japanese software company, freelancing as GW-InTech. Native Mac and iOS apps, web platforms and Stripe commerce, built in TypeScript, Swift, Rust and React."
         />
         <meta name="theme-color" content="#f5f6fa" />
       </Head>
