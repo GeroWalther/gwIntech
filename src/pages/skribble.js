@@ -122,6 +122,8 @@ function InkCanvas() {
   const [width, setWidth] = useState(6);
   const [paletteOpen, setPaletteOpen] = useState(false);
   const [hasDrawn, setHasDrawn] = useState(false);
+  const [coarse, setCoarse] = useState(false);
+  const coarseRef = useRef(false);
 
   // Event handlers are bound once, so they read the live values through refs.
   const settings = useRef({ tool, color, width });
@@ -168,53 +170,175 @@ function InkCanvas() {
   // same first-run gesture the app makes.
   useEffect(() => {
     const show = setTimeout(() => setPaletteOpen(true), 900);
-    const hide = setTimeout(() => setPaletteOpen(false), 4200);
+    // On touch it stays put — retracting it would leave no way to get it back.
+    const hide = setTimeout(() => {
+      if (!coarseRef.current) setPaletteOpen(false);
+    }, 4200);
     return () => {
       clearTimeout(show);
       clearTimeout(hide);
     };
   }, []);
 
-  const pointFrom = (event) => {
-    const rect = wrapRef.current.getBoundingClientRect();
-    return { x: event.clientX - rect.left, y: event.clientY - rect.top };
-  };
+  // Drawing input is bound natively rather than through React. iOS Safari will
+  // claim a touch drag as a page pan and fire pointercancel unless the very
+  // first move is preventDefault-ed, and that only works on a non-passive
+  // listener — which React's delegated handlers do not guarantee.
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    const wrap = wrapRef.current;
+    if (!canvas || !wrap) return;
 
-  const onPointerDown = (event) => {
-    if (event.button !== undefined && event.button !== 0) return;
-    event.currentTarget.setPointerCapture?.(event.pointerId);
-    drawingRef.current = true;
-    setHasDrawn(true);
-    const { tool: t, color: c, width: w } = settings.current;
-    currentRef.current = { tool: t, color: c, width: w, points: [pointFrom(event)] };
-    redraw();
-  };
+    const pointAt = (clientX, clientY) => {
+      const rect = wrap.getBoundingClientRect();
+      return { x: clientX - rect.left, y: clientY - rect.top };
+    };
 
-  const onPointerMove = (event) => {
+    const begin = (clientX, clientY) => {
+      drawingRef.current = true;
+      setHasDrawn(true);
+      const { tool: t, color: c, width: w } = settings.current;
+      currentRef.current = {
+        tool: t,
+        color: c,
+        width: w,
+        points: [pointAt(clientX, clientY)],
+      };
+      redraw();
+    };
+
+    const extend = (clientX, clientY) => {
+      const shape = currentRef.current;
+      if (!drawingRef.current || !shape) return;
+      const point = pointAt(clientX, clientY);
+      if (shape.tool === "pen" || shape.tool === "marker") {
+        shape.points.push(point);
+      } else {
+        shape.points = [shape.points[0], point];
+      }
+      redraw();
+    };
+
+    // A cancelled pointer still keeps its stroke: throwing away what someone
+    // just drew because the browser changed its mind is the worse outcome.
+    const finish = () => {
+      if (!drawingRef.current) return;
+      drawingRef.current = false;
+      const shape = currentRef.current;
+      currentRef.current = null;
+      if (shape && shape.points.length > 0) shapesRef.current.push(shape);
+      redraw();
+    };
+
+    const cleanups = [];
+
+    if (typeof window !== "undefined" && window.PointerEvent) {
+      const onDown = (e) => {
+        if (e.pointerType === "mouse" && e.button !== 0) return;
+        e.preventDefault();
+        try {
+          canvas.setPointerCapture(e.pointerId);
+        } catch {
+          // Capture is an optimisation; the window-level fallbacks still work.
+        }
+        begin(e.clientX, e.clientY);
+      };
+      const onMove = (e) => {
+        if (!drawingRef.current) return;
+        e.preventDefault();
+        // Coalesced moves recover the samples the compositor batched away,
+        // which is most of what makes a fast stroke look smooth.
+        const batch = e.getCoalescedEvents ? e.getCoalescedEvents() : null;
+        if (batch && batch.length) {
+          for (const ev of batch) extend(ev.clientX, ev.clientY);
+        } else {
+          extend(e.clientX, e.clientY);
+        }
+      };
+      const onUp = (e) => {
+        if (!drawingRef.current) return;
+        e.preventDefault();
+        finish();
+      };
+
+      canvas.addEventListener("pointerdown", onDown, { passive: false });
+      canvas.addEventListener("pointermove", onMove, { passive: false });
+      canvas.addEventListener("pointerup", onUp, { passive: false });
+      canvas.addEventListener("pointercancel", onUp, { passive: false });
+      window.addEventListener("pointerup", finish);
+      cleanups.push(() => {
+        canvas.removeEventListener("pointerdown", onDown);
+        canvas.removeEventListener("pointermove", onMove);
+        canvas.removeEventListener("pointerup", onUp);
+        canvas.removeEventListener("pointercancel", onUp);
+        window.removeEventListener("pointerup", finish);
+      });
+    } else {
+      // Touch fallback for engines without Pointer Events.
+      const touchStart = (e) => {
+        if (e.touches.length !== 1) return;
+        e.preventDefault();
+        begin(e.touches[0].clientX, e.touches[0].clientY);
+      };
+      const touchMove = (e) => {
+        if (!drawingRef.current) return;
+        e.preventDefault();
+        extend(e.touches[0].clientX, e.touches[0].clientY);
+      };
+      const touchEnd = (e) => {
+        e.preventDefault();
+        finish();
+      };
+      const mouseDown = (e) => {
+        if (e.button !== 0) return;
+        begin(e.clientX, e.clientY);
+      };
+      const mouseMove = (e) => extend(e.clientX, e.clientY);
+
+      canvas.addEventListener("touchstart", touchStart, { passive: false });
+      canvas.addEventListener("touchmove", touchMove, { passive: false });
+      canvas.addEventListener("touchend", touchEnd, { passive: false });
+      canvas.addEventListener("touchcancel", touchEnd, { passive: false });
+      canvas.addEventListener("mousedown", mouseDown);
+      window.addEventListener("mousemove", mouseMove);
+      window.addEventListener("mouseup", finish);
+      cleanups.push(() => {
+        canvas.removeEventListener("touchstart", touchStart);
+        canvas.removeEventListener("touchmove", touchMove);
+        canvas.removeEventListener("touchend", touchEnd);
+        canvas.removeEventListener("touchcancel", touchEnd);
+        canvas.removeEventListener("mousedown", mouseDown);
+        window.removeEventListener("mousemove", mouseMove);
+        window.removeEventListener("mouseup", finish);
+      });
+    }
+
+    return () => cleanups.forEach((fn) => fn());
+  }, [redraw]);
+
+  // Hover-only affordances have to be replaced on touch, where there is no
+  // pointer to park at the edge — every move is already a stroke.
+  useEffect(() => {
+    if (typeof window === "undefined" || !window.matchMedia) return;
+    const mq = window.matchMedia("(hover: none), (pointer: coarse)");
+    const apply = () => {
+      coarseRef.current = mq.matches;
+      setCoarse(mq.matches);
+      if (mq.matches) setPaletteOpen(true);
+    };
+    apply();
+    mq.addEventListener?.("change", apply);
+    return () => mq.removeEventListener?.("change", apply);
+  }, []);
+
+  // Left-edge reveal, mirroring the overlay's trigger strip. Fine pointers only.
+  const onHoverMove = (event) => {
+    if (coarseRef.current || drawingRef.current) return;
     const rect = wrapRef.current.getBoundingClientRect();
-    // Left-edge reveal, mirroring the overlay's trigger strip.
-    if (event.clientX - rect.left < 56 && !drawingRef.current) {
+    if (event.clientX - rect.left < 56) {
       setPaletteOpen(true);
       clearTimeout(hideTimer.current);
     }
-    if (!drawingRef.current || !currentRef.current) return;
-    const point = pointFrom(event);
-    const pts = currentRef.current.points;
-    if (currentRef.current.tool === "pen" || currentRef.current.tool === "marker") {
-      pts.push(point);
-    } else {
-      currentRef.current.points = [pts[0], point];
-    }
-    redraw();
-  };
-
-  const endStroke = () => {
-    if (!drawingRef.current) return;
-    drawingRef.current = false;
-    const s = currentRef.current;
-    currentRef.current = null;
-    if (s && s.points.length > 0) shapesRef.current.push(s);
-    redraw();
   };
 
   const clearAll = () => {
@@ -230,6 +354,7 @@ function InkCanvas() {
   };
 
   const scheduleHide = () => {
+    if (coarseRef.current) return;
     clearTimeout(hideTimer.current);
     hideTimer.current = setTimeout(() => setPaletteOpen(false), 900);
   };
@@ -237,14 +362,22 @@ function InkCanvas() {
   return (
     <div
       ref={wrapRef}
-      onPointerDown={onPointerDown}
-      onPointerMove={onPointerMove}
-      onPointerUp={endStroke}
-      onPointerLeave={endStroke}
-      onPointerCancel={endStroke}
+      onPointerMove={onHoverMove}
       className="skribble-surface relative h-[60vh] min-h-[420px] w-full cursor-crosshair touch-none select-none overflow-hidden rounded-3xl"
     >
-      <canvas ref={canvasRef} className="absolute inset-0 h-full w-full" />
+      {/* touchAction has to sit on the canvas, not only the wrapper: it is not
+          inherited, and the canvas is what the touch actually lands on. Without
+          it iOS treats the first drag as a page pan and cancels the stroke. */}
+      <canvas
+        ref={canvasRef}
+        className="absolute inset-0 h-full w-full"
+        style={{
+          touchAction: "none",
+          WebkitUserSelect: "none",
+          userSelect: "none",
+          WebkitTouchCallout: "none",
+        }}
+      />
 
       {/* Prompt, which retires the moment it is no longer true. */}
       <div
@@ -261,17 +394,31 @@ function InkCanvas() {
         </p>
       </div>
 
-      {/* Edge hint, the same affordance the overlay's trigger strip provides. */}
-      <div
-        className={`pointer-events-none absolute left-0 top-0 h-full w-14 transition-opacity duration-300 ${
-          paletteOpen ? "opacity-0" : "opacity-100"
-        }`}
-      >
-        <div className="skribble-edge-strip absolute left-0 top-1/2 h-28 w-1.5 -translate-y-1/2 rounded-r-full" />
-        <span className="absolute left-4 top-1/2 -translate-y-1/2 rotate-180 whitespace-nowrap text-[11px] font-semibold uppercase tracking-[0.2em] text-white/40 [writing-mode:vertical-rl]">
-          tools
-        </span>
-      </div>
+      {/* Edge hint, the same affordance the overlay's trigger strip provides.
+          Pointless on touch, where there is no hovering pointer to catch. */}
+      {!coarse && (
+        <div
+          className={`pointer-events-none absolute left-0 top-0 h-full w-14 transition-opacity duration-300 ${
+            paletteOpen ? "opacity-0" : "opacity-100"
+          }`}
+        >
+          <div className="skribble-edge-strip absolute left-0 top-1/2 h-28 w-1.5 -translate-y-1/2 rounded-r-full" />
+          <span className="absolute left-4 top-1/2 -translate-y-1/2 rotate-180 whitespace-nowrap text-[11px] font-semibold uppercase tracking-[0.2em] text-white/40 [writing-mode:vertical-rl]">
+            tools
+          </span>
+        </div>
+      )}
+
+      {/* Touch equivalent: a real button, since the edge trigger cannot fire. */}
+      {coarse && !paletteOpen && (
+        <button
+          type="button"
+          onClick={() => setPaletteOpen(true)}
+          className="absolute left-3 top-3 z-10 rounded-full border border-white/20 bg-black/70 px-4 py-2 text-xs font-bold uppercase tracking-[0.15em] text-white backdrop-blur-xl"
+        >
+          Tools
+        </button>
+      )}
 
       {/* The palette itself — a scaled-down twin of the app's sidebar.
           The Y centring has to live in the same inline transform as the slide:
@@ -281,12 +428,24 @@ function InkCanvas() {
       <div
         onPointerEnter={() => clearTimeout(hideTimer.current)}
         onPointerLeave={scheduleHide}
-        onPointerDown={(e) => e.stopPropagation()}
         style={{
           transform: paletteOpen ? "translate(0, -50%)" : "translate(-130%, -50%)",
         }}
         className="absolute left-3 top-1/2 z-10 max-h-[calc(100%-1.5rem)] overflow-y-auto rounded-2xl border border-white/15 bg-black/70 p-2.5 backdrop-blur-xl transition-transform duration-300 ease-out"
       >
+        {coarse && (
+          <button
+            type="button"
+            onClick={() => setPaletteOpen(false)}
+            aria-label="Hide tools"
+            className="mb-2 flex h-7 w-full items-center justify-center rounded-lg text-white/60 hover:bg-white/10"
+          >
+            <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+              <path d="M15 6 9 12l6 6" />
+            </svg>
+          </button>
+        )}
+
         <div className="grid grid-cols-2 gap-1.5">
           {DEMO_TOOLS.map((t) => (
             <button
