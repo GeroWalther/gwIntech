@@ -108,6 +108,7 @@ export const PROJECTS = [
     type: "Client Project — Next.js 16, Stripe & MongoDB",
     kind: ["web"],
     img: viceGolf,
+    link: "https://vicegolf-mallorca.com/",
     github: "https://github.com/GeroWalther/vicegolffittingwebsite",
     featured: true,
     summary:
