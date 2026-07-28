@@ -116,9 +116,6 @@ const NavBar = () => {
           <CustomLink href="/ai-box" className="mx-4">
             AI Box
           </CustomLink>
-          <CustomLink href="/skribble" className="mx-4">
-            Skribble
-          </CustomLink>
           <CustomLink href="/solutions" className="mx-4">
             Solutions
           </CustomLink>
@@ -182,13 +179,6 @@ const NavBar = () => {
               toggle={handleClick}
             >
               AI Box
-            </CustomMobileLink>
-            <CustomMobileLink
-              href="/skribble"
-              className=""
-              toggle={handleClick}
-            >
-              Skribble
             </CustomMobileLink>
             <CustomMobileLink
               href="/solutions"
