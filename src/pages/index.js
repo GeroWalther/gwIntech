@@ -9,6 +9,7 @@ import { GithubIcon } from "@/components/Icons";
 import { APPS, PROJECTS } from "@/data/projects";
 import {
   Ambient,
+  INK,
   GradientText,
   Marquee,
   MINT,
@@ -67,7 +68,7 @@ export default function Home() {
           name="description"
           content="Gero Walther builds and ships production software: signed macOS apps, App Store iOS apps, e-commerce storefronts and AI tooling. React, Next.js, Swift, Rust and React Native."
         />
-        <meta name="theme-color" content="#06070c" />
+        <meta name="theme-color" content="#f5f6fa" />
       </Head>
 
       <Ambient>
@@ -108,7 +109,7 @@ export default function Home() {
                   <Link
                     href="/projects"
                     className={btn}
-                    style={{ background: TEXT, color: "#06070c" }}
+                    style={{ background: TEXT, color: INK }}
                   >
                     See the work
                   </Link>
@@ -148,7 +149,7 @@ export default function Home() {
                   className="gw-halo pointer-events-none absolute inset-0 rounded-full blur-3xl"
                   style={{
                     background:
-                      "radial-gradient(circle, rgba(88,230,173,0.55), rgba(139,123,255,0.28) 55%, transparent 72%)",
+                      "var(--gw-halo)",
                   }}
                 />
                 <div className="gw-float relative">
@@ -162,7 +163,7 @@ export default function Home() {
                   <div
                     aria-hidden
                     className="pointer-events-none absolute inset-0 rounded-full"
-                    style={{ boxShadow: "inset 0 0 60px rgba(6,7,12,0.75)", border: "1px solid rgba(255,255,255,0.10)" }}
+                    style={{ boxShadow: "var(--gw-vignette)", border: `1px solid ${LINE}` }}
                   />
                 </div>
               </Reveal>
@@ -224,7 +225,7 @@ export default function Home() {
                         <Link
                           href={app.page}
                           className="rounded-lg px-5 py-2.5 text-sm font-semibold transition"
-                          style={{ background: TEXT, color: "#06070c" }}
+                          style={{ background: TEXT, color: INK }}
                         >
                           {app.cta}
                         </Link>
@@ -271,7 +272,7 @@ export default function Home() {
                           <span
                             key={t}
                             className="rounded-md px-2.5 py-1 font-mono text-xs font-semibold"
-                            style={{ background: "rgba(88,230,173,0.10)", color: MINT }}
+                            style={{ background: "var(--gw-chip-mint)", color: MINT }}
                           >
                             {t}
                           </span>
@@ -326,7 +327,7 @@ export default function Home() {
                     <Link
                       href="mailto:office@gw-intech.com"
                       className={btn}
-                      style={{ background: MINT, color: "#06070c" }}
+                      style={{ background: MINT, color: INK }}
                     >
                       Start a conversation
                     </Link>

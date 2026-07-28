@@ -6,7 +6,7 @@ import { Montserrat } from 'next/font/google';
 import Head from 'next/head';
 import { Analytics } from '@vercel/analytics/react';
 import { useRouter } from 'next/router';
-import { isDarkRoute } from '@/lib/theme';
+import { ThemeProvider } from '@/lib/theme';
 
 const montserrat = Montserrat({
   subsets: ['latin'],
@@ -45,14 +45,17 @@ export default function App({ Component, pageProps }) {
         />
         <link rel='icon' href='/favicon.ico' />
       </Head>
-      <main
-        className={`${montserrat.variable} font-mont w-full min-h-screen ${
-          isDarkRoute(router.pathname) ? 'bg-[#06070c] text-light' : 'bg-light'
-        }`}>
-        <NavBar />
-        <Component {...pageProps} />
-      </main>
-      <Footer />
+      {/* The shell reads its colours from the theme tokens, so switching is a
+          single attribute change on <html> rather than a re-render here. */}
+      <ThemeProvider>
+        <main
+          className={`${montserrat.variable} font-mont w-full min-h-screen transition-colors duration-300`}
+          style={{ background: 'var(--gw-ink)', color: 'var(--gw-text)' }}>
+          <NavBar />
+          <Component {...pageProps} />
+        </main>
+        <Footer />
+      </ThemeProvider>
       <EasterEgg />
       <Analytics />
     </>

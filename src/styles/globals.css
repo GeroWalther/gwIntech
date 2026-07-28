@@ -3,7 +3,68 @@
 @tailwind utilities;
 
 /* ------------------------------------------------------------------ *
- * Ambient background layers for the dark pages (see components/fx).
+ * Theme tokens.
+ *
+ * Every colour the ambient layers and the fx components use comes from
+ * here, so flipping one attribute on <html> re-themes the whole page
+ * without a single component re-rendering. Light is the default ground;
+ * the product pages pin themselves to dark (see lib/theme.js).
+ * ------------------------------------------------------------------ */
+
+:root,
+[data-theme='light'] {
+  --gw-ink: #f5f6fa;
+  --gw-text: #101725;
+  --gw-muted: #56617a;
+  --gw-line: rgba(16, 23, 37, 0.12);
+  --gw-panel: rgba(255, 255, 255, 0.75);
+
+  /* The brand mint and indigo are luminous by design, which is exactly
+     wrong on a light ground — these are the same hues taken down until
+     they hold their own against white. */
+  --gw-mint: #0d8f63;
+  --gw-violet: #4436c9;
+
+  --gw-grid-line: rgba(16, 23, 37, 0.055);
+  --gw-aurora-a: rgba(88, 230, 173, 0.42);
+  --gw-aurora-b: rgba(139, 123, 255, 0.38);
+  --gw-aurora-opacity: 0.42;
+  --gw-grain-opacity: 0.14;
+  --gw-grain-blend: multiply;
+  --gw-spot-a: rgba(13, 143, 99, 0.13);
+  --gw-spot-b: rgba(68, 54, 201, 0.09);
+  --gw-spot-border: rgba(13, 143, 99, 0.4);
+  --gw-chip-mint: rgba(13, 143, 99, 0.1);
+  --gw-vignette: inset 0 0 60px rgba(16, 23, 37, 0.12);
+  --gw-halo: radial-gradient(circle, rgba(13,143,99,0.30), rgba(68,54,201,0.16) 55%, transparent 72%);
+}
+
+[data-theme='dark'] {
+  --gw-ink: #06070c;
+  --gw-text: #eaf0ff;
+  --gw-muted: #8d97ad;
+  --gw-line: rgba(255, 255, 255, 0.09);
+  --gw-panel: rgba(255, 255, 255, 0.035);
+
+  --gw-mint: #58e6ad;
+  --gw-violet: #8b7bff;
+
+  --gw-grid-line: rgba(255, 255, 255, 0.055);
+  --gw-aurora-a: rgba(88, 230, 173, 0.5);
+  --gw-aurora-b: rgba(139, 123, 255, 0.5);
+  --gw-aurora-opacity: 0.5;
+  --gw-grain-opacity: 0.32;
+  --gw-grain-blend: overlay;
+  --gw-spot-a: rgba(88, 230, 173, 0.16);
+  --gw-spot-b: rgba(139, 123, 255, 0.1);
+  --gw-spot-border: rgba(88, 230, 173, 0.35);
+  --gw-chip-mint: rgba(88, 230, 173, 0.1);
+  --gw-vignette: inset 0 0 60px rgba(6, 7, 12, 0.75);
+  --gw-halo: radial-gradient(circle, rgba(88,230,173,0.55), rgba(139,123,255,0.28) 55%, transparent 72%);
+}
+
+/* ------------------------------------------------------------------ *
+ * Ambient background layers (see components/fx).
  * All decorative, all pointer-events:none, all composited on the GPU.
  * ------------------------------------------------------------------ */
 
@@ -17,7 +78,7 @@
   position: absolute;
   border-radius: 9999px;
   filter: blur(90px);
-  opacity: 0.5;
+  opacity: var(--gw-aurora-opacity);
   will-change: transform;
 }
 
@@ -26,7 +87,7 @@
   height: 52vw;
   top: -18vw;
   left: -10vw;
-  background: radial-gradient(circle, rgba(88, 230, 173, 0.5), transparent 65%);
+  background: radial-gradient(circle, var(--gw-aurora-a), transparent 65%);
   animation: gw-drift-a 22s ease-in-out infinite alternate;
 }
 
@@ -35,7 +96,7 @@
   height: 46vw;
   top: 4vw;
   right: -14vw;
-  background: radial-gradient(circle, rgba(139, 123, 255, 0.5), transparent 65%);
+  background: radial-gradient(circle, var(--gw-aurora-b), transparent 65%);
   animation: gw-drift-b 27s ease-in-out infinite alternate;
 }
 
@@ -60,8 +121,8 @@
 /* Technical grid, faded out toward the bottom so it reads as depth rather
    than as wallpaper. */
 .gw-grid {
-  background-image: linear-gradient(rgba(255, 255, 255, 0.055) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.055) 1px, transparent 1px);
+  background-image: linear-gradient(var(--gw-grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--gw-grid-line) 1px, transparent 1px);
   background-size: 64px 64px;
   -webkit-mask-image: radial-gradient(120% 80% at 50% 0%, #000 30%, transparent 78%);
   mask-image: radial-gradient(120% 80% at 50% 0%, #000 30%, transparent 78%);
@@ -70,8 +131,8 @@
 /* Film grain. An inline SVG turbulence keeps it a single tiny asset with no
    extra request. */
 .gw-grain {
-  opacity: 0.32;
-  mix-blend-mode: overlay;
+  opacity: var(--gw-grain-opacity);
+  mix-blend-mode: var(--gw-grain-blend);
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
 }
 
@@ -86,8 +147,8 @@
   transition: opacity 0.35s ease;
   background: radial-gradient(
     340px circle at var(--mx, 50%) var(--my, 50%),
-    rgba(88, 230, 173, 0.16),
-    rgba(139, 123, 255, 0.1) 40%,
+    var(--gw-spot-a),
+    var(--gw-spot-b) 40%,
     transparent 68%
   );
   pointer-events: none;
@@ -99,7 +160,7 @@
 }
 
 .gw-spot:hover {
-  border-color: rgba(88, 230, 173, 0.35) !important;
+  border-color: var(--gw-spot-border) !important;
 }
 
 /* Keep card content above the spotlight wash. */

@@ -3,7 +3,25 @@ import { Html, Head, Main, NextScript } from 'next/document';
 export default function Document() {
   return (
     <Html lang='en'>
-      <Head />
+      <Head>
+        {/* Runs before first paint, so a visitor who chose dark never sees a
+            white flash first. It duplicates the rules in lib/theme.js on
+            purpose: this has to execute with no React and no bundle. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{
+var p=(location.pathname||'/').replace(/\\/+$/,'')||'/';
+var alwaysDark=['/projects','/about','/solutions','/ai-box','/skribble','/gridly'];
+var themeable=['/'];
+var t;
+if(themeable.indexOf(p)>-1){var s=localStorage.getItem('gw-theme');t=(s==='dark'||s==='light')?s:'light';}
+else{t=alwaysDark.indexOf(p)>-1?'dark':'light';}
+document.documentElement.setAttribute('data-theme',t);
+document.documentElement.style.colorScheme=t;
+}catch(e){}})();`,
+          }}
+        />
+      </Head>
       <body>
         <Main />
         <NextScript />

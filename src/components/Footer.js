@@ -2,7 +2,7 @@ import React from 'react';
 import Layout from './Layout';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { isDarkRoute } from '@/lib/theme';
+import { useTheme } from '@/lib/theme';
 
 const GradientStripe = () => {
   const lineStyle = {
@@ -24,13 +24,15 @@ const GradientStripe = () => {
 
 const Footer = () => {
   const router = useRouter();
-  const dark = isDarkRoute(router.pathname);
+  const { theme } = useTheme();
+  const dark = theme === 'dark';
 
   return (
     <footer
-      className={`w-full border-t-2 border-solid text-lg sm:text-sm ${
-        dark ? 'border-white/10 bg-[#06070c] text-light' : 'border-dark'
-      }`}>
+      className={`w-full border-t-2 border-solid text-lg transition-colors duration-300 sm:text-sm ${
+        dark ? 'border-white/10' : 'border-dark'
+      }`}
+      style={{ background: 'var(--gw-ink)', color: 'var(--gw-text)' }}>
       <Layout
         className={`py-8 flex items-center justify-between lg:flex-col lg:py-6 ${
           dark ? '!bg-transparent' : ''

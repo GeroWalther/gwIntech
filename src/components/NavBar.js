@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import Logo from "./Logo";
 import { GithubIcon, LinkedInIcon, TwitterIcon } from "./Icons";
 import { motion } from "framer-motion";
-import { isDarkRoute } from "@/lib/theme";
+import { useTheme } from "@/lib/theme";
 
 const CustomMobileLink = ({ href, children, className = "", toggle }) => {
   const router = useRouter();
@@ -34,7 +34,8 @@ const CustomMobileLink = ({ href, children, className = "", toggle }) => {
 };
 const CustomLink = ({ href, children, className = "" }) => {
   const router = useRouter();
-  const dark = isDarkRoute(router.pathname);
+  const { theme } = useTheme();
+  const dark = theme === 'dark';
 
   return (
     <Link href={href} className={`${className} relative group`}>
@@ -51,9 +52,64 @@ const CustomLink = ({ href, children, className = "" }) => {
   );
 };
 
+/**
+ * Light/dark switch. Only appears on routes that actually honour the choice —
+ * offering it on a page pinned to dark would be a control that does nothing.
+ *
+ * Until it has mounted it renders a fixed icon, because the server has no way
+ * to know the stored preference and a mismatched first render would hydrate
+ * with the wrong glyph.
+ */
+const ThemeToggle = ({ className = "", onDarkGround = false }) => {
+  const { theme, themeable, mounted, toggle } = useTheme();
+  if (!themeable) return null;
+
+  const dark = mounted && theme === "dark";
+  // The mobile menu is a dark sheet whatever the page theme is, so the button
+  // inside it has to be styled for that ground, not for the page's.
+  const light = onDarkGround || dark;
+
+  return (
+    <motion.button
+      type="button"
+      onClick={toggle}
+      whileHover={{ y: -2 }}
+      whileTap={{ scale: 0.9 }}
+      aria-label={dark ? "Switch to light mode" : "Switch to dark mode"}
+      title={dark ? "Switch to light mode" : "Switch to dark mode"}
+      className={`flex h-8 w-8 items-center justify-center rounded-full border border-solid transition-colors ${
+        light
+          ? "border-white/25 text-light hover:bg-white/10"
+          : "border-dark/25 text-dark hover:bg-dark/10"
+      } ${className}`}
+    >
+      <svg
+        viewBox="0 0 24 24"
+        className="h-4 w-4"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        aria-hidden
+      >
+        {dark ? (
+          <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" />
+        ) : (
+          <>
+            <circle cx="12" cy="12" r="4" />
+            <path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4" />
+          </>
+        )}
+      </svg>
+    </motion.button>
+  );
+};
+
 const NavBar = () => {
   const router = useRouter();
-  const dark = isDarkRoute(router.pathname);
+  const { theme } = useTheme();
+  const dark = theme === 'dark';
   const [isOpen, setIsOpen] = useState(false);
   const navbarRef = useRef(null);
 
@@ -158,6 +214,7 @@ const NavBar = () => {
           >
             <LinkedInIcon />
           </motion.a>
+          <ThemeToggle className="ml-5" />
         </nav>
       </div>
 
@@ -226,6 +283,7 @@ const NavBar = () => {
             >
               <LinkedInIcon />
             </motion.a>
+            <ThemeToggle className="ml-5" onDarkGround />
           </nav>
         </motion.div>
       ) : null}

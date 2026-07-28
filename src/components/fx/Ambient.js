@@ -1,15 +1,17 @@
 import { useEffect, useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
 
-// Shared visual language for the dark pages. The palette is the brand's own
-// indigo and mint, pushed brighter so they survive being placed on near-black.
-export const INK = "#06070c";
-export const TEXT = "#eaf0ff";
-export const MUTED = "#8d97ad";
-export const LINE = "rgba(255, 255, 255, 0.09)";
-export const PANEL = "rgba(255, 255, 255, 0.035)";
-export const MINT = "#58e6ad"; // tailwind primaryDark
-export const VIOLET = "#8b7bff"; // primary (#201a7a) lifted until it reads on black
+// Shared visual language. These are token references rather than literals, so
+// the same components serve the light and dark grounds — the actual values live
+// in globals.css and swap on one attribute. Because they are valid CSS values,
+// they drop straight into inline styles exactly as the old hex strings did.
+export const INK = "var(--gw-ink)";
+export const TEXT = "var(--gw-text)";
+export const MUTED = "var(--gw-muted)";
+export const LINE = "var(--gw-line)";
+export const PANEL = "var(--gw-panel)";
+export const MINT = "var(--gw-mint)";
+export const VIOLET = "var(--gw-violet)";
 
 // Three slow-drifting colour fields, a fading grid and a grain wash. All of it
 // is CSS — no canvas, no rAF loop — so it costs nothing once painted and does
@@ -77,7 +79,7 @@ export const GradientText = ({ children, className = "" }) => (
 export const Pill = ({ children, className = "" }) => (
   <span
     className={`rounded-full border border-solid px-3 py-1 text-xs font-semibold uppercase tracking-wider ${className}`}
-    style={{ borderColor: LINE, background: "rgba(255,255,255,0.04)", color: MUTED }}
+    style={{ borderColor: LINE, background: PANEL, color: MUTED }}
   >
     {children}
   </span>
