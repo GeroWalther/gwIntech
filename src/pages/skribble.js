@@ -1021,38 +1021,28 @@ export default function Skribble() {
             </div>
           </section>
 
-          {/* -------------------- first launch -------------------- */}
+          {/* -------------------- installing -------------------- */}
           <section className="pb-24">
-            <div className="rounded-3xl border border-[#ffd600]/30 bg-[#ffd600]/[0.06] p-9 md:p-6">
+            <div className="rounded-3xl border border-[#4dd94d]/30 bg-[#4dd94d]/[0.06] p-9 md:p-6">
               <h2 className="text-3xl font-black text-white lg:text-2xl md:text-xl">
-                Opening it the first time
+                Installing it
               </h2>
               <p className="mt-4 max-w-3xl text-base font-medium leading-relaxed text-white/65 md:text-sm">
-                Skribble is signed, but{" "}
-                <strong className="font-bold text-white">not notarized</strong> —
-                that needs a paid Apple Developer subscription. So macOS will
-                block the first launch and say it cannot verify the app is free
-                of malware. Three clicks and it never asks again.
+                Open the disk image, drag Skribble to your Applications folder,
+                and launch it. That is the whole procedure.
               </p>
-              <ol className="mt-7 flex flex-col gap-5">
-                {[
-                  ["Open it once", "Drag Skribble to Applications and double-click. Let the warning appear, then dismiss it."],
-                  ["System Settings → Privacy & Security", "Scroll to Security. There is a line about Skribble, with an Open Anyway button."],
-                  ["Confirm", "Click Open. macOS remembers, and it launches normally from then on."],
-                ].map(([title, body], i) => (
-                  <li key={title} className="flex items-start gap-5">
-                    <span className="font-mono text-sm font-bold text-[#ffd600]">
-                      {String(i + 1).padStart(2, "0")}
-                    </span>
-                    <div>
-                      <h3 className="text-lg font-bold text-white md:text-base">{title}</h3>
-                      <p className="mt-1 text-base font-medium text-white/60 md:text-sm">{body}</p>
-                    </div>
-                  </li>
-                ))}
-              </ol>
+              <p className="mt-4 max-w-3xl text-base font-medium leading-relaxed text-white/65 md:text-sm">
+                It is signed with a Developer ID,{" "}
+                <strong className="font-bold text-white">
+                  notarized by Apple and stapled
+                </strong>
+                , so macOS verifies it on the way in and opens it without a
+                warning — offline too, since the notarization ticket ships
+                inside the app rather than being fetched.
+              </p>
               <p className="mt-7 text-base font-medium text-white/65 md:text-sm">
-                Or skip all of that and build it yourself:
+                Or build it from source, which takes about ten seconds and pulls
+                in no dependencies:
               </p>
               <pre className="mt-3 overflow-x-auto rounded-xl border border-white/10 bg-black/50 p-5 font-mono text-sm text-[#4dd94d]">
 {`git clone https://github.com/GeroWalther/skribble.git
