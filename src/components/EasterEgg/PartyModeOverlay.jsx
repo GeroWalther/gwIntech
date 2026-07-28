@@ -26,6 +26,9 @@ export const generateStars = (count) => {
   }));
 };
 
+/** What you are dodging out there. */
+export const OBSTACLE_GLYPHS = ['🌑', '☄️', '🛸', '👾', '🪐', '🌚'];
+
 export const BEST_SCORE_KEY = 'nyanBestScore';
 
 export const getBestScore = () => {
@@ -57,6 +60,26 @@ const PartyModeOverlay = ({ isOpen, onClose }) => {
   const audioRef = useRef(null);
   const overlayRef = useRef(null);
   const previousActiveElement = useRef(null);
+
+  // ---------------------------------------------------------------- game
+  // The score was always "seconds the overlay has been open". It still is —
+  // but now you have to survive them. Keeping that definition means the
+  // existing timer, best-score and share behaviour all carry over unchanged.
+  const [catY, setCatY] = useState(50);
+  const [obstacles, setObstacles] = useState([]);
+  const [gameOver, setGameOver] = useState(false);
+
+  const catYRef = useRef(50);
+  const obstaclesRef = useRef([]);
+  const gameOverRef = useRef(false);
+  const rafRef = useRef(null);
+  const lastSpawnRef = useRef(0);
+  const spawnCountRef = useRef(0);
+  const scoreRef = useRef(0);
+
+  useEffect(() => {
+    scoreRef.current = currentScore;
+  }, [currentScore]);
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -180,7 +203,7 @@ const PartyModeOverlay = ({ isOpen, onClose }) => {
       isPausedRef.current = false;
 
       timerRef.current = setInterval(() => {
-        if (!isPausedRef.current) {
+        if (!isPausedRef.current && !gameOverRef.current) {
           setCurrentScore((prev) => prev + 1);
         }
       }, 1000);
@@ -209,6 +232,135 @@ const PartyModeOverlay = ({ isOpen, onClose }) => {
       });
     }
   }, [isOpen]);
+
+  // Reset the run whenever the overlay opens.
+  const resetRun = useCallback(() => {
+    obstaclesRef.current = [];
+    setObstacles([]);
+    spawnCountRef.current = 0;
+    lastSpawnRef.current = 0;
+    gameOverRef.current = false;
+    setGameOver(false);
+    catYRef.current = 50;
+    setCatY(50);
+    setCurrentScore(0);
+  }, []);
+
+  useEffect(() => {
+    if (isOpen) resetRun();
+  }, [isOpen, resetRun]);
+
+  // Steering: pointer and touch fly the cat directly, arrows nudge it.
+  useEffect(() => {
+    if (!isOpen) return undefined;
+    const el = overlayRef.current;
+    if (!el) return undefined;
+
+    const flyTo = (clientY) => {
+      const rect = el.getBoundingClientRect();
+      if (!rect.height) return;
+      const pct = ((clientY - rect.top) / rect.height) * 100;
+      catYRef.current = Math.max(12, Math.min(88, pct));
+      setCatY(catYRef.current);
+    };
+
+    const onPointer = (e) => flyTo(e.clientY);
+    const onTouch = (e) => {
+      if (e.touches && e.touches[0]) flyTo(e.touches[0].clientY);
+    };
+    const onKey = (e) => {
+      const up = e.key === 'ArrowUp' || e.key === 'w' || e.key === 'W';
+      const down = e.key === 'ArrowDown' || e.key === 's' || e.key === 'S';
+      if (!up && !down) return;
+      e.preventDefault();
+      catYRef.current = Math.max(12, Math.min(88, catYRef.current + (up ? -6 : 6)));
+      setCatY(catYRef.current);
+    };
+
+    el.addEventListener('pointermove', onPointer);
+    el.addEventListener('touchmove', onTouch, { passive: true });
+    window.addEventListener('keydown', onKey);
+    return () => {
+      el.removeEventListener('pointermove', onPointer);
+      el.removeEventListener('touchmove', onTouch);
+      window.removeEventListener('keydown', onKey);
+    };
+  }, [isOpen]);
+
+  // The obstacle field. Gated on the overlay actually having a measurable box:
+  // with no layout there is nothing to dodge and nothing to collide with, so
+  // the scene stays the calm flying cat it has always been. That is also what
+  // keeps this inert under jsdom, where every rect measures zero.
+  useEffect(() => {
+    if (!isOpen || prefersReducedMotion) return undefined;
+
+    const el = overlayRef.current;
+    const rect = el && el.getBoundingClientRect();
+    if (!rect || rect.width < 200 || rect.height < 200) return undefined;
+    if (typeof requestAnimationFrame !== 'function') return undefined;
+
+    const catW = isMobile ? 150 : 250;
+    const catH = catW * 0.5;
+    const catLeft = (isMobile ? 0.1 : 0.15) * rect.width;
+
+    let last = null;
+
+    const step = (now) => {
+      if (last === null) last = now;
+      const dt = Math.min(48, now - last);
+      last = now;
+
+      if (!gameOverRef.current && !isPausedRef.current) {
+        const n = spawnCountRef.current;
+        const speed = 0.22 + Math.min(0.3, n * 0.004); // px per ms, ramps up
+        const gap = Math.max(430, 1000 - n * 14);
+
+        if (now - lastSpawnRef.current > gap) {
+          lastSpawnRef.current = now;
+          spawnCountRef.current = n + 1;
+          const size = 34 + Math.random() * 28;
+          obstaclesRef.current = obstaclesRef.current.concat({
+            id: `${now}-${n}`,
+            x: rect.width + size,
+            y: 70 + Math.random() * Math.max(40, rect.height - 190),
+            size,
+            glyph: OBSTACLE_GLYPHS[n % OBSTACLE_GLYPHS.length],
+          });
+        }
+
+        obstaclesRef.current = obstaclesRef.current
+          .map((o) => ({ ...o, x: o.x - speed * dt }))
+          .filter((o) => o.x > -o.size * 2);
+
+        // Hit box is deliberately smaller than the sprite — a near miss should
+        // read as a near miss, not a cheat.
+        const catTop = (catYRef.current / 100) * rect.height - catH / 2;
+        const hit = obstaclesRef.current.some(
+          (o) =>
+            o.x < catLeft + catW * 0.7 &&
+            o.x + o.size * 0.8 > catLeft + catW * 0.2 &&
+            o.y < catTop + catH * 0.78 &&
+            o.y + o.size * 0.8 > catTop + catH * 0.22
+        );
+
+        if (hit) {
+          gameOverRef.current = true;
+          setGameOver(true);
+          if (saveBestScore(scoreRef.current)) setBestScore(scoreRef.current);
+        }
+
+        setObstacles(obstaclesRef.current);
+      }
+
+      rafRef.current = requestAnimationFrame(step);
+    };
+
+    rafRef.current = requestAnimationFrame(step);
+    return () => {
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+      rafRef.current = null;
+    };
+  }, [isOpen, prefersReducedMotion, isMobile]);
 
   // Audio playback logic
   useEffect(() => {
@@ -339,16 +491,48 @@ const PartyModeOverlay = ({ isOpen, onClose }) => {
             />
           ))}
 
-          {/* Rainbow Trail */}
-          <RainbowTrail />
+          {/* Rainbow Trail — rides with the cat so the two never separate. */}
+          <div
+            aria-hidden="true"
+            style={{
+              position: 'absolute',
+              inset: 0,
+              transform: `translateY(${catY - 50}%)`,
+              transition: prefersReducedMotion ? 'none' : 'transform 90ms linear',
+              zIndex: 1,
+            }}
+          >
+            <RainbowTrail />
+          </div>
+
+          {/* Obstacles */}
+          {obstacles.map((o) => (
+            <div
+              key={o.id}
+              aria-hidden="true"
+              data-testid="obstacle"
+              style={{
+                position: 'absolute',
+                left: `${o.x}px`,
+                top: `${o.y}px`,
+                fontSize: `${o.size}px`,
+                lineHeight: 1,
+                userSelect: 'none',
+                zIndex: 2,
+              }}
+            >
+              {o.glyph}
+            </div>
+          ))}
 
           {/* Cat GIF */}
           <div
             style={{
               position: 'absolute',
               left: isMobile ? '10%' : '15%',
-              top: '50%',
+              top: `${catY}%`,
               transform: 'translateY(-50%)',
+              transition: prefersReducedMotion ? 'none' : 'top 90ms linear',
               zIndex: 2,
             }}
             data-testid="cat-container"
@@ -475,6 +659,103 @@ const PartyModeOverlay = ({ isOpen, onClose }) => {
               </div>
             )}
           </div>
+
+          {/* How to fly — shown only for the first few seconds of a run. */}
+          {!gameOver && !prefersReducedMotion && currentScore < 4 && (
+            <div
+              aria-hidden="true"
+              style={{
+                position: 'absolute',
+                bottom: isMobile ? '90px' : '32px',
+                left: '50%',
+                transform: 'translateX(-50%)',
+                color: 'rgba(255,255,255,0.75)',
+                fontFamily: 'monospace',
+                fontSize: isMobile ? '12px' : '15px',
+                textAlign: 'center',
+                zIndex: 10000,
+                pointerEvents: 'none',
+              }}
+            >
+              Move to fly · ↑ ↓ also work · dodge the debris
+            </div>
+          )}
+
+          {/* Game over */}
+          {gameOver && (
+            <div
+              data-testid="game-over"
+              role="status"
+              style={{
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                background: 'rgba(0,0,0,0.82)',
+                border: '2px solid rgba(255,255,255,0.25)',
+                borderRadius: '18px',
+                padding: isMobile ? '24px 28px' : '34px 46px',
+                textAlign: 'center',
+                color: '#FFFFFF',
+                fontFamily: 'monospace',
+                zIndex: 10001,
+                backdropFilter: 'blur(8px)',
+              }}
+            >
+              <div style={{ fontSize: isMobile ? '38px' : '52px', lineHeight: 1 }}>💥</div>
+              <div
+                style={{
+                  marginTop: '12px',
+                  fontSize: isMobile ? '18px' : '24px',
+                  fontWeight: 700,
+                }}
+              >
+                Caught by space debris
+              </div>
+              <div style={{ marginTop: '10px', fontSize: isMobile ? '14px' : '17px' }}>
+                You flew for {currentScore} second{currentScore === 1 ? '' : 's'}
+              </div>
+              {bestScore > 0 && (
+                <div style={{ marginTop: '6px', color: '#FFD700', fontSize: isMobile ? '12px' : '15px' }}>
+                  Best: {bestScore} seconds
+                </div>
+              )}
+              <div style={{ marginTop: '20px', display: 'flex', gap: '12px', justifyContent: 'center' }}>
+                <button
+                  onClick={resetRun}
+                  data-testid="play-again"
+                  style={{
+                    background: '#FFFFFF',
+                    color: '#000000',
+                    border: 'none',
+                    borderRadius: '10px',
+                    padding: '10px 22px',
+                    fontFamily: 'monospace',
+                    fontSize: '15px',
+                    fontWeight: 700,
+                    cursor: 'pointer',
+                  }}
+                >
+                  Play again
+                </button>
+                <button
+                  onClick={onClose}
+                  style={{
+                    background: 'transparent',
+                    color: '#FFFFFF',
+                    border: '2px solid rgba(255,255,255,0.35)',
+                    borderRadius: '10px',
+                    padding: '10px 22px',
+                    fontFamily: 'monospace',
+                    fontSize: '15px',
+                    cursor: 'pointer',
+                  }}
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          )}
 
           {/* Share Buttons */}
           <div

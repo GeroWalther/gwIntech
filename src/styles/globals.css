@@ -1,3 +1,192 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* ------------------------------------------------------------------ *
+ * Ambient background layers for the dark pages (see components/fx).
+ * All decorative, all pointer-events:none, all composited on the GPU.
+ * ------------------------------------------------------------------ */
+
+/* Three colour fields drifting on long, offset cycles so the loop never
+   lands on an obvious beat. blur() on a huge radius is cheap here because
+   the layer never repaints — only its transform changes. */
+.gw-aurora::before,
+.gw-aurora::after,
+.gw-aurora > i {
+  content: '';
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(90px);
+  opacity: 0.5;
+  will-change: transform;
+}
+
+.gw-aurora::before {
+  width: 52vw;
+  height: 52vw;
+  top: -18vw;
+  left: -10vw;
+  background: radial-gradient(circle, rgba(88, 230, 173, 0.5), transparent 65%);
+  animation: gw-drift-a 22s ease-in-out infinite alternate;
+}
+
+.gw-aurora::after {
+  width: 46vw;
+  height: 46vw;
+  top: 4vw;
+  right: -14vw;
+  background: radial-gradient(circle, rgba(139, 123, 255, 0.5), transparent 65%);
+  animation: gw-drift-b 27s ease-in-out infinite alternate;
+}
+
+@keyframes gw-drift-a {
+  from {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  to {
+    transform: translate3d(8vw, 6vw, 0) scale(1.15);
+  }
+}
+
+@keyframes gw-drift-b {
+  from {
+    transform: translate3d(0, 0, 0) scale(1.1);
+  }
+  to {
+    transform: translate3d(-7vw, 9vw, 0) scale(1);
+  }
+}
+
+/* Technical grid, faded out toward the bottom so it reads as depth rather
+   than as wallpaper. */
+.gw-grid {
+  background-image: linear-gradient(rgba(255, 255, 255, 0.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.055) 1px, transparent 1px);
+  background-size: 64px 64px;
+  -webkit-mask-image: radial-gradient(120% 80% at 50% 0%, #000 30%, transparent 78%);
+  mask-image: radial-gradient(120% 80% at 50% 0%, #000 30%, transparent 78%);
+}
+
+/* Film grain. An inline SVG turbulence keeps it a single tiny asset with no
+   extra request. */
+.gw-grain {
+  opacity: 0.32;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+}
+
+/* Cursor spotlight. The gradient is anchored to custom properties the card
+   writes on mousemove, so React never re-renders for pointer movement. */
+.gw-spot::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  background: radial-gradient(
+    340px circle at var(--mx, 50%) var(--my, 50%),
+    rgba(88, 230, 173, 0.16),
+    rgba(139, 123, 255, 0.1) 40%,
+    transparent 68%
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+.gw-spot:hover::before {
+  opacity: 1;
+}
+
+.gw-spot:hover {
+  border-color: rgba(88, 230, 173, 0.35) !important;
+}
+
+/* Keep card content above the spotlight wash. */
+.gw-spot > * {
+  position: relative;
+  z-index: 2;
+}
+
+/* Marquee */
+.gw-marquee {
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+
+.gw-marquee-track {
+  animation-name: gw-scroll;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+.gw-marquee:hover .gw-marquee-track {
+  animation-play-state: paused;
+}
+
+@keyframes gw-scroll {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+/* The hero lamp drifts, and its halo breathes slightly out of step with it so
+   the pair never looks like one rigid object. */
+.gw-float {
+  animation: gw-float 7s ease-in-out infinite;
+}
+
+.gw-halo {
+  animation: gw-halo 5s ease-in-out infinite;
+}
+
+@keyframes gw-float {
+  0%,
+  100% {
+    transform: translateY(-8px);
+  }
+  50% {
+    transform: translateY(8px);
+  }
+}
+
+@keyframes gw-halo {
+  0%,
+  100% {
+    opacity: 0.55;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.9;
+    transform: scale(1.06);
+  }
+}
+
+/* Slow shimmer across a gradient headline. */
+.gw-shimmer {
+  background-size: 220% 100%;
+  animation: gw-shimmer 9s ease-in-out infinite;
+}
+
+@keyframes gw-shimmer {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+/* Anyone who has asked the OS to calm things down gets a static page. */
+@media (prefers-reduced-motion: reduce) {
+  .gw-aurora::before,
+  .gw-aurora::after,
+  .gw-marquee-track,
+  .gw-shimmer {
+    animation: none !important;
+  }
+}

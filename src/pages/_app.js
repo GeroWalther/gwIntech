@@ -6,6 +6,7 @@ import { Montserrat } from 'next/font/google';
 import Head from 'next/head';
 import { Analytics } from '@vercel/analytics/react';
 import { useRouter } from 'next/router';
+import { isDarkRoute } from '@/lib/theme';
 
 const montserrat = Montserrat({
   subsets: ['latin'],
@@ -45,7 +46,9 @@ export default function App({ Component, pageProps }) {
         <link rel='icon' href='/favicon.ico' />
       </Head>
       <main
-        className={`${montserrat.variable} font-mont bg-light w-full min-h-screen`}>
+        className={`${montserrat.variable} font-mont w-full min-h-screen ${
+          isDarkRoute(router.pathname) ? 'bg-[#06070c] text-light' : 'bg-light'
+        }`}>
         <NavBar />
         <Component {...pageProps} />
       </main>

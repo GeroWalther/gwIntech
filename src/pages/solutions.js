@@ -1,7 +1,7 @@
 import React from "react";
 import Head from "next/head";
-import AnimatedTxt from "@/components/AnimatedTxt";
 import Layout from "@/components/Layout";
+import { Ambient, GradientText } from "@/components/fx/Ambient";
 import Image from "next/image";
 import Link from "next/link";
 import omnifood from "../../public/images/projects/Omnifood.png";
@@ -24,7 +24,7 @@ const Stack = ({ items }) => (
     {items.map((t) => (
       <li
         key={t}
-        className="rounded-md border border-solid border-dark/15 bg-light px-2.5 py-1 text-xs font-semibold text-dark/70"
+        className="rounded-md border border-solid border-white/10 bg-white/5 px-2.5 py-1 text-xs font-semibold text-light/70"
       >
         {t}
       </li>
@@ -38,9 +38,9 @@ const Solution = ({ img, title, summary, stack, className = "" }) => (
     whileInView={{ opacity: 1, y: 0 }}
     viewport={{ once: true, margin: "-80px" }}
     transition={{ duration: 0.45 }}
-    className={`group flex flex-col overflow-hidden rounded-2xl border border-solid border-dark/15 bg-white shadow-lg transition-shadow hover:shadow-2xl ${className}`}
+    className={`group flex flex-col overflow-hidden rounded-2xl gw-spot border border-solid border-white/10 bg-white/[0.035] shadow-lg transition-shadow hover:shadow-2xl ${className}`}
   >
-    <div className="overflow-hidden border-b border-solid border-dark/10">
+    <div className="overflow-hidden border-b border-solid border-white/10">
       <FramerImage
         src={img}
         alt={title}
@@ -52,16 +52,16 @@ const Solution = ({ img, title, summary, stack, className = "" }) => (
     </div>
 
     <div className="flex flex-1 flex-col p-7 md:p-5">
-      <h3 className="text-xl font-bold leading-snug text-dark md:text-lg">
+      <h3 className="text-xl font-bold leading-snug text-light md:text-lg">
         {title}
       </h3>
-      <p className="mt-3 flex-1 text-sm font-medium leading-relaxed text-dark/75">
+      <p className="mt-3 flex-1 text-sm font-medium leading-relaxed text-light/70">
         {summary}
       </p>
       {stack && <Stack items={stack} />}
       <Link
         href={CONTACT}
-        className="mt-6 inline-flex items-center gap-2 text-sm font-bold text-primary transition group-hover:gap-3"
+        className="mt-6 inline-flex items-center gap-2 text-sm font-bold text-primaryDark transition group-hover:gap-3"
       >
         Discuss your project
         <span aria-hidden="true">&rarr;</span>
@@ -87,14 +87,14 @@ const Principle = ({ n, title, children }) => (
 
 const StackGroup = ({ title, items }) => (
   <div>
-    <h3 className="font-mono text-xs font-bold uppercase tracking-[0.15em] text-dark/50">
+    <h3 className="font-mono text-xs font-bold uppercase tracking-[0.15em] text-light/50">
       {title}
     </h3>
     <ul className="mt-3 flex flex-wrap gap-2">
       {items.map((t) => (
         <li
           key={t}
-          className="rounded-lg border border-solid border-dark/15 bg-white px-3 py-1.5 text-sm font-semibold text-dark/80 shadow-sm"
+          className="rounded-lg border border-solid border-white/10 bg-white/5 px-3 py-1.5 text-sm font-semibold text-light/80"
         >
           {t}
         </li>
@@ -114,26 +114,30 @@ const Solutions = () => {
         />
       </Head>
 
-      <main className="flex w-full flex-col items-center justify-center overflow-hidden pb-10">
-        <Layout className="pt-16">
+      <Ambient>
+        <Layout className="!bg-transparent pt-10">
           <div className="mx-auto w-full max-w-6xl">
-            <AnimatedTxt
-              text="Solutions which make a difference"
-              className="mb-16 lg:text-4xl md:text-3xl sm:mb-10 md:mt-10"
-            />
+            <h1
+              className="mb-16 mt-4 max-w-4xl font-mono text-6xl font-semibold leading-[1.08] tracking-tight xl:text-5xl lg:text-4xl md:text-3xl sm:mb-10"
+              style={{ textWrap: "balance" }}
+            >
+              <GradientText className="gw-shimmer">
+                Solutions which make a difference
+              </GradientText>
+            </h1>
 
             {/* ---------------- positioning ---------------- */}
             <section className="mx-auto w-full max-w-4xl">
-              <h2 className="mb-4 font-mono text-xs font-bold uppercase tracking-[0.15em] text-primary">
+              <h2 className="mb-4 font-mono text-xs font-bold uppercase tracking-[0.15em] text-primaryDark">
                 What I do
               </h2>
-              <p className="text-lg font-medium leading-relaxed text-dark md:text-base">
+              <p className="text-lg font-medium leading-relaxed text-light/80 md:text-base">
                 I design and build complete products — the interface people
                 touch, the API behind it, and the infrastructure it runs on. You
                 brief one person rather than three agencies, and the decisions
                 stay joined up from the database to the last pixel.
               </p>
-              <p className="mt-4 text-base font-medium leading-relaxed text-dark/75 md:text-sm">
+              <p className="mt-4 text-base font-medium leading-relaxed text-light/70 md:text-sm">
                 Much of my recent work sits where AI meets a real product: voice
                 assistants that answer in under a second, apps that watch a live
                 camera feed and talk a user through what they&apos;re doing, and
@@ -146,10 +150,10 @@ const Solutions = () => {
 
             {/* ---------------- capabilities ---------------- */}
             <section className="mt-20 w-full md:mt-14">
-              <h2 className="mb-3 font-mono text-xs font-bold uppercase tracking-[0.15em] text-primary">
+              <h2 className="mb-3 font-mono text-xs font-bold uppercase tracking-[0.15em] text-primaryDark">
                 Capabilities
               </h2>
-              <p className="mb-10 max-w-3xl text-base font-medium text-dark/75 md:text-sm">
+              <p className="mb-10 max-w-3xl text-base font-medium text-light/70 md:text-sm">
                 Every one of these is something I have built and put into
                 production — not a service page written in the hope someone
                 asks.
@@ -270,10 +274,10 @@ const Solutions = () => {
 
             {/* ---------------- the toolkit ---------------- */}
             <section className="mt-24 w-full md:mt-16">
-              <h2 className="mb-3 font-mono text-xs font-bold uppercase tracking-[0.15em] text-primary">
+              <h2 className="mb-3 font-mono text-xs font-bold uppercase tracking-[0.15em] text-primaryDark">
                 The toolkit
               </h2>
-              <p className="mb-10 max-w-3xl text-base font-medium text-dark/75 md:text-sm">
+              <p className="mb-10 max-w-3xl text-base font-medium text-light/70 md:text-sm">
                 Chosen per project rather than by habit — but this is what I
                 reach for, and what I can still support long after launch.
               </p>
@@ -355,7 +359,7 @@ const Solutions = () => {
             </section>
 
             {/* ---------------- how I work ---------------- */}
-            <section className="mt-24 w-full rounded-3xl bg-dark p-12 md:mt-16 md:p-8">
+            <section className="mt-24 w-full rounded-3xl border border-solid border-white/10 bg-white/[0.04] p-12 md:mt-16 md:p-8">
               <h2 className="text-3xl font-bold text-light md:text-2xl">
                 What working together looks like
               </h2>
@@ -387,10 +391,10 @@ const Solutions = () => {
 
             {/* ---------------- CTA ---------------- */}
             <section className="mt-20 flex w-full flex-col items-center text-center md:mt-14">
-              <h2 className="max-w-2xl text-3xl font-bold text-dark md:text-2xl">
+              <h2 className="max-w-2xl text-3xl font-bold text-light md:text-2xl">
                 Have something in mind?
               </h2>
-              <p className="mt-4 max-w-xl text-base font-medium text-dark/70 md:text-sm">
+              <p className="mt-4 max-w-xl text-base font-medium text-light/70 md:text-sm">
                 Tell me what you&apos;re trying to build — or what is currently
                 getting in the way. I&apos;ll tell you honestly whether I&apos;m
                 the right person for it, and what it would realistically take.
@@ -401,13 +405,13 @@ const Solutions = () => {
               >
                 Start a conversation
               </Link>
-              <p className="mt-4 text-sm font-medium text-dark/50">
+              <p className="mt-4 text-sm font-medium text-light/50">
                 office@gw-intech.com · usually a reply within a day
               </p>
             </section>
           </div>
         </Layout>
-      </main>
+      </Ambient>
     </>
   );
 };

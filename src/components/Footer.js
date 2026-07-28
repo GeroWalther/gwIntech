@@ -1,6 +1,8 @@
 import React from 'react';
 import Layout from './Layout';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { isDarkRoute } from '@/lib/theme';
 
 const GradientStripe = () => {
   const lineStyle = {
@@ -21,19 +23,27 @@ const GradientStripe = () => {
 };
 
 const Footer = () => {
+  const router = useRouter();
+  const dark = isDarkRoute(router.pathname);
+
   return (
-    <footer className='w-full border-t-2 border-solid border-dark text-lg sm:text-sm'>
+    <footer
+      className={`w-full border-t-2 border-solid text-lg sm:text-sm ${
+        dark ? 'border-white/10 bg-[#06070c] text-light' : 'border-dark'
+      }`}>
       <Layout
-        className={
-          'py-8 flex items-center justify-between lg:flex-col lg:py-6'
-        }>
+        className={`py-8 flex items-center justify-between lg:flex-col lg:py-6 ${
+          dark ? '!bg-transparent' : ''
+        }`}>
         <span className='lg:pb-2'>
           {new Date().getFullYear()} &copy; All Rights Reserved built by
           GW-InTech <span className='text-primary text-2xl'>&hearts;</span>
         </span>
         <Link
           href='mailto:office@gw-intech.com'
-          className='border-b-2 border-transparent hover:border-b-2 hover:border-dark '>
+          className={`border-b-2 border-transparent hover:border-b-2 ${
+            dark ? 'hover:border-light' : 'hover:border-dark'
+          }`}>
           Contact & Business Inquiries
         </Link>
       </Layout>

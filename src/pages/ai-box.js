@@ -2,7 +2,12 @@ import { useEffect, useState } from "react";
 import Head from "next/head";
 import Link from "next/link";
 import Layout from "@/components/Layout";
+import Image from "next/image";
 import { motion } from "framer-motion";
+import tabChat from "../../public/images/projects/ai-box/tab-chat.png";
+import tabWrite from "../../public/images/projects/ai-box/tab-write.png";
+import tabImages from "../../public/images/projects/ai-box/tab-images.png";
+import tabTerminal from "../../public/images/projects/ai-box/tab-terminal.png";
 
 // Falls back to the releases page; replaced at runtime with the exact .dmg URL
 // resolved from the GitHub API, so cutting a release updates this page with no
@@ -62,6 +67,71 @@ const Card = ({ title, children, accent = false }) => (
       style={{ color: MUTED }}
     >
       {children}
+    </div>
+  </motion.div>
+);
+
+
+/** One tab of the app: a real screenshot beside what that tab is for. Rows
+ *  alternate so the eye zig-zags down the page instead of scanning a column. */
+const TabRow = ({ n, label, img, alt, headline, children, points, flip = false }) => (
+  <motion.div
+    initial={{ opacity: 0, y: 24 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true, margin: "-80px" }}
+    transition={{ duration: 0.5 }}
+    className={`flex items-center gap-12 lg:flex-col lg:gap-6 ${
+      flip ? "flex-row-reverse" : ""
+    }`}
+  >
+    <div className="w-3/5 lg:w-full">
+      <div
+        className="overflow-hidden rounded-2xl border border-solid shadow-2xl"
+        style={{ borderColor: LINE }}
+      >
+        <Image
+          src={img}
+          alt={alt}
+          className="h-auto w-full"
+          sizes="(max-width: 1023px) 100vw, 60vw"
+        />
+      </div>
+    </div>
+
+    <div className="w-2/5 lg:w-full">
+      <div className="flex items-center gap-3">
+        <span
+          className="font-mono text-xs font-semibold tracking-widest"
+          style={{ color: ACCENT }}
+        >
+          {String(n).padStart(2, "0")}
+        </span>
+        <span
+          className="rounded-md px-2 py-0.5 font-mono text-xs font-semibold"
+          style={{ background: "rgba(127,160,255,0.14)", color: TEXT }}
+        >
+          {label}
+        </span>
+      </div>
+      <h3 className="mt-3 text-2xl font-bold md:text-xl" style={{ color: TEXT }}>
+        {headline}
+      </h3>
+      <p className="mt-3 text-base font-medium md:text-sm" style={{ color: MUTED }}>
+        {children}
+      </p>
+      <ul className="mt-4 flex flex-col gap-2">
+        {points.map((pt) => (
+          <li key={pt} className="flex items-start gap-3">
+            <span
+              className="mt-2 h-1.5 w-1.5 flex-none rounded-full"
+              style={{ background: ACCENT }}
+            />
+            <span className="text-sm font-medium" style={{ color: MUTED }}>
+              {pt}
+            </span>
+          </li>
+        ))}
+      </ul>
     </div>
   </motion.div>
 );
@@ -319,36 +389,93 @@ export default function AIBox() {
               </div>
             </section>
 
-            {/* ---------------- what's inside ---------------- */}
+            {/* ---------------- the four tabs ---------------- */}
             <section className="mx-auto mt-24 w-full max-w-6xl md:mt-16">
               <h2
-                className="mb-10 text-center font-mono text-3xl font-semibold md:text-2xl"
+                className="mb-3 text-center font-mono text-3xl font-semibold md:text-2xl"
                 style={{ color: TEXT, textWrap: "balance" }}
               >
-                Four tools that already know about each other
+                Four tabs down the left. This is what each one does.
               </h2>
-              <div className="grid grid-cols-2 gap-6 lg:grid-cols-1">
-                <Card title="Agentic chat">
-                  Reads and edits files, searches a codebase, runs shell
-                  commands, fetches pages. Every destructive step shows a diff
-                  and asks first.
-                </Card>
-                <Card title="Writing studio">
-                  Continue a passage mid-sentence, or proofread a selection and
-                  accept corrections one at a time. Modes for fiction, business,
-                  marketing and academic work. Version history on disk, so no
+              <p
+                className="mx-auto mb-14 max-w-2xl text-center text-base font-medium md:mb-10 md:text-sm"
+                style={{ color: MUTED }}
+              >
+                They share one window, one model picker and one workspace — so a
+                passage you wrote can be illustrated, and a file the agent
+                touched is the same file your terminal is sitting in.
+              </p>
+
+              <div className="flex flex-col gap-20 md:gap-12">
+                <TabRow
+                  n={1}
+                  label="Agentic Chat"
+                  img={tabChat}
+                  alt="The Agentic Chat tab in AI Box, with the model picker and agent composer"
+                  headline="An agent with hands, not a chat box"
+                  points={[
+                    "Reads and edits files, searches a codebase, runs shell commands, fetches pages",
+                    "Every destructive step shows a diff and asks first",
+                    "Approval is raised on the Mac, even when the request came from your phone",
+                  ]}
+                >
+                  Ask it to build something, fix something or explain something,
+                  and turn on <b style={{ color: TEXT }}>Agent</b> to let it act
+                  on the machine rather than just describe what you should do.
+                </TabRow>
+
+                <TabRow
+                  n={2}
+                  label="Write"
+                  img={tabWrite}
+                  alt="The Write tab in AI Box, showing a manuscript, word count and the outline panel"
+                  headline="A manuscript editor that finishes your sentence"
+                  flip
+                  points={[
+                    "Continue a passage mid-sentence, or proofread a selection and accept corrections one at a time",
+                    "Modes for fiction, business, marketing and academic work",
+                    "Chapter and scene outline, word goals, and version history on disk",
+                  ]}
+                >
+                  A proper writing surface rather than a chat transcript — your
+                  document stays the document, and the AI works inside it. No
                   draft is ever really gone.
-                </Card>
-                <Card title="Image generation">
-                  A managed ComfyUI the app installs for you — no Python setup —
-                  running on your own GPU. Illustrate a scene straight from your
-                  manuscript, with characters kept visually consistent.
-                </Card>
-                <Card title="A real terminal">
-                  An actual PTY, not a command box. <Mono>vim</Mono>,{" "}
-                  <Mono>top</Mono>, <Mono>claude</Mono> — from the sofa, or from
-                  a train.
-                </Card>
+                </TabRow>
+
+                <TabRow
+                  n={3}
+                  label="Images"
+                  img={tabImages}
+                  alt="The Images tab in AI Box, where local image generation runs"
+                  headline="Generation on your own GPU"
+                  points={[
+                    "A managed ComfyUI the app installs for you — no Python setup",
+                    "Illustrate a scene straight from the passage you have selected in Write",
+                    "Characters kept visually consistent between images",
+                  ]}
+                >
+                  Nothing is uploaded to be rendered. The models run on the
+                  machine under your desk, which is also the machine holding the
+                  manuscript they are illustrating.
+                </TabRow>
+
+                <TabRow
+                  n={4}
+                  label="Terminal"
+                  img={tabTerminal}
+                  alt="The Terminal tab in AI Box, a real PTY session"
+                  headline="A real terminal, not a command box"
+                  flip
+                  points={[
+                    "An actual PTY — vim, top and claude all behave normally",
+                    "xterm.js on the front, Rust PTY sessions behind it",
+                    "Reachable from the sofa, or from a train",
+                  ]}
+                >
+                  The tab that makes the phone useful: a genuine shell on your
+                  Mac, in your pocket, with the same session waiting when you sit
+                  back down.
+                </TabRow>
               </div>
             </section>
 

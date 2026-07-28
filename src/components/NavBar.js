@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import Logo from "./Logo";
 import { GithubIcon, LinkedInIcon, TwitterIcon } from "./Icons";
 import { motion } from "framer-motion";
+import { isDarkRoute } from "@/lib/theme";
 
 const CustomMobileLink = ({ href, children, className = "", toggle }) => {
   const router = useRouter();
@@ -33,15 +34,16 @@ const CustomMobileLink = ({ href, children, className = "", toggle }) => {
 };
 const CustomLink = ({ href, children, className = "" }) => {
   const router = useRouter();
+  const dark = isDarkRoute(router.pathname);
 
   return (
     <Link href={href} className={`${className} relative group`}>
       {children}
 
       <span
-        className={`h-[1px] inline-block bg-dark absolute left-0 -bottom-0.5 group-hover:w-full transition-[width] ease duration-300 ${
-          router.asPath === href ? "w-full" : "w-0"
-        }`}
+        className={`h-[1px] inline-block absolute left-0 -bottom-0.5 group-hover:w-full transition-[width] ease duration-300 ${
+          dark ? "bg-light" : "bg-dark"
+        } ${router.asPath === href ? "w-full" : "w-0"}`}
       >
         &nbsp;
       </span>
@@ -50,6 +52,8 @@ const CustomLink = ({ href, children, className = "" }) => {
 };
 
 const NavBar = () => {
+  const router = useRouter();
+  const dark = isDarkRoute(router.pathname);
   const [isOpen, setIsOpen] = useState(false);
   const navbarRef = useRef(null);
 
@@ -81,7 +85,9 @@ const NavBar = () => {
 
   return (
     <header
-      className="w-full px-24 py-12 font-medium flex items-center justify-between relative z-10 lg:px-16 md:px-12 sm:px-8"
+      className={`w-full px-24 py-12 font-medium flex items-center justify-between relative z-10 lg:px-16 md:px-12 sm:px-8 ${
+        dark ? "text-light" : "text-dark"
+      }`}
       ref={navbarRef}
     >
       <button
@@ -89,17 +95,17 @@ const NavBar = () => {
         onClick={handleClick}
       >
         <span
-          className={`bg-dark transition-all duration-500 ease-out block h-0.5 w-10 rounded-sm transform ${
+          className={`${dark ? "bg-light" : "bg-dark"} transition-all duration-500 ease-out block h-0.5 w-10 rounded-sm transform ${
             isOpen ? "rotate-45 translate-y-1.5" : "-translate-y-1"
           }`}
         ></span>
         <span
-          className={`bg-dark transition-all duration-500 ease-out block h-0.5 w-10 rounded-sm my-1 ${
+          className={`${dark ? "bg-light" : "bg-dark"} transition-all duration-500 ease-out block h-0.5 w-10 rounded-sm my-1 ${
             isOpen ? "opacity-0" : "opacity-100"
           }`}
         ></span>
         <span
-          className={`bg-dark transition-all duration-500 ease-out block h-0.5 w-10 rounded-sm transform ${
+          className={`${dark ? "bg-light" : "bg-dark"} transition-all duration-500 ease-out block h-0.5 w-10 rounded-sm transform ${
             isOpen ? "-rotate-45 -translate-y-1.5" : "translate-y-1"
           }`}
         ></span>
