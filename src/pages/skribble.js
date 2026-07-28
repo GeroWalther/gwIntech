@@ -695,15 +695,19 @@ function AnnotatedDesktop() {
         delay={1.5}
       />
 
+      {/* framer's y is a transform, not the SVG y attribute, so animating it to
+          140 stacked a 140px translate on top of the y below and dropped the
+          label onto the arrowhead. It rises a few pixels instead, finishing at
+          translate 0 so the authored position is what actually shows. */}
       <motion.text
-        x="600"
+        x="566"
         y="140"
         fill="#ffd600"
         fontSize="26"
         fontWeight="700"
         fontFamily="var(--font-mont), system-ui"
-        initial={{ opacity: 0, y: 150 }}
-        whileInView={{ opacity: 1, y: 140 }}
+        initial={{ opacity: 0, y: 8 }}
+        whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-80px" }}
         transition={{ duration: 0.4, delay: 1.5 }}
       >
