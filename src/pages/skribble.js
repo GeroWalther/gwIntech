@@ -544,19 +544,80 @@ function Aurora({ still }) {
 }
 
 /** A stroke that draws itself, the way the app draws one. */
-function SelfDrawing({ d, stroke, width = 8, delay = 0, duration = 1.2, ...rest }) {
+function SelfDrawing({
+  d,
+  stroke,
+  width = 8,
+  delay = 0,
+  duration = 1.2,
+  opacity = 1,
+  ...rest
+}) {
+  const ref = useRef(null);
+  const [length, setLength] = useState(null);
+  const [drawn, setDrawn] = useState(false);
+
+  // The stroke is drawn by animating stroke-dashoffset over the path's real
+  // measured length, rather than through framer-motion's pathLength. Safari —
+  // iOS Safari in particular — does not reliably render that, which left every
+  // annotation here invisible on iPhone while the rest of the figure appeared.
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || typeof el.getTotalLength !== "function") return;
+
+    let total;
+    try {
+      total = el.getTotalLength();
+    } catch {
+      return; // Leave it drawn rather than risk hiding it.
+    }
+    if (!total || !Number.isFinite(total)) return;
+
+    const still =
+      typeof window !== "undefined" &&
+      window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+    if (still) return;
+
+    setLength(total);
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) {
+          // A frame between applying the offset and clearing it, or the
+          // transition has nothing to interpolate from.
+          requestAnimationFrame(() => setDrawn(true));
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "0px 0px -8% 0px" }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [d]);
+
+  // Until it has been measured the path renders complete. A stroke whose
+  // animation never runs has to still be a stroke — failing to invisible is
+  // what made this break silently in the first place.
+  const dash =
+    length == null
+      ? null
+      : {
+          strokeDasharray: length,
+          strokeDashoffset: drawn ? 0 : length,
+          transition: `stroke-dashoffset ${duration}s ease-in-out ${delay}s`,
+        };
+
   return (
-    <motion.path
+    <path
+      ref={ref}
       d={d}
       fill="none"
       stroke={stroke}
       strokeWidth={width}
       strokeLinecap="round"
       strokeLinejoin="round"
-      initial={{ pathLength: 0, opacity: 0 }}
-      whileInView={{ pathLength: 1, opacity: 1 }}
-      viewport={{ once: true, margin: "-80px" }}
-      transition={{ duration, delay, ease: "easeInOut" }}
+      opacity={opacity}
+      style={dash || undefined}
       {...rest}
     />
   );
@@ -767,15 +828,12 @@ export default function Skribble() {
                   preserveAspectRatio="none"
                   aria-hidden
                 >
-                  <motion.path
+                  <SelfDrawing
                     d="M4 17 C 60 4, 110 24, 168 12 C 216 2, 258 16, 296 8"
-                    fill="none"
                     stroke="#ffd600"
-                    strokeWidth="7"
-                    strokeLinecap="round"
-                    initial={{ pathLength: 0 }}
-                    animate={{ pathLength: 1 }}
-                    transition={{ duration: 1, delay: 0.5, ease: "easeInOut" }}
+                    width={7}
+                    delay={0.5}
+                    duration={1}
                   />
                 </svg>
               </span>
