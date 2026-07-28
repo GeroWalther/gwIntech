@@ -8,6 +8,7 @@ import { GithubIcon } from "@/components/Icons";
 import { PROJECTS, FILTERS, APPS } from "@/data/projects";
 import {
   Ambient,
+  INK,
   GradientText,
   MINT,
   MUTED,
@@ -83,7 +84,7 @@ const ProjectCard = ({ p, wide }) => {
             href={p.page || p.link}
             target={isInternal(p.page || p.link) ? undefined : "_blank"}
             className="rounded-lg px-5 py-2.5 text-sm font-semibold transition hover:brightness-110"
-            style={{ background: p.page ? MINT : TEXT, color: "#06070c" }}
+            style={{ background: p.page ? MINT : TEXT, color: INK }}
           >
             {CtaLabel(p)}
           </Link>
@@ -91,7 +92,7 @@ const ProjectCard = ({ p, wide }) => {
         {p.page && (
           <Link
             href={p.page}
-            className="rounded-lg border border-solid px-5 py-2.5 text-sm font-semibold transition hover:bg-white/5"
+            className="rounded-lg border border-solid px-5 py-2.5 text-sm font-semibold transition gw-hover-panel"
             style={{ borderColor: LINE, color: TEXT }}
           >
             Webspecial →
@@ -128,7 +129,7 @@ export default function Projects() {
           name="description"
           content="Shipped work by Gero Walther: notarized macOS apps, App Store iOS apps, e-commerce storefronts, AI tooling and full-stack web applications."
         />
-        <meta name="theme-color" content="#06070c" />
+        <meta name="theme-color" content="#f5f6fa" />
       </Head>
 
       <Ambient>
@@ -161,7 +162,7 @@ export default function Projects() {
               <Reveal>
                 <div
                   className="rounded-2xl border border-solid p-7 md:p-5"
-                  style={{ borderColor: LINE, background: "rgba(88,230,173,0.05)" }}
+                  style={{ borderColor: LINE, background: "var(--gw-chip-mint)" }}
                 >
                   <div className="flex items-end justify-between gap-6 md:flex-col md:items-start">
                     <div>
@@ -178,7 +179,7 @@ export default function Projects() {
                           key={a.title}
                           href={a.page}
                           className="rounded-lg px-5 py-2.5 text-sm font-semibold transition hover:brightness-110"
-                          style={{ background: MINT, color: "#06070c" }}
+                          style={{ background: MINT, color: INK }}
                         >
                           {a.title} →
                         </Link>
@@ -201,7 +202,7 @@ export default function Projects() {
                       className="rounded-full border border-solid px-5 py-2 text-sm font-semibold transition duration-300"
                       style={{
                         borderColor: on ? MINT : LINE,
-                        background: on ? "rgba(88,230,173,0.14)" : "transparent",
+                        background: on ? "var(--gw-chip-mint)" : "transparent",
                         color: on ? MINT : MUTED,
                       }}
                     >

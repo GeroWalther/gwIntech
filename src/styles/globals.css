@@ -64,6 +64,37 @@
 }
 
 /* ------------------------------------------------------------------ *
+ * Token-backed utilities.
+ *
+ * Pages written against the dark ground used text-light, bg-white/5 and
+ * friends, which cannot follow a theme. These are the themed equivalents:
+ * plain authored CSS, so Tailwind's purge never touches them.
+ * ------------------------------------------------------------------ */
+
+.gw-text {
+  color: var(--gw-text);
+}
+.gw-muted {
+  color: var(--gw-muted);
+}
+/* The third step down in the hierarchy — captions and footnotes. */
+.gw-faint {
+  color: var(--gw-muted);
+  opacity: 0.72;
+}
+.gw-panel {
+  background: var(--gw-panel);
+}
+.gw-border {
+  border-color: var(--gw-line);
+}
+/* A solid button that inverts against whatever the ground is. */
+.gw-invert {
+  background: var(--gw-text);
+  color: var(--gw-ink);
+}
+
+/* ------------------------------------------------------------------ *
  * Ambient background layers (see components/fx).
  * All decorative, all pointer-events:none, all composited on the GPU.
  * ------------------------------------------------------------------ */
@@ -250,4 +281,9 @@
   .gw-shimmer {
     animation: none !important;
   }
+}
+
+/* Hover wash for outline buttons, themed rather than fixed to white. */
+.gw-hover-panel:hover {
+  background: var(--gw-panel);
 }

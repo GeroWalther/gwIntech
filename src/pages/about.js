@@ -6,6 +6,7 @@ import HireMe from "@/components/HireMe";
 import tecnoArt from "../../public/images/hero/tecno.jpg";
 import {
   Ambient,
+  INK,
   GradientText,
   LINE,
   MINT,
@@ -52,7 +53,7 @@ export default function About() {
           name="description"
           content="GW-InTech Official Website - About GW-InTech, my motivation and background, check out the languages and frameworks I use for mobile apps and web development."
         />
-        <meta name="theme-color" content="#06070c" />
+        <meta name="theme-color" content="#f5f6fa" />
       </Head>
 
       <Ambient>
@@ -191,7 +192,7 @@ export default function About() {
                     <Link
                       href="/projects"
                       className="rounded-xl px-7 py-3.5 text-base font-semibold transition md:text-sm"
-                      style={{ background: MINT, color: "#06070c" }}
+                      style={{ background: MINT, color: INK }}
                     >
                       See the projects
                     </Link>

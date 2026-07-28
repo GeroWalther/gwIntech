@@ -24,7 +24,7 @@ const Stack = ({ items }) => (
     {items.map((t) => (
       <li
         key={t}
-        className="rounded-md border border-solid border-white/10 bg-white/5 px-2.5 py-1 text-xs font-semibold text-light/70"
+        className="rounded-md border border-solid gw-border gw-panel px-2.5 py-1 text-xs font-semibold gw-muted"
       >
         {t}
       </li>
@@ -38,9 +38,9 @@ const Solution = ({ img, title, summary, stack, className = "" }) => (
     whileInView={{ opacity: 1, y: 0 }}
     viewport={{ once: true, margin: "-80px" }}
     transition={{ duration: 0.45 }}
-    className={`group flex flex-col overflow-hidden rounded-2xl gw-spot border border-solid border-white/10 bg-white/[0.035] shadow-lg transition-shadow hover:shadow-2xl ${className}`}
+    className={`group flex flex-col overflow-hidden rounded-2xl gw-spot border border-solid gw-border bg-white/[0.035] shadow-lg transition-shadow hover:shadow-2xl ${className}`}
   >
-    <div className="overflow-hidden border-b border-solid border-white/10">
+    <div className="overflow-hidden border-b border-solid gw-border">
       <FramerImage
         src={img}
         alt={title}
@@ -52,10 +52,10 @@ const Solution = ({ img, title, summary, stack, className = "" }) => (
     </div>
 
     <div className="flex flex-1 flex-col p-7 md:p-5">
-      <h3 className="text-xl font-bold leading-snug text-light md:text-lg">
+      <h3 className="text-xl font-bold leading-snug gw-text md:text-lg">
         {title}
       </h3>
-      <p className="mt-3 flex-1 text-sm font-medium leading-relaxed text-light/70">
+      <p className="mt-3 flex-1 text-sm font-medium leading-relaxed gw-muted">
         {summary}
       </p>
       {stack && <Stack items={stack} />}
@@ -77,8 +77,8 @@ const Principle = ({ n, title, children }) => (
       {String(n).padStart(2, "0")}
     </span>
     <div>
-      <h3 className="text-lg font-bold text-light md:text-base">{title}</h3>
-      <p className="mt-1 text-base font-medium text-light/70 md:text-sm">
+      <h3 className="text-lg font-bold gw-text md:text-base">{title}</h3>
+      <p className="mt-1 text-base font-medium gw-muted md:text-sm">
         {children}
       </p>
     </div>
@@ -87,14 +87,14 @@ const Principle = ({ n, title, children }) => (
 
 const StackGroup = ({ title, items }) => (
   <div>
-    <h3 className="font-mono text-xs font-bold uppercase tracking-[0.15em] text-light/50">
+    <h3 className="font-mono text-xs font-bold uppercase tracking-[0.15em] gw-faint">
       {title}
     </h3>
     <ul className="mt-3 flex flex-wrap gap-2">
       {items.map((t) => (
         <li
           key={t}
-          className="rounded-lg border border-solid border-white/10 bg-white/5 px-3 py-1.5 text-sm font-semibold text-light/80"
+          className="rounded-lg border border-solid gw-border gw-panel px-3 py-1.5 text-sm font-semibold gw-muted"
         >
           {t}
         </li>
@@ -131,13 +131,13 @@ const Solutions = () => {
               <h2 className="mb-4 font-mono text-xs font-bold uppercase tracking-[0.15em] text-primaryDark">
                 What I do
               </h2>
-              <p className="text-lg font-medium leading-relaxed text-light/80 md:text-base">
+              <p className="text-lg font-medium leading-relaxed gw-muted md:text-base">
                 I design and build complete products — the interface people
                 touch, the API behind it, and the infrastructure it runs on. You
                 brief one person rather than three agencies, and the decisions
                 stay joined up from the database to the last pixel.
               </p>
-              <p className="mt-4 text-base font-medium leading-relaxed text-light/70 md:text-sm">
+              <p className="mt-4 text-base font-medium leading-relaxed gw-muted md:text-sm">
                 Much of my recent work sits where AI meets a real product: voice
                 assistants that answer in under a second, apps that watch a live
                 camera feed and talk a user through what they&apos;re doing, and
@@ -153,7 +153,7 @@ const Solutions = () => {
               <h2 className="mb-3 font-mono text-xs font-bold uppercase tracking-[0.15em] text-primaryDark">
                 Capabilities
               </h2>
-              <p className="mb-10 max-w-3xl text-base font-medium text-light/70 md:text-sm">
+              <p className="mb-10 max-w-3xl text-base font-medium gw-muted md:text-sm">
                 Every one of these is something I have built and put into
                 production — not a service page written in the hope someone
                 asks.
@@ -277,7 +277,7 @@ const Solutions = () => {
               <h2 className="mb-3 font-mono text-xs font-bold uppercase tracking-[0.15em] text-primaryDark">
                 The toolkit
               </h2>
-              <p className="mb-10 max-w-3xl text-base font-medium text-light/70 md:text-sm">
+              <p className="mb-10 max-w-3xl text-base font-medium gw-muted md:text-sm">
                 Chosen per project rather than by habit — but this is what I
                 reach for, and what I can still support long after launch.
               </p>
@@ -359,8 +359,8 @@ const Solutions = () => {
             </section>
 
             {/* ---------------- how I work ---------------- */}
-            <section className="mt-24 w-full rounded-3xl border border-solid border-white/10 bg-white/[0.04] p-12 md:mt-16 md:p-8">
-              <h2 className="text-3xl font-bold text-light md:text-2xl">
+            <section className="mt-24 w-full rounded-3xl border border-solid gw-border bg-white/[0.04] p-12 md:mt-16 md:p-8">
+              <h2 className="text-3xl font-bold gw-text md:text-2xl">
                 What working together looks like
               </h2>
               <ul className="mt-8 flex flex-col gap-7">
@@ -391,21 +391,21 @@ const Solutions = () => {
 
             {/* ---------------- CTA ---------------- */}
             <section className="mt-20 flex w-full flex-col items-center text-center md:mt-14">
-              <h2 className="max-w-2xl text-3xl font-bold text-light md:text-2xl">
+              <h2 className="max-w-2xl text-3xl font-bold gw-text md:text-2xl">
                 Have something in mind?
               </h2>
-              <p className="mt-4 max-w-xl text-base font-medium text-light/70 md:text-sm">
+              <p className="mt-4 max-w-xl text-base font-medium gw-muted md:text-sm">
                 Tell me what you&apos;re trying to build — or what is currently
                 getting in the way. I&apos;ll tell you honestly whether I&apos;m
                 the right person for it, and what it would realistically take.
               </p>
               <Link
                 href={CONTACT}
-                className="mt-8 rounded-lg bg-dark px-8 py-4 text-lg font-semibold text-light shadow-lg transition hover:bg-primary md:text-base"
+                className="mt-8 rounded-lg gw-invert px-8 py-4 text-lg font-semibold shadow-lg transition hover:bg-primary md:text-base"
               >
                 Start a conversation
               </Link>
-              <p className="mt-4 text-sm font-medium text-light/50">
+              <p className="mt-4 text-sm font-medium gw-faint">
                 office@gw-intech.com · usually a reply within a day
               </p>
             </section>

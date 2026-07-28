@@ -7,32 +7,22 @@ import {
   useState,
 } from "react";
 import { useRouter } from "next/router";
+import {
+  DEFAULT_THEME,
+  STORAGE_KEY,
+  isThemeable,
+  resolveTheme,
+} from "./theme-routes";
 
-export const STORAGE_KEY = "gw-theme";
-export const DEFAULT_THEME = "light";
-
-// Pages that honour the visitor's choice. Add a route here and it gains the
-// toggle; nothing else has to change.
-export const THEMEABLE_ROUTES = ["/"];
-
-// Pages authored as fixed dark artefacts. The product pages ("webspecials")
-// are designed around a dark ground — their gradients, glows and the canvas
-// demo only work there — so they ignore the preference entirely.
-export const ALWAYS_DARK_ROUTES = [
-  "/projects",
-  "/about",
-  "/solutions",
-  "/ai-box",
-  "/skribble",
-  "/gridly",
-];
-
-export const isThemeable = (pathname) => THEMEABLE_ROUTES.includes(pathname);
-
-export const resolveTheme = (pathname, preference) => {
-  if (isThemeable(pathname)) return preference === "dark" ? "dark" : "light";
-  return ALWAYS_DARK_ROUTES.includes(pathname) ? "dark" : "light";
-};
+// Route rules live in a React-free module so _document can share them.
+export {
+  STORAGE_KEY,
+  DEFAULT_THEME,
+  THEMEABLE_ROUTES,
+  ALWAYS_DARK_ROUTES,
+  isThemeable,
+  resolveTheme,
+} from "./theme-routes";
 
 // Kept for callers that only need to know whether the ground is dark and do
 // not have the visitor's preference to hand.

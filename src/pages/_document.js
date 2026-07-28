@@ -1,4 +1,10 @@
 import { Html, Head, Main, NextScript } from 'next/document';
+import {
+  ALWAYS_DARK_ROUTES,
+  DEFAULT_THEME,
+  STORAGE_KEY,
+  THEMEABLE_ROUTES,
+} from '@/lib/theme-routes';
 
 export default function Document() {
   return (
@@ -11,10 +17,12 @@ export default function Document() {
           dangerouslySetInnerHTML={{
             __html: `(function(){try{
 var p=(location.pathname||'/').replace(/\\/+$/,'')||'/';
-var alwaysDark=['/projects','/about','/solutions','/ai-box','/skribble','/gridly'];
-var themeable=['/'];
+var themeable=${JSON.stringify(THEMEABLE_ROUTES)};
+var alwaysDark=${JSON.stringify(ALWAYS_DARK_ROUTES)};
 var t;
-if(themeable.indexOf(p)>-1){var s=localStorage.getItem('gw-theme');t=(s==='dark'||s==='light')?s:'light';}
+if(themeable.indexOf(p)>-1){var s=localStorage.getItem(${JSON.stringify(
+              STORAGE_KEY
+            )});t=(s==='dark'||s==='light')?s:${JSON.stringify(DEFAULT_THEME)};}
 else{t=alwaysDark.indexOf(p)>-1?'dark':'light';}
 document.documentElement.setAttribute('data-theme',t);
 document.documentElement.style.colorScheme=t;
