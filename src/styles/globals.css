@@ -299,6 +299,21 @@
   background: var(--gw-panel);
 }
 
+/* Install snippets. A translucent black sat on the light card as a mid grey,
+   which left the mint at ~3.5:1 — under the line for 12px mono. A terminal
+   reads as a terminal on either ground, so this one pins itself to dark and
+   takes the luminous mint with it, rather than following the theme. */
+.gw-terminal {
+  background: #0b0f18;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+.gw-terminal-label {
+  color: #9aa5bb;
+}
+.gw-terminal-line {
+  color: #58e6ad;
+}
+
 /* The Hire Me badge. Inline styles win over Tailwind utilities, so the hover
    colour has to be applied the same way — as a rule, not a utility class. */
 .gw-hire:hover {

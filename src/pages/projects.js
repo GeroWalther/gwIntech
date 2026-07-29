@@ -66,12 +66,10 @@ const ProjectCard = ({ p, wide }) => {
       </p>
 
       {p.brew && (
-        <div className="mt-4 rounded-lg p-3 font-mono text-xs" style={{ background: "rgba(0,0,0,0.45)" }}>
-          <p className="mb-1 opacity-60" style={{ color: MUTED }}>
-            Install via Homebrew
-          </p>
+        <div className="gw-terminal mt-4 rounded-lg p-3 font-mono text-xs">
+          <p className="gw-terminal-label mb-1">Install via Homebrew</p>
           {p.brew.map((line) => (
-            <p key={line} style={{ color: MINT }}>
+            <p key={line} className="gw-terminal-line">
               {line}
             </p>
           ))}
