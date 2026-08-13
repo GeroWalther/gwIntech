@@ -11,14 +11,15 @@ const HireMe = ({ top = false }) => {
   const dark = theme === 'dark';
 
   return (
-    // On mobile the badge is absolute inside the page wrapper, which begins
-    // below the navbar — at top-2 it landed squarely on the page heading. The
-    // negative offset lifts it back up level with the nav, and z-20 keeps it
-    // over the bar (z-10) while staying under the open mobile menu (z-30).
+    // Stays `fixed` at every width. It used to switch to absolute below lg,
+    // which put it inside Ambient — and Ambient is `overflow-hidden`, so the
+    // badge was clipped the moment it was lifted level with the navbar. Fixed
+    // is positioned against the viewport instead, so nothing crops it, and
+    // z-50 keeps it above the bar and the page content.
     <div
-      className={`fixed right-4 ${
+      className={`fixed right-4 z-50 ${
         !top ? 'bottom-4' : 'top-6 '
-      } lg:right-0 lg:left-auto lg:-top-20 lg:bottom-auto lg:z-20 flex items-center justify-center overflow-hidden lg:absolute `}>
+      } lg:right-1 lg:left-auto lg:top-1 lg:bottom-auto flex items-center justify-center`}>
       <div className='w-64 h-auto flex items-center justify-center relative sm:w-40 '>
         {/* The ring text is the whole point of the badge, so it follows the
             page colour rather than being pinned to one ground. */}
