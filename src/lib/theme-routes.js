@@ -17,7 +17,12 @@ export const THEMEABLE_ROUTES = [
 // Pages authored as fixed dark artefacts. The product pages ("webspecials")
 // are designed around a dark ground — their gradients, glows and the Skribble
 // canvas demo only work there — so they ignore the preference entirely.
-export const ALWAYS_DARK_ROUTES = ["/ai-box", "/skribble", "/gridly"];
+export const ALWAYS_DARK_ROUTES = [
+  "/ai-box",
+  "/skribble",
+  "/gridly",
+  "/eyeguide",
+];
 
 export const isThemeable = (pathname) => THEMEABLE_ROUTES.includes(pathname);
 

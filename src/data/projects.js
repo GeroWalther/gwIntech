@@ -33,6 +33,7 @@ import naturaVervae from "../../public/images/projects/natura-vervae.jpg";
 import gridly from "../../public/images/projects/gridly.png";
 import viceGolf from "../../public/images/projects/vice-golf.png";
 import skribble from "../../public/images/projects/skribble-card.png";
+import eyeguide from "../../public/images/projects/eyeguide-card.png";
 
 export const FILTERS = [
   { key: "all", label: "Everything" },
@@ -43,6 +44,18 @@ export const FILTERS = [
 ];
 
 export const PROJECTS = [
+  {
+    title: "EyeGuide AI",
+    type: "iOS App — SwiftUI, Vision & Gemini",
+    kind: ["mobile", "ai"],
+    img: eyeguide,
+    page: "/eyeguide",
+    link: "https://apps.apple.com/es/app/eyeguide-ai/id6791673680?l=en-GB",
+    appStore: true,
+    featured: true,
+    summary:
+      "Point your phone at whatever you are fixing — a dripping tap, a car engine, a dishwasher throwing an error code — and EyeGuide watches through the camera, answers out loud and draws a marker on the exact part you should touch next. Ask mode sends one frame per question and tracks the object with Vision, so the marker stays on it as you move the phone. Live mode streams camera and voice over a WebSocket for hands-free coaching while both hands stay on the job. Native SwiftUI on Gemini, with the API key kept server-side behind a proxy rather than shipped in the app.",
+  },
   {
     title: "AI Box",
     type: "macOS App — Tauri 2, Rust & React",
@@ -368,5 +381,15 @@ export const PROJECTS = [
   },
 ];
 
-// The three downloadable Mac apps, in the order they should be surfaced.
-export const APPS = PROJECTS.filter((p) => p.page);
+// The downloadable Mac apps, in the order they should be surfaced. Scoped to
+// desktop rather than to `page` alone: EyeGuide AI carries a page too, but it
+// is an App Store iOS app and must not land in "Download a Mac app" or in the
+// Mac-app count on the homepage.
+export const APPS = PROJECTS.filter(
+  (p) => p.page && p.kind.includes("desktop")
+);
+
+// The app spotlighted on the homepage, directly under the hero. Point this at
+// whichever release is newest or most worth pushing — the section renders
+// whatever it names, so promoting the next app is a one-line change here.
+export const FEATURED_APP = PROJECTS.find((p) => p.title === "EyeGuide AI");

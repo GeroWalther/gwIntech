@@ -77,10 +77,13 @@ const ProjectCard = ({ p, wide }) => {
       )}
 
       <div className="mt-5 flex flex-wrap items-center gap-3">
-        {(p.page || p.link) && (
+        {/* Prefer the live listing when there is one, so a card that also has a
+            webspecial still offers the download as its first action — the
+            webspecial follows in its own button below. */}
+        {(p.link || p.page) && (
           <Link
-            href={p.page || p.link}
-            target={isInternal(p.page || p.link) ? undefined : "_blank"}
+            href={p.link || p.page}
+            target={isInternal(p.link || p.page) ? undefined : "_blank"}
             className="rounded-lg px-5 py-2.5 text-sm font-semibold transition hover:brightness-110"
             style={{ background: p.page ? MINT : TEXT, color: INK }}
           >
