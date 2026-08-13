@@ -10,7 +10,7 @@ import shotError from "../../public/images/eyeguide/04.png";
 import shotPorts from "../../public/images/eyeguide/05.png";
 
 const APP_STORE_URL =
-  "https://apps.apple.com/es/app/eyeguide-ai/id6791673680?l=en-GB";
+  "https://apps.apple.com/app/id6791673680";
 const PRIVACY_URL = "/app-privacy-policy";
 const FEEDBACK_MAIL =
   "mailto:office@gw-intech.com?subject=EyeGuide%20AI%20feedback";
