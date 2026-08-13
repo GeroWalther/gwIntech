@@ -11,10 +11,14 @@ const HireMe = ({ top = false }) => {
   const dark = theme === 'dark';
 
   return (
+    // On mobile the badge is absolute inside the page wrapper, which begins
+    // below the navbar — at top-2 it landed squarely on the page heading. The
+    // negative offset lifts it back up level with the nav, and z-20 keeps it
+    // over the bar (z-10) while staying under the open mobile menu (z-30).
     <div
       className={`fixed right-4 ${
         !top ? 'bottom-4' : 'top-6 '
-      } lg:right-0 lg:left-auto lg:top-2 lg:bottom-auto flex items-center justify-center overflow-hidden lg:absolute `}>
+      } lg:right-0 lg:left-auto lg:-top-20 lg:bottom-auto lg:z-20 flex items-center justify-center overflow-hidden lg:absolute `}>
       <div className='w-64 h-auto flex items-center justify-center relative sm:w-40 '>
         {/* The ring text is the whole point of the badge, so it follows the
             page colour rather than being pinned to one ground. */}
