@@ -66,7 +66,7 @@ export const PROJECTS = [
     github: "https://github.com/GeroWalther/ai-box",
     featured: true,
     summary:
-      "A native macOS app that puts agentic chat, a writing studio, local image generation and a real terminal behind one window — then hands you the controls on your phone while the Mac does the work and keeps your API keys. Built with Tauri 2, Rust and React, signed and notarized, with conflict-free sync between devices. Free during public beta.",
+      "A native macOS app that puts agentic chat, a writing studio, image generation, video generation and a real terminal behind one window — then hands you the controls on your phone while the Mac does the work and keeps your API keys. The Video tab boards an ad as a shot list, renders each shot on any model OpenRouter carries, and joins them into one film. Built with Tauri 2, Rust and React, signed and notarized, with conflict-free sync between devices. Free during public beta.",
   },
   {
     title: "Skribble",

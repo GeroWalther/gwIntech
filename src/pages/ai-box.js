@@ -7,6 +7,7 @@ import { motion } from "framer-motion";
 import tabChat from "../../public/images/projects/ai-box/tab-chat.png";
 import tabWrite from "../../public/images/projects/ai-box/tab-write.png";
 import tabImages from "../../public/images/projects/ai-box/tab-images.png";
+import tabVideo from "../../public/images/projects/ai-box/tab-video.png";
 import tabTerminal from "../../public/images/projects/ai-box/tab-terminal.png";
 
 // Falls back to the releases page; replaced at runtime with the exact .dmg URL
@@ -244,7 +245,7 @@ export default function AIBox() {
         </title>
         <meta
           name="description"
-          content="AI Box turns your Mac into an AI workstation — agentic chat, a writing studio, local image generation and a real terminal — and lets you drive all of it from your phone. Free macOS beta, signed and notarized."
+          content="AI Box turns your Mac into an AI workstation — agentic chat, a writing studio, image generation, video generation and a real terminal — and lets you drive all of it from your phone. Free macOS beta, signed and notarized."
         />
         <meta name="theme-color" content={BG} />
         <meta
@@ -253,7 +254,7 @@ export default function AIBox() {
         />
         <meta
           property="og:description"
-          content="Agentic chat, writing, local image generation and a real terminal on your Mac — controlled from your phone. Your keys never leave the machine. Free macOS beta."
+          content="Agentic chat, writing, image and video generation, and a real terminal on your Mac — controlled from your phone. Your keys never leave the machine. Free macOS beta."
         />
       </Head>
 
@@ -291,8 +292,8 @@ export default function AIBox() {
                 style={{ color: MUTED }}
               >
                 AI Box turns the Mac on your desk into an AI workstation —
-                agentic chat, a writing studio, image generation and a real
-                terminal — then hands you the controls on your phone. The
+                agentic chat, a writing studio, image and video generation, and
+                a real terminal — then hands you the controls on your phone. The
                 machine does the work. The keys never leave it.
               </p>
 
@@ -389,13 +390,13 @@ export default function AIBox() {
               </div>
             </section>
 
-            {/* ---------------- the four tabs ---------------- */}
+            {/* ---------------- the five tabs ---------------- */}
             <section className="mx-auto mt-24 w-full max-w-6xl md:mt-16">
               <h2
                 className="mb-3 text-center font-mono text-3xl font-semibold md:text-2xl"
                 style={{ color: TEXT, textWrap: "balance" }}
               >
-                Four tabs down the left. This is what each one does.
+                Five tabs down the left. This is what each one does.
               </h2>
               <p
                 className="mx-auto mb-14 max-w-2xl text-center text-base font-medium md:mb-10 md:text-sm"
@@ -447,25 +448,44 @@ export default function AIBox() {
                   label="Images"
                   img={tabImages}
                   alt="The Images tab in AI Box, where local image generation runs"
-                  headline="Generation on your own GPU"
+                  headline="Your own GPU, or the best cloud models"
                   points={[
                     "A managed ComfyUI the app installs for you — no Python setup",
+                    "Or any cloud model, read live from the catalog, each showing only the controls it actually accepts",
+                    "Exact output sizes — ask for 2400 × 2400 and get exactly that, resampled on the Mac",
                     "Illustrate a scene straight from the passage you have selected in Write",
-                    "Characters kept visually consistent between images",
                   ]}
                 >
-                  Nothing is uploaded to be rendered. The models run on the
-                  machine under your desk, which is also the machine holding the
-                  manuscript they are illustrating.
+                  Run it locally and nothing is uploaded to be rendered — the
+                  models run on the machine under your desk. Or reach for a cloud
+                  model when you want one, on your own key.
                 </TabRow>
 
                 <TabRow
                   n={4}
+                  label="Video"
+                  img={tabVideo}
+                  alt="The Video tab in AI Box, showing the model picker, shot controls and the ad brief"
+                  headline="Board an ad, render it, cut it together"
+                  flip
+                  points={[
+                    "Every video model OpenRouter carries — Kling, Veo, Seedance, Sora, Wan, Runway — read live, never a hardcoded list",
+                    "Controls built from each model's own capabilities, so an invalid request can't be sent",
+                    "Describe the product and the tone; your text model writes the shot list",
+                    "Storyboard a spot as several continuous shots and join the finished ones into one film",
+                  ]}
+                >
+                  A render is a job, not a request. Close the app mid-render and
+                  it picks the job back up next launch — a paid render is never
+                  lost with the window that started it.
+                </TabRow>
+
+                <TabRow
+                  n={5}
                   label="Terminal"
                   img={tabTerminal}
                   alt="The Terminal tab in AI Box, a real PTY session"
                   headline="A real terminal, not a command box"
-                  flip
                   points={[
                     "An actual PTY — vim, top and claude all behave normally",
                     "xterm.js on the front, Rust PTY sessions behind it",
