@@ -293,8 +293,10 @@ export default function AIBox() {
               >
                 AI Box turns the Mac on your desk into an AI workstation —
                 agentic chat, a writing studio, image and video generation, and
-                a real terminal — then hands you the controls on your phone. The
-                machine does the work. The keys never leave it.
+                a real terminal — then hands you the controls on your phone. And
+                now it works outside its own window: hold a key anywhere, ask out
+                loud, and it sees your screen and acts on it. The machine does the
+                work. The keys never leave it.
               </p>
 
               <div className="mt-9 flex items-center gap-6 sm:flex-col sm:gap-4">
@@ -387,6 +389,146 @@ export default function AIBox() {
                   documents, over your own network. Nothing is hosted for you,
                   because nothing needs to be.
                 </Card>
+              </div>
+            </section>
+
+            {/* ---------------- Screen Assist ---------------- */}
+            <section className="mx-auto mt-24 w-full max-w-6xl md:mt-16">
+              <div
+                className="rounded-3xl border border-solid p-10 md:p-6"
+                style={{
+                  background: "rgba(127, 160, 255, 0.07)",
+                  borderColor: ACCENT,
+                }}
+              >
+                <span
+                  className="inline-block rounded-full border border-solid px-3 py-1 font-mono text-xs"
+                  style={{ borderColor: CHIP_LINE, background: CHIP_BG, color: ACCENT }}
+                >
+                  New in 0.4
+                </span>
+                <h2
+                  className="mt-5 font-mono text-3xl font-semibold md:text-2xl"
+                  style={{ color: TEXT, textWrap: "balance" }}
+                >
+                  Screen Assist: hold a key, ask out loud, and it does it
+                </h2>
+                <p
+                  className="mt-4 max-w-3xl text-base font-medium md:text-sm"
+                  style={{ color: MUTED }}
+                >
+                  Everything above lives in the app&apos;s window. This does not.
+                  Hold <b style={{ color: TEXT }}>⌥ Space</b> anywhere on your Mac,
+                  say what you want, and let go. A bar appears over whatever you
+                  were using, answers you out loud, circles the thing it is talking
+                  about — and, if you asked for something to be{" "}
+                  <i style={{ color: TEXT }}>done</i>, does it.
+                </p>
+
+                <div className="mt-8 grid grid-cols-3 gap-6 lg:grid-cols-1">
+                  <Card title="It sees">
+                    A screenshot goes with the question, so &ldquo;what does this
+                    error mean&rdquo; needs no explaining. The answer is spoken, and
+                    the thing it refers to is circled on your actual screen — over
+                    any app, full-screen ones included.
+                  </Card>
+                  <Card title="It hears">
+                    Hold the key, speak, let go. The audio goes to the model
+                    alongside the screenshot in one round trip — it is not
+                    transcribed first and then asked, which is the delay you would
+                    otherwise feel every single time.
+                  </Card>
+                  <Card title="It acts" accent>
+                    &ldquo;Turn Bluetooth off.&rdquo; &ldquo;Open Mail.&rdquo;
+                    &ldquo;Scroll down and click Accept.&rdquo; It clicks and types
+                    for real, one step at a time, looking at a fresh screenshot
+                    after each one before deciding the next.
+                  </Card>
+                </div>
+
+                <h3
+                  className="mt-12 font-mono text-xl font-semibold md:text-lg"
+                  style={{ color: TEXT }}
+                >
+                  Two kinds of hands, and the difference matters
+                </h3>
+                <div className="mt-5 grid grid-cols-2 gap-6 lg:grid-cols-1">
+                  <Card title="System switches">
+                    Bluetooth, Wi-Fi, volume, mute, light and dark, opening and
+                    quitting apps, opening a link, locking the screen. These go
+                    straight to macOS — exact, instant, and no window has to be
+                    open. It is told to prefer them over clicking.
+                  </Card>
+                  <Card title="Real clicks and keystrokes">
+                    Everything macOS gives no API for. Events are synthesised at
+                    the same level as your own mouse and keyboard, so they work in
+                    every app — native, Electron, a web page — with no per-app
+                    automation support and no extensions.
+                  </Card>
+                </div>
+
+                <h3
+                  className="mt-12 font-mono text-xl font-semibold md:text-lg"
+                  style={{ color: TEXT }}
+                >
+                  You watch it happen, and you can stop it
+                </h3>
+                <ul
+                  className="mt-5 grid grid-cols-2 gap-x-8 gap-y-3 text-base font-medium md:grid-cols-1 md:text-sm"
+                  style={{ color: MUTED }}
+                >
+                  {[
+                    "Every step is named as it happens — “Clicking the Wi-Fi menu” — and ticked or flagged as it finishes",
+                    "Escape stops it from anywhere on the Mac, even once the app it is driving has the keyboard",
+                    "A ceiling on actions per request, or no ceiling at all if you are watching and want a long job finished",
+                    "It will not buy, send, post or delete anything, or touch passwords, keychains or payment details",
+                    "The bar floats without bringing AI Box forward — your work stays exactly where it was",
+                    "Answers are spoken in the language you asked in, by a voice that actually speaks it",
+                  ].map((t) => (
+                    <li key={t} className="flex gap-3">
+                      <span style={{ color: ACCENT }}>▪</span>
+                      <span>{t}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                <h3
+                  className="mt-12 font-mono text-xl font-semibold md:text-lg"
+                  style={{ color: TEXT }}
+                >
+                  Only models that can actually do the job
+                </h3>
+                <p
+                  className="mt-4 max-w-3xl text-base font-medium md:text-sm"
+                  style={{ color: MUTED }}
+                >
+                  This needs one model that can see a screen,{" "}
+                  <i style={{ color: TEXT }}>hear</i> a spoken question and call
+                  tools. Most cannot. The picker lists only those that can, and a
+                  model you choose is sent a real request — a screenshot, a spoken
+                  sentence and a tool — before it is kept. Anything that refuses,
+                  stalls or answers in the wrong shape is dropped and never offered
+                  again, so a failure lands here rather than mid-question.
+                </p>
+                <p
+                  className="mt-4 max-w-3xl text-base font-medium md:text-sm"
+                  style={{ color: MUTED }}
+                >
+                  There is a local option too: a vision model on your own Mac,
+                  through Ollama, with the screenshot never leaving the machine.
+                  Slower, and typed rather than spoken — no local model has ears
+                  yet — but nothing is uploaded at all.
+                </p>
+
+                <p
+                  className="mt-8 max-w-3xl text-sm font-medium"
+                  style={{ color: MUTED }}
+                >
+                  macOS asks your permission for each part the first time it is
+                  needed — screen recording to see, the microphone to hear,
+                  accessibility to click. Nothing is granted quietly, and any of
+                  them can be withdrawn without breaking the rest.
+                </p>
               </div>
             </section>
 
