@@ -641,6 +641,49 @@ export default function AIBox() {
               </div>
             </section>
 
+            {/* ---------------- providers ---------------- */}
+            <section className="mx-auto mt-24 w-full max-w-4xl md:mt-16">
+              <h2
+                className="mb-3 text-center font-mono text-3xl font-semibold md:text-2xl"
+                style={{ color: TEXT, textWrap: "balance" }}
+              >
+                Your key, your account, your choice of provider
+              </h2>
+              <p
+                className="mx-auto mb-10 max-w-2xl text-center text-base font-medium md:text-sm"
+                style={{ color: MUTED }}
+              >
+                Most apps pick a provider for you and resell you the tokens. AI Box
+                asks which one you want and then gets out of the way.
+              </p>
+              <div className="grid grid-cols-2 gap-6 lg:grid-cols-1">
+                <Card title="OpenRouter">
+                  One key, every model — Claude, GPT, Gemini, Grok, Qwen, the lot,
+                  read live from the catalogue so a model released this week is
+                  there without an update.
+                </Card>
+                <Card title="Anthropic, OpenAI or Google — directly">
+                  Credit already sitting on an account you pay for is reachable on
+                  its own key, billed by them with nothing in between. Anthropic
+                  goes through its own Messages API rather than a compatibility
+                  shim, so tool use behaves properly instead of breaking at the
+                  first tool call.
+                </Card>
+                <Card title="One at a time, and you choose it">
+                  Whichever provider you pick is what every picker in the app
+                  offers. No merged lists, so the same model never appears twice at
+                  two different prices, and there is never a question about which
+                  account just paid. The other keys stay saved — switching back is
+                  one click.
+                </Card>
+                <Card title="Or no provider at all" accent>
+                  Models installed through Ollama are offered whichever provider is
+                  active, because nothing about them is billed. That is also the
+                  fallback when the internet is gone or the credit has run out.
+                </Card>
+              </div>
+            </section>
+
             {/* ---------------- setup ---------------- */}
             <section className="mx-auto mt-24 w-full max-w-4xl md:mt-16">
               <h2
@@ -656,11 +699,15 @@ export default function AIBox() {
                   — no right-click-to-open dance. It updates itself from then
                   on.
                 </Step>
-                <Step n={2} title="Point it at a model">
-                  Paste an OpenRouter key to use frontier models, or install a
-                  local one through Ollama from inside the app and run entirely
-                  offline. Any OpenAI-compatible endpoint works too. Keys go
-                  into the macOS Keychain, never a config file.
+                <Step n={2} title="Pick a provider, paste one key">
+                  Choose <b style={{ color: TEXT }}>OpenRouter</b> for one key that
+                  reaches every model, or go{" "}
+                  <b style={{ color: TEXT }}>straight to Anthropic, OpenAI or Google</b>{" "}
+                  and spend credit you already have there. Whichever you pick is what
+                  every model picker in the app offers — no mixed lists, no wondering
+                  which account paid. Or install a model through Ollama from inside
+                  the app and run with no key at all. Keys go into the macOS Keychain,
+                  never a config file.
                 </Step>
                 <Step n={3} title="Pair your phone — optional">
                   Scan a QR code. Your phone opens the same app over your home
