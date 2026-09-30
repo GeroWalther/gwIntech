@@ -245,7 +245,7 @@ export default function AIBox() {
         </title>
         <meta
           name="description"
-          content="AI Box turns your Mac into an AI workstation — agentic chat, a writing studio, image generation, video generation and a real terminal — and lets you drive all of it from your phone. Free macOS beta, signed and notarized."
+          content="AI Box turns your Mac into an AI workstation — an assistant that browses, books and builds for you, a writing studio, image and video generation, and a real terminal — and lets you drive all of it from your phone, by voice or text. Free macOS beta, signed and notarized."
         />
         <meta name="theme-color" content={BG} />
         <meta
@@ -254,7 +254,7 @@ export default function AIBox() {
         />
         <meta
           property="og:description"
-          content="Agentic chat, writing, image and video generation, and a real terminal on your Mac — controlled from your phone. Your keys never leave the machine. Free macOS beta."
+          content="An assistant that works on your Mac — in a real browser, your open tabs, the terminal and your files — plus writing, image and video generation. Controlled from your phone. Your keys never leave the machine. Free macOS beta."
         />
       </Head>
 
@@ -291,12 +291,13 @@ export default function AIBox() {
                 className="mt-6 max-w-2xl text-lg font-medium md:text-base"
                 style={{ color: MUTED }}
               >
-                AI Box turns the Mac on your desk into an AI workstation —
-                agentic chat, a writing studio, image and video generation, and
-                a real terminal — then hands you the controls on your phone. And
-                now it works outside its own window: hold a key anywhere, ask out
-                loud, and it sees your screen and acts on it. The machine does the
-                work. The keys never leave it.
+                AI Box turns the Mac on your desk into an AI workstation — an
+                assistant that browses, books and builds things for you, a writing
+                studio, image and video generation, and a real terminal — then
+                hands you the controls on your phone. Tell it what to do, by voice
+                or text, and it keeps working after you walk away. It asks before
+                anything is paid, sent or deleted. The machine does the work. The
+                keys never leave it.
               </p>
 
               <div className="mt-9 flex items-center gap-6 sm:flex-col sm:gap-4">
@@ -389,6 +390,77 @@ export default function AIBox() {
                   documents, over your own network. Nothing is hosted for you,
                   because nothing needs to be.
                 </Card>
+              </div>
+            </section>
+
+            {/* ---------------- Assistant Agent (0.6) ---------------- */}
+            <section className="mx-auto mt-24 w-full max-w-6xl md:mt-16">
+              <div
+                className="rounded-3xl border border-solid p-10 md:p-6"
+                style={{
+                  background: "rgba(127, 160, 255, 0.07)",
+                  borderColor: ACCENT,
+                }}
+              >
+                <span
+                  className="inline-block rounded-full border border-solid px-3 py-1 font-mono text-xs"
+                  style={{ borderColor: CHIP_LINE, background: CHIP_BG, color: ACCENT }}
+                >
+                  New in 0.6
+                </span>
+                <h2
+                  className="mt-5 font-mono text-3xl font-semibold md:text-2xl"
+                  style={{ color: TEXT, textWrap: "balance" }}
+                >
+                  Assistant Agent: say what you want done, and walk away
+                </h2>
+                <p
+                  className="mt-4 max-w-3xl text-base font-medium md:text-sm"
+                  style={{ color: MUTED }}
+                >
+                  &ldquo;Book a table for two at 8 on Friday.&rdquo; &ldquo;Add this
+                  domain to my Vercel project.&rdquo; &ldquo;Find the invoice from
+                  March and put it in the tax folder.&rdquo; The assistant does the
+                  job itself, step by step, on your Mac — and the job runs there, so
+                  it keeps going when you close the window or lock your phone. Tell it
+                  more while it works; answer when it asks.
+                </p>
+
+                <div className="mt-8 grid grid-cols-3 gap-6 lg:grid-cols-1">
+                  <Card title="A real browser">
+                    It has its own Chrome, which you sign into once, and reads each
+                    page as a numbered list of buttons, links and fields — so it clicks
+                    what is there, not a guess at a coordinate. Ask, and it works in the
+                    Brave, Chrome or Safari tab you already have open.
+                  </Card>
+                  <Card title="Your Mac, when you ask">
+                    The terminal and your files, system switches like Wi-Fi and
+                    volume, and — only when you tell it to — your mouse and keyboard,
+                    looking at the screen after every step.
+                  </Card>
+                  <Card title="You stay in charge" accent>
+                    Anything that pays, books, sends or deletes waits for your OK,
+                    with a screenshot — on the Mac or on your phone. It never types a
+                    password; logins and CAPTCHAs are handed back to you.
+                  </Card>
+                </div>
+
+                <h3
+                  className="mt-12 font-mono text-xl font-semibold md:text-lg"
+                  style={{ color: TEXT }}
+                >
+                  Talk to it
+                </h3>
+                <p
+                  className="mt-4 max-w-3xl text-base font-medium md:text-sm"
+                  style={{ color: MUTED }}
+                >
+                  Tap the microphone and speak: what you said is sent straight away and
+                  the answer is read back. &ldquo;Yes&rdquo; or &ldquo;no&rdquo; answers
+                  its approval cards, in English or German. Type instead, and it
+                  answers in text. On the phone this works over the secure Tailscale
+                  link below.
+                </p>
               </div>
             </section>
 
@@ -552,19 +624,19 @@ export default function AIBox() {
               <div className="flex flex-col gap-20 md:gap-12">
                 <TabRow
                   n={1}
-                  label="Agentic Chat"
+                  label="Assistant Agent"
                   img={tabChat}
-                  alt="The Agentic Chat tab in AI Box, with the model picker and agent composer"
-                  headline="An agent with hands, not a chat box"
+                  alt="The Assistant Agent tab in AI Box, with the conversation and composer"
+                  headline="An assistant with hands, not a chat box"
                   points={[
-                    "Reads and edits files, searches a codebase, runs shell commands, fetches pages",
-                    "Every destructive step shows a diff and asks first",
-                    "Approval is raised on the Mac, even when the request came from your phone",
+                    "Browses in a real Chrome, works in your open tabs, runs shell commands, reads and edits files",
+                    "Steps, a live view of its browser, and approval cards right in the conversation",
+                    "Drop or paste images in; speak or type; carry on the conversation after it finishes",
                   ]}
                 >
-                  Ask it to build something, fix something or explain something,
-                  and turn on <b style={{ color: TEXT }}>Agent</b> to let it act
-                  on the machine rather than just describe what you should do.
+                  Ask a question and it answers. Ask it to do something — book, find,
+                  fix, build — and it does it on the machine rather than describing
+                  what you should do.
                 </TabRow>
 
                 <TabRow
@@ -593,7 +665,7 @@ export default function AIBox() {
                   headline="Your own GPU, or the best cloud models"
                   points={[
                     "A managed ComfyUI the app installs for you — no Python setup",
-                    "Or any cloud model, read live from the catalog, each showing only the controls it actually accepts",
+                    "Or a cloud model on your chosen provider's key — Google's Nano Banana on Gemini, GPT Image on OpenAI, or anything on OpenRouter",
                     "Exact output sizes — ask for 2400 × 2400 and get exactly that, resampled on the Mac",
                     "Illustrate a scene straight from the passage you have selected in Write",
                   ]}
@@ -611,7 +683,7 @@ export default function AIBox() {
                   headline="Board an ad, render it, cut it together"
                   flip
                   points={[
-                    "Every video model OpenRouter carries — Kling, Veo, Seedance, Sora, Wan, Runway — read live, never a hardcoded list",
+                    "Veo 3.1 on your Gemini key, Sora on OpenAI, or every model OpenRouter carries — Kling, Seedance, Wan, Runway — read live",
                     "Controls built from each model's own capabilities, so an invalid request can't be sent",
                     "Describe the product and the tone; your text model writes the shot list",
                     "Storyboard a spot as several continuous shots and join the finished ones into one film",
@@ -670,11 +742,11 @@ export default function AIBox() {
                   first tool call.
                 </Card>
                 <Card title="One at a time, and you choose it">
-                  Whichever provider you pick is what every picker in the app
-                  offers. No merged lists, so the same model never appears twice at
-                  two different prices, and there is never a question about which
-                  account just paid. The other keys stay saved — switching back is
-                  one click.
+                  Whichever provider you pick is what every tab uses — the
+                  assistant, Write, Images and Video. No merged lists, so the same
+                  model never appears twice at two different prices, and there is
+                  never a question about which account just paid. The other keys
+                  stay saved — switching back is one click.
                 </Card>
                 <Card title="Or no provider at all" accent>
                   Models installed through Ollama are offered whichever provider is
@@ -710,8 +782,9 @@ export default function AIBox() {
                   never a config file.
                 </Step>
                 <Step n={3} title="Pair your phone — optional">
-                  Scan a QR code. Your phone opens the same app over your home
-                  network and installs to the home screen.
+                  Scan a QR code. Your phone opens the same app — over your home
+                  network, or anywhere through Tailscale — and installs to the home
+                  screen.
                 </Step>
               </ul>
             </section>
@@ -751,10 +824,11 @@ export default function AIBox() {
                     Tailscale
                   </a>{" "}
                   on the Mac and on your phone, sign both into the same account,
-                  and they join one private network of your own. Scan the QR
-                  code again and the Mac is reachable from a train, an office,
-                  another country — over an encrypted link between your two
-                  devices, with nothing exposed publicly. Free for personal use.
+                  and they join one private network of your own. Turn on HTTPS
+                  in Settings → Devices and scan that QR code: the Mac is reachable
+                  from a train, an office, another country, over a secure link with
+                  a real certificate — which is also what lets the phone use its
+                  microphone. Nothing is exposed publicly. Free for personal use.
                 </Card>
                 <Card title="Leave the Mac awake">
                   A sleeping Mac answers nothing. Turn on{" "}
@@ -795,7 +869,9 @@ export default function AIBox() {
                     </SpecRow>
                     <SpecRow label="Backend">
                       Rust: provider streaming with server-side cancellation,
-                      PTY sessions, filesystem tools behind a path guard.
+                      a task runner that keeps the assistant going with no window
+                      open, Chrome over the DevTools protocol, PTY sessions,
+                      filesystem tools behind a path guard.
                     </SpecRow>
                     <SpecRow label="Remote">
                       An axum HTTP + WebSocket server on the Mac serving the
@@ -850,10 +926,18 @@ export default function AIBox() {
                 </Point>
                 <Point>
                   <b style={{ color: TEXT }}>
-                    The Mac approves, not the phone.
+                    Nothing final happens without you.
                   </b>{" "}
-                  A remote request to write a file or run a command raises a
-                  prompt with a diff on the desktop.
+                  Paying, booking, sending and deleting wait for your approval, on
+                  whichever device you are using. What counts as final is read from
+                  the page itself, not decided by the model — a web page can talk a
+                  model into things, but it cannot rename the button.
+                </Point>
+                <Point>
+                  <b style={{ color: TEXT }}>Passwords stay yours.</b> The
+                  assistant is never shown a password field, so it cannot type
+                  into one; logins, codes and CAPTCHAs are always handed back to
+                  you.
                 </Point>
                 <Point>
                   <b style={{ color: TEXT }}>Your words stay yours.</b> Drafts
