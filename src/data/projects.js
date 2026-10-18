@@ -279,7 +279,7 @@ export const PROJECTS = [
     type: "Next.js 13",
     kind: ["web"],
     img: threads,
-    link: "https://threads.gw-intech.com/",
+    link: false,
     github: "https://github.com/GeroWalther/threads",
     summary:
       "TypeScript full stack Threads app. Next.js 13 server and client components, MongoDB with Mongoose, Clerk auth, TailwindCSS, ShadCN with Zod and React Hook Form for validation.",
