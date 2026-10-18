@@ -170,6 +170,37 @@ export default function EyeGuide() {
               </p>
             </section>
 
+            {/* ---------------- spot ---------------- */}
+            {/* The spot is vertical, so it sits in a phone-width column rather
+                than stretching across the page. Controls and no autoplay: it
+                has a voiceover, and browsers only autoplay muted video. */}
+            <section className="flex w-full flex-col items-center pb-20 md:pb-12">
+              <motion.div
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-80px" }}
+                transition={{ duration: 0.5 }}
+                className="w-full max-w-[360px] overflow-hidden rounded-2xl border border-solid"
+                style={{ borderColor: LINE, background: PANEL }}
+              >
+                <video
+                  className="block aspect-[9/16] h-auto w-full"
+                  src="/videos/eyeguide-spot.mp4"
+                  poster="/images/eyeguide/spot-poster.jpg"
+                  controls
+                  playsInline
+                  preload="metadata"
+                  aria-label="30-second EyeGuide AI spot"
+                />
+              </motion.div>
+              <p
+                className="mt-4 font-mono text-sm font-medium"
+                style={{ color: MUTED }}
+              >
+                EyeGuide AI in 30 seconds
+              </p>
+            </section>
+
             {/* ---------------- screenshots ---------------- */}
             <section className="w-full pb-20 md:pb-12">
               <div className="grid grid-cols-3 gap-6 lg:grid-cols-2 md:grid-cols-1 md:gap-8">
