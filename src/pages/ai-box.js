@@ -245,7 +245,7 @@ export default function AIBox() {
         </title>
         <meta
           name="description"
-          content="AI Box turns your Mac into an AI workstation — an assistant that browses, books and builds for you, a writing studio, image and video generation, and a real terminal — and lets you drive all of it from your phone, by voice or text. Free macOS beta, signed and notarized."
+          content="AI Box turns your Mac into an AI workstation — an assistant that browses, books and builds for you in a browser you can watch inside the app, a writing studio, image generation, animated ads and explainers, and a real terminal — and lets you drive all of it from your phone, by voice or text. Free macOS beta, signed and notarized."
         />
         <meta name="theme-color" content={BG} />
         <meta
@@ -254,7 +254,7 @@ export default function AIBox() {
         />
         <meta
           property="og:description"
-          content="An assistant that works on your Mac — in a real browser, your open tabs, the terminal and your files — plus writing, image and video generation. Controlled from your phone. Your keys never leave the machine. Free macOS beta."
+          content="An assistant that works on your Mac — in a real browser you watch inside the app, your open tabs, the terminal and your files — plus writing, images and animated videos. Controlled from your phone. Your keys never leave the machine. Free macOS beta."
         />
       </Head>
 
@@ -293,7 +293,8 @@ export default function AIBox() {
               >
                 AI Box turns the Mac on your desk into an AI workstation — an
                 assistant that browses, books and builds things for you, a writing
-                studio, image and video generation, and a real terminal — then
+                studio, image generation, animated ads and explainers, and a real
+                terminal — then
                 hands you the controls on your phone. Tell it what to do, by voice
                 or text, and it keeps working after you walk away. It asks before
                 anything is paid, sent or deleted. The machine does the work. The
@@ -393,6 +394,83 @@ export default function AIBox() {
               </div>
             </section>
 
+            {/* ---------------- new in 0.7: browser panel, video, autonomy ---------------- */}
+            <section className="mx-auto mt-24 w-full max-w-6xl md:mt-16">
+              <div
+                className="rounded-3xl border border-solid p-10 md:p-6"
+                style={{
+                  background: "rgba(127, 160, 255, 0.07)",
+                  borderColor: ACCENT,
+                }}
+              >
+                <span
+                  className="inline-block rounded-full border border-solid px-3 py-1 font-mono text-xs"
+                  style={{ borderColor: CHIP_LINE, background: CHIP_BG, color: ACCENT }}
+                >
+                  New in 0.7
+                </span>
+                <h2
+                  className="mt-5 font-mono text-3xl font-semibold md:text-2xl"
+                  style={{ color: TEXT, textWrap: "balance" }}
+                >
+                  Watch it browse, right beside the chat — and keep working
+                </h2>
+                <p
+                  className="mt-4 max-w-3xl text-base font-medium md:text-sm"
+                  style={{ color: MUTED }}
+                >
+                  The assistant&apos;s browser now lives in a panel next to the
+                  conversation, the way it does in Claude&apos;s desktop app. You see
+                  every page it opens as it opens it, and you can reach in at any
+                  moment: click, scroll, type, paste. Meanwhile its Chrome stays out
+                  of your way — it never takes your screen, your mouse or your
+                  keyboard, so you get on with something else while it works.
+                </p>
+
+                <div className="mt-8 grid grid-cols-3 gap-6 lg:grid-cols-1">
+                  <Card title="A browser in the app">
+                    Back, forward, reload, an address bar, and the page laid out at
+                    the panel&apos;s own size — not a big page shrunk to fit. Drag the
+                    divider or widen it; on the phone it fills the screen and you
+                    swipe to scroll.
+                  </Card>
+                  <Card title="Sign in once, there">
+                    Logins, codes and CAPTCHAs are done by you, in the panel, when the
+                    assistant hands over — and they are kept. Sign in to a site before
+                    a task and every task after can use it, across restarts.
+                  </Card>
+                  <Card title="Full autonomy, if you want it" accent>
+                    A clearly marked mode for long jobs: no approval prompts and no
+                    step limit, so it runs until the work is done or it needs you.
+                    Off by default — and set on the Mac, so a phone can&apos;t turn it
+                    on.
+                  </Card>
+                </div>
+
+                <h3
+                  className="mt-12 font-mono text-xl font-semibold md:text-lg"
+                  style={{ color: TEXT }}
+                >
+                  And a new Video tab
+                </h3>
+                <p
+                  className="mt-4 max-w-3xl text-base font-medium md:text-sm"
+                  style={{ color: MUTED }}
+                >
+                  Animated ads and explainers, voiced, scored and animated on your
+                  Mac — with your own logo, for a few cents each.{" "}
+                  <a
+                    href="#video"
+                    className="underline underline-offset-4"
+                    style={{ color: ACCENT }}
+                  >
+                    See how it works below
+                  </a>
+                  .
+                </p>
+              </div>
+            </section>
+
             {/* ---------------- Assistant Agent (0.6) ---------------- */}
             <section className="mx-auto mt-24 w-full max-w-6xl md:mt-16">
               <div
@@ -428,7 +506,7 @@ export default function AIBox() {
 
                 <div className="mt-8 grid grid-cols-3 gap-6 lg:grid-cols-1">
                   <Card title="A real browser">
-                    It has its own Chrome, which you sign into once, and reads each
+                    It has its own Chrome, shown live beside the chat, and reads each
                     page as a numbered list of buttons, links and fields — so it clicks
                     what is there, not a guess at a coordinate. Ask, and it works in the
                     Brave, Chrome or Safari tab you already have open.
@@ -440,8 +518,9 @@ export default function AIBox() {
                   </Card>
                   <Card title="You stay in charge" accent>
                     Anything that pays, books, sends or deletes waits for your OK,
-                    with a screenshot — on the Mac or on your phone. It never types a
-                    password; logins and CAPTCHAs are handed back to you.
+                    with a screenshot — on the Mac or on your phone — unless you
+                    switch on full autonomy. It never types a password; logins and
+                    CAPTCHAs are handed back to you.
                   </Card>
                 </div>
 
@@ -630,7 +709,8 @@ export default function AIBox() {
                   headline="An assistant with hands, not a chat box"
                   points={[
                     "Browses in a real Chrome, works in your open tabs, runs shell commands, reads and edits files",
-                    "Steps, a live view of its browser, and approval cards right in the conversation",
+                    "Its browser live in a panel beside the chat — watch it, or click and type in it yourself",
+                    "Steps and approval cards right in the conversation",
                     "Drop or paste images in; speak or type; carry on the conversation after it finishes",
                   ]}
                 >
@@ -675,24 +755,28 @@ export default function AIBox() {
                   model when you want one, on your own key.
                 </TabRow>
 
+                <div id="video" className="scroll-mt-24">
                 <TabRow
                   n={4}
                   label="Video"
                   img={tabVideo}
-                  alt="The Video tab in AI Box, showing the model picker, shot controls and the ad brief"
-                  headline="Board an ad, render it, cut it together"
+                  alt="The Video tab in AI Box: the writing and image models, the voice, format, a length slider, the brief and your own images"
+                  headline="Animated ads and explainers, made on your Mac"
                   flip
                   points={[
-                    "Veo 3.1 on your Gemini key, Sora on OpenAI, or every model OpenRouter carries — Kling, Seedance, Wan, Runway — read live",
-                    "Controls built from each model's own capabilities, so an invalid request can't be sent",
-                    "Describe the product and the tone; your text model writes the shot list",
-                    "Storyboard a spot as several continuous shots and join the finished ones into one film",
+                    "A voice that drives the picture — any speech model on OpenRouter, or ElevenLabs on your own key — with every word timed and every animation placed on it",
+                    "Your logo and photos used as they are, transparency included; paste an App Store link and the real icon and screenshots are used",
+                    "Pick the models, the voice (hear a sample first), the format and a length from 10 seconds to 2 minutes; “Write script” drafts the voice-over for you to edit",
+                    "Music and effects synthesised on the Mac, mixed under the voice to −14 LUFS — no licences to worry about",
+                    "“Make the logo bigger” redoes only the animation, in under a minute for about a cent — and every version is kept",
                   ]}
                 >
-                  A render is a job, not a request. Close the app mid-render and
-                  it picks the job back up next launch — a paid render is never
-                  lost with the window that started it.
+                  Motion graphics, not stock footage: cut-out images, kinetic type and
+                  your brand, animated in code and filmed frame by frame into an MP4.
+                  Nothing paid runs until you press Make video — and then it&apos;s a
+                  few minutes and a few cents.
                 </TabRow>
+                </div>
 
                 <TabRow
                   n={5}
@@ -931,7 +1015,8 @@ export default function AIBox() {
                   Paying, booking, sending and deleting wait for your approval, on
                   whichever device you are using. What counts as final is read from
                   the page itself, not decided by the model — a web page can talk a
-                  model into things, but it cannot rename the button.
+                  model into things, but it cannot rename the button. Full autonomy
+                  lifts this, and only when you switch it on, on the Mac.
                 </Point>
                 <Point>
                   <b style={{ color: TEXT }}>Passwords stay yours.</b> The
