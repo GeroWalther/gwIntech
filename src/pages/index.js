@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 import Layout from "@/components/Layout";
 import HireMe from "@/components/HireMe";
 import { GithubIcon } from "@/components/Icons";
-import { APPS, FEATURED_APP, PROJECTS } from "@/data/projects";
+import { APPS, FEATURED_APPS, PROJECTS } from "@/data/projects";
 import {
   Ambient,
   INK,
@@ -169,73 +169,78 @@ export default function Home() {
               </Reveal>
             </section>
 
-            {/* ---------------- featured app ----------------
-                A permanent slot for the newest or hottest release. What lands
-                here is decided by FEATURED_APP in the projects data, not by
-                this markup, so promoting the next app never means editing the
-                homepage. */}
+            {/* ---------------- featured apps ----------------
+                Permanent slots for the newest or hottest releases, side by
+                side. What lands here is decided by FEATURED_APPS in the
+                projects data, not by this markup, so promoting the next app
+                never means editing the homepage. */}
             <section className="pt-6 md:pt-2">
               <Reveal>
-                <SpotlightCard className="flex items-center gap-10 p-8 lg:gap-8 md:flex-col md:items-start md:p-6">
-                  <Link
-                    href={FEATURED_APP.page}
-                    className="w-[36%] shrink-0 overflow-hidden rounded-2xl md:w-full"
-                    aria-label={`${FEATURED_APP.title} — see how it works`}
-                  >
-                    <motion.div
-                      whileHover={{ scale: 1.03 }}
-                      transition={{ duration: 0.5 }}
-                    >
-                      <Image
-                        src={FEATURED_APP.img}
-                        alt={FEATURED_APP.title}
-                        className="h-auto w-full rounded-2xl"
-                        sizes="(max-width:767px) 90vw, 36vw"
-                      />
-                    </motion.div>
-                  </Link>
-
-                  <div className="flex-1">
-                    <Pill>Just shipped · Featured app</Pill>
-                    <span
-                      className="mt-5 block text-xs font-semibold uppercase tracking-wider"
-                      style={{ color: MINT }}
-                    >
-                      {FEATURED_APP.type}
-                    </span>
-                    <h2
-                      className="mt-2 font-mono text-4xl font-semibold tracking-tight lg:text-3xl md:text-2xl"
-                      style={{ color: TEXT }}
-                    >
-                      {FEATURED_APP.title}
-                    </h2>
-                    <p
-                      className="mt-3 max-w-2xl text-base font-medium leading-relaxed md:text-sm"
-                      style={{ color: MUTED }}
-                    >
-                      {FEATURED_APP.summary}
-                    </p>
-
-                    <div className="mt-7 flex flex-wrap items-center gap-4">
-                      <Link
-                        href={FEATURED_APP.link}
-                        target="_blank"
-                        className="rounded-lg px-5 py-2.5 text-sm font-semibold transition hover:brightness-110"
-                        style={{ background: MINT, color: INK }}
-                      >
-                        Download on the App Store
-                      </Link>
-                      <Link
-                        href={FEATURED_APP.page}
-                        className="rounded-lg border border-solid px-5 py-2.5 text-sm font-semibold transition"
-                        style={{ borderColor: LINE, color: TEXT }}
-                      >
-                        See how it works →
-                      </Link>
-                    </div>
-                  </div>
-                </SpotlightCard>
+                <Pill>Just shipped · On the App Store</Pill>
               </Reveal>
+
+              <div className="mt-6 grid grid-cols-2 gap-6 md:grid-cols-1">
+                {FEATURED_APPS.map((app, i) => (
+                  <Reveal key={app.title} delay={i * 0.08}>
+                    <SpotlightCard className="flex h-full flex-col p-6">
+                      <Link
+                        href={app.page}
+                        className="block overflow-hidden rounded-2xl"
+                        aria-label={`${app.title} — see how it works`}
+                      >
+                        <motion.div
+                          whileHover={{ scale: 1.03 }}
+                          transition={{ duration: 0.5 }}
+                        >
+                          <Image
+                            src={app.img}
+                            alt={app.title}
+                            className="aspect-square h-auto w-full rounded-2xl object-cover"
+                            sizes="(max-width:767px) 90vw, 45vw"
+                          />
+                        </motion.div>
+                      </Link>
+
+                      <span
+                        className="mt-6 block text-xs font-semibold uppercase tracking-wider"
+                        style={{ color: MINT }}
+                      >
+                        {app.type}
+                      </span>
+                      <h2
+                        className="mt-2 font-mono text-3xl font-semibold tracking-tight lg:text-2xl"
+                        style={{ color: TEXT }}
+                      >
+                        {app.title}
+                      </h2>
+                      <p
+                        className="mt-3 flex-1 text-base font-medium leading-relaxed md:text-sm"
+                        style={{ color: MUTED }}
+                      >
+                        {app.summary.split(". ")[0]}.
+                      </p>
+
+                      <div className="mt-7 flex flex-wrap items-center gap-4">
+                        <Link
+                          href={app.link}
+                          target="_blank"
+                          className="rounded-lg px-5 py-2.5 text-sm font-semibold transition hover:brightness-110"
+                          style={{ background: MINT, color: INK }}
+                        >
+                          Download on the App Store
+                        </Link>
+                        <Link
+                          href={app.page}
+                          className="rounded-lg border border-solid px-5 py-2.5 text-sm font-semibold transition"
+                          style={{ borderColor: LINE, color: TEXT }}
+                        >
+                          See how it works →
+                        </Link>
+                      </div>
+                    </SpotlightCard>
+                  </Reveal>
+                ))}
+              </div>
             </section>
 
             {/* ---------------- downloadable apps ---------------- */}

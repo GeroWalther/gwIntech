@@ -34,6 +34,7 @@ import gridly from "../../public/images/projects/gridly.png";
 import viceGolf from "../../public/images/projects/vice-golf.png";
 import skribble from "../../public/images/projects/skribble-card.png";
 import eyeguide from "../../public/images/projects/eyeguide-card.png";
+import greenReader from "../../public/images/projects/green-reader-card.png";
 
 export const FILTERS = [
   { key: "all", label: "Everything" },
@@ -55,6 +56,18 @@ export const PROJECTS = [
     featured: true,
     summary:
       "Point your phone at whatever you are fixing — a dripping tap, a car engine, a dishwasher throwing an error code — and EyeGuide watches through the camera, answers out loud and draws a marker on the exact part you should touch next. Ask mode sends one frame per question and tracks the object with Vision, so the marker stays on it as you move the phone. Live mode streams camera and voice over a WebSocket for hands-free coaching while both hands stay on the job. Native SwiftUI on Gemini, with the API key kept server-side behind a proxy rather than shipped in the app.",
+  },
+  {
+    title: "Green Reader",
+    type: "iOS App — SwiftUI, ARKit & LiDAR",
+    kind: ["mobile"],
+    img: greenReader,
+    page: "/green-reader",
+    link: "https://apps.apple.com/app/id6821135986",
+    appStore: true,
+    featured: true,
+    summary:
+      "See the break before you putt: Green Reader maps a putting green with the iPhone Pro's LiDAR scanner and draws the putt line, the break and the exact point to aim at on the real grass. Mark the ball, mark the hole, walk the line — contours, slope arrows and the aim point update for green speed and pace. All the maths runs on the phone, with nothing uploaded.",
   },
   {
     title: "AI Box",
@@ -389,7 +402,10 @@ export const APPS = PROJECTS.filter(
   (p) => p.page && p.kind.includes("desktop")
 );
 
-// The app spotlighted on the homepage, directly under the hero. Point this at
-// whichever release is newest or most worth pushing — the section renders
-// whatever it names, so promoting the next app is a one-line change here.
-export const FEATURED_APP = PROJECTS.find((p) => p.title === "EyeGuide AI");
+// The apps spotlighted side by side on the homepage, directly under the hero.
+// Point this at whichever releases are newest or most worth pushing — the
+// section renders whatever it names, so promoting the next app is a one-line
+// change here.
+export const FEATURED_APPS = ["EyeGuide AI", "Green Reader"].map((t) =>
+  PROJECTS.find((p) => p.title === t)
+);

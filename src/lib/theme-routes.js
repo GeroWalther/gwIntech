@@ -22,6 +22,7 @@ export const ALWAYS_DARK_ROUTES = [
   "/skribble",
   "/gridly",
   "/eyeguide",
+  "/green-reader",
 ];
 
 export const isThemeable = (pathname) => THEMEABLE_ROUTES.includes(pathname);
