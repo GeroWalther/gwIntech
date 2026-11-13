@@ -9,6 +9,19 @@ import tabWrite from "../../public/images/projects/ai-box/tab-write.png";
 import tabImages from "../../public/images/projects/ai-box/tab-images.png";
 import tabVideo from "../../public/images/projects/ai-box/tab-video.png";
 import tabTerminal from "../../public/images/projects/ai-box/tab-terminal.png";
+import themePicker from "../../public/images/projects/ai-box/theme-picker.png";
+import themeDracula from "../../public/images/projects/ai-box/theme-dracula.png";
+import themeTokyo from "../../public/images/projects/ai-box/theme-tokyo.png";
+import themeNord from "../../public/images/projects/ai-box/theme-nord.png";
+import themeSolarizedLight from "../../public/images/projects/ai-box/theme-solarized-light.png";
+
+// The same window in four themes, for the 0.8 section.
+const THEME_SHOTS = [
+  { img: themeDracula, name: "Dracula" },
+  { img: themeTokyo, name: "Tokyo Night" },
+  { img: themeNord, name: "Nord" },
+  { img: themeSolarizedLight, name: "Solarized Light" },
+];
 
 // Falls back to the releases page; replaced at runtime with the exact .dmg URL
 // resolved from the GitHub API, so cutting a release updates this page with no
@@ -443,6 +456,52 @@ export default function AIBox() {
                     Solarized, GitHub — or follow macOS. Each one restyles the app
                     and the terminal&apos;s colours together.
                   </Card>
+                </div>
+
+                {/* the theme picker beside the same window in four of its themes */}
+                <div className="mt-10 flex items-start gap-6 lg:flex-col">
+                  <figure className="w-1/4 lg:mx-auto lg:w-2/3 sm:w-full">
+                    <div
+                      className="overflow-hidden rounded-2xl border border-solid shadow-2xl"
+                      style={{ borderColor: LINE }}
+                    >
+                      <Image
+                        src={themePicker}
+                        alt="AI Box Settings with the theme picker: System, AI Box Light and Dark, Dracula, Tokyo Night, Catppuccin Mocha, Nord, One Dark, Gruvbox Dark, Solarized Dark and Light, GitHub Light"
+                        className="h-auto w-full"
+                        sizes="(max-width: 1023px) 66vw, 25vw"
+                      />
+                    </div>
+                    <figcaption
+                      className="mt-2 text-center font-mono text-xs"
+                      style={{ color: MUTED }}
+                    >
+                      Settings → General → Theme
+                    </figcaption>
+                  </figure>
+                  <div className="grid w-3/4 grid-cols-2 gap-6 lg:w-full sm:grid-cols-1">
+                    {THEME_SHOTS.map(({ img, name }) => (
+                      <figure key={name}>
+                        <div
+                          className="overflow-hidden rounded-xl border border-solid shadow-xl"
+                          style={{ borderColor: LINE }}
+                        >
+                          <Image
+                            src={img}
+                            alt={`The AI Box terminal in the ${name} theme`}
+                            className="h-auto w-full"
+                            sizes="(max-width: 639px) 100vw, (max-width: 1023px) 50vw, 37vw"
+                          />
+                        </div>
+                        <figcaption
+                          className="mt-2 text-center font-mono text-xs"
+                          style={{ color: MUTED }}
+                        >
+                          {name}
+                        </figcaption>
+                      </figure>
+                    ))}
+                  </div>
                 </div>
               </div>
             </section>
