@@ -12,14 +12,14 @@ import tabTerminal from "../../public/images/projects/ai-box/tab-terminal.png";
 import themePicker from "../../public/images/projects/ai-box/theme-picker.png";
 import themeDracula from "../../public/images/projects/ai-box/theme-dracula.png";
 import themeTokyo from "../../public/images/projects/ai-box/theme-tokyo.png";
-import themeNord from "../../public/images/projects/ai-box/theme-nord.png";
+import themeGruvbox from "../../public/images/projects/ai-box/theme-gruvbox.png";
 import themeSolarizedLight from "../../public/images/projects/ai-box/theme-solarized-light.png";
 
-// The same window in four themes, for the 0.8 section.
+// The same window in four themes, for the 0.8 section — the default first.
 const THEME_SHOTS = [
+  { img: themeGruvbox, name: "Gruvbox Dark", label: "Gruvbox Dark · default" },
   { img: themeDracula, name: "Dracula" },
   { img: themeTokyo, name: "Tokyo Night" },
-  { img: themeNord, name: "Nord" },
   { img: themeSolarizedLight, name: "Solarized Light" },
 ];
 
@@ -452,9 +452,10 @@ export default function AIBox() {
                     instead of waiting for the last.
                   </Card>
                   <Card title="Themes" accent>
-                    Dracula, Tokyo Night, Catppuccin, Nord, One Dark, Gruvbox,
-                    Solarized, GitHub — or follow macOS. Each one restyles the app
-                    and the terminal&apos;s colours together.
+                    AI Box now starts in Gruvbox Dark. Or pick Dracula, Tokyo
+                    Night, Catppuccin, Nord, One Dark, Solarized, GitHub — or
+                    follow macOS. Each one restyles the app and the terminal&apos;s
+                    colours together.
                   </Card>
                 </div>
 
@@ -480,7 +481,7 @@ export default function AIBox() {
                     </figcaption>
                   </figure>
                   <div className="grid w-3/4 grid-cols-2 gap-6 lg:w-full sm:grid-cols-1">
-                    {THEME_SHOTS.map(({ img, name }) => (
+                    {THEME_SHOTS.map(({ img, name, label }) => (
                       <figure key={name}>
                         <div
                           className="overflow-hidden rounded-xl border border-solid shadow-xl"
@@ -497,7 +498,7 @@ export default function AIBox() {
                           className="mt-2 text-center font-mono text-xs"
                           style={{ color: MUTED }}
                         >
-                          {name}
+                          {label ?? name}
                         </figcaption>
                       </figure>
                     ))}
