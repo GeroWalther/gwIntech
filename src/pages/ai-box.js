@@ -245,7 +245,7 @@ export default function AIBox() {
         </title>
         <meta
           name="description"
-          content="AI Box turns your Mac into an AI workstation — an assistant that browses, books and builds for you in a browser you can watch inside the app, a writing studio, image generation, animated ads and explainers, and a real terminal — and lets you drive all of it from your phone, by voice or text. Free macOS beta, signed and notarized."
+          content="AI Box turns your Mac into an AI workstation — an assistant that browses, books and builds for you in a browser you can watch inside the app, a writing studio, image generation, animated ads and explainers, and a real terminal whose shells keep running after you quit — and lets you drive all of it from your phone, by voice or text. Free macOS beta, signed and notarized."
         />
         <meta name="theme-color" content={BG} />
         <meta
@@ -391,6 +391,59 @@ export default function AIBox() {
                   documents, over your own network. Nothing is hosted for you,
                   because nothing needs to be.
                 </Card>
+              </div>
+            </section>
+
+            {/* ---------------- new in 0.8: persistent terminals, faster Screen Assist, themes ---------------- */}
+            <section className="mx-auto mt-24 w-full max-w-6xl md:mt-16">
+              <div
+                className="rounded-3xl border border-solid p-10 md:p-6"
+                style={{
+                  background: "rgba(127, 160, 255, 0.07)",
+                  borderColor: ACCENT,
+                }}
+              >
+                <span
+                  className="inline-block rounded-full border border-solid px-3 py-1 font-mono text-xs"
+                  style={{ borderColor: CHIP_LINE, background: CHIP_BG, color: ACCENT }}
+                >
+                  New in 0.8
+                </span>
+                <h2
+                  className="mt-5 font-mono text-3xl font-semibold md:text-2xl"
+                  style={{ color: TEXT, textWrap: "balance" }}
+                >
+                  Quit the app. Your terminals keep running.
+                </h2>
+                <p
+                  className="mt-4 max-w-3xl text-base font-medium md:text-sm"
+                  style={{ color: MUTED }}
+                >
+                  Shells now live in a small background service instead of inside
+                  the window, so quitting AI Box no longer ends them. A build, a
+                  server, a <code>claude</code> session halfway through a
+                  conversation — open AI Box again, from the Mac or the phone, and
+                  every tab is attached to the same live shell, with everything it
+                  printed while you were away.
+                </p>
+
+                <div className="mt-8 grid grid-cols-3 gap-6 lg:grid-cols-1">
+                  <Card title="Made for Claude Code">
+                    Run <code>claude</code> in a tab and leave it working. Quit,
+                    relaunch, update the app — the conversation is still there. A
+                    tab in the background that needs you posts a notification.
+                  </Card>
+                  <Card title="Screen Assist, sooner">
+                    The screenshot is taken the moment you press the hotkey, the
+                    answer streams in, and it starts speaking at the first sentence
+                    instead of waiting for the last.
+                  </Card>
+                  <Card title="Themes" accent>
+                    Dracula, Tokyo Night, Catppuccin, Nord, One Dark, Gruvbox,
+                    Solarized, GitHub — or follow macOS. Each one restyles the app
+                    and the terminal&apos;s colours together.
+                  </Card>
+                </div>
               </div>
             </section>
 
@@ -783,16 +836,17 @@ export default function AIBox() {
                   label="Terminal"
                   img={tabTerminal}
                   alt="The Terminal tab in AI Box, a real PTY session"
-                  headline="A real terminal, not a command box"
+                  headline="A real terminal that outlives the app"
                   points={[
                     "An actual PTY — vim, top and claude all behave normally",
-                    "xterm.js on the front, Rust PTY sessions behind it",
+                    "Shells keep running when you quit AI Box",
+                    "Themed to match the app, from Dracula to Solarized",
                     "Reachable from the sofa, or from a train",
                   ]}
                 >
                   The tab that makes the phone useful: a genuine shell on your
                   Mac, in your pocket, with the same session waiting when you sit
-                  back down.
+                  back down — even if you quit the app in between.
                 </TabRow>
               </div>
             </section>

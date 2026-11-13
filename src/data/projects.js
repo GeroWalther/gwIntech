@@ -79,7 +79,7 @@ export const PROJECTS = [
     github: "https://github.com/GeroWalther/ai-box",
     featured: true,
     summary:
-      "A native macOS app that puts an AI assistant with its own browser, a writing studio, image generation, animated video and a real terminal behind one window — then hands you the controls on your phone while the Mac does the work and keeps your API keys. Watch the assistant browse in a panel beside the chat, and step in to sign in. The Video tab voices, scores and animates ads and explainers with your own logo, for a few cents each. Built with Tauri 2, Rust and React, signed and notarized, with conflict-free sync between devices. Free during public beta.",
+      "A native macOS app that puts an AI assistant with its own browser, a writing studio, image generation, animated video and a real terminal behind one window — then hands you the controls on your phone while the Mac does the work and keeps your API keys. Watch the assistant browse in a panel beside the chat, and step in to sign in. The Video tab voices, scores and animates ads and explainers with your own logo, for a few cents each. Terminals keep running when you quit the app — Claude Code sessions included — and themes restyle the app and terminal together. Built with Tauri 2, Rust and React, signed and notarized, with conflict-free sync between devices. Free during public beta.",
   },
   {
     title: "Skribble",
