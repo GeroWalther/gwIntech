@@ -33,31 +33,28 @@ const FEEDBACK_MAIL =
   "mailto:office@gw-intech.com?subject=AI%20Box%20beta%20feedback";
 
 // This page runs dark while the rest of the site is light, because it is a
-// product page for an app people meet in dark mode. These are the app's own
-// dark tokens verbatim (src/styles/tokens.css in the AI Box repo), so the page
-// and the product are the same colour rather than merely similar. Copied as
-// literals because this page deliberately leaves the site palette behind.
-const BG = "#0d0e12"; // --bg
-const PANEL = "#16181f"; // --panel
-const LINE = "#272b36"; // --border
-const TEXT = "#eceef3"; // --text
-const MUTED = "#9096a4"; // --muted
-// The app's accent is violet; on this page it reads as purple against the near
-// black, which the client rejected. Buttons go white with dark blue ink — the
-// strongest possible contrast on this ground — and the small accents shift from
-// violet to a clear blue so nothing on the page reads purple.
-const BTN_BG = "#ffffff";
-const BTN_INK = "#14203a"; // dark blue, not black: keeps the blue family
-const ACCENT = "#7fa0ff"; // blue, for links, rules and marks
-const CHIP_BG = "rgba(255, 255, 255, 0.05)"; // the beta pill, deliberately quiet
-const CHIP_LINE = "#2c3243";
+// product page for an app people meet in dark mode. Since 0.8.1 the app starts
+// in Gruvbox Dark, so these are that theme's tokens verbatim (src/lib/themes.ts
+// in the AI Box repo): the page and the product are the same colour rather than
+// merely similar. Copied as literals because this page deliberately leaves the
+// site palette behind.
+const BG = "#282828"; // bg
+const PANEL = "#32302f"; // panel
+const LINE = "#504945"; // border
+const TEXT = "#ebdbb2"; // text
+const MUTED = "#a89984"; // muted
+// Buttons are the app's own: orange with dark ink, like its Done button.
+const BTN_BG = "#fe8019"; // accent
+const BTN_INK = "#1d2021"; // onAccent
+const ACCENT = "#fe8019"; // orange, for links, rules and marks
+const CHIP_BG = "rgba(235, 219, 178, 0.06)"; // the beta pill, deliberately quiet
+const CHIP_LINE = "#504945";
 
-// The app's dark ground is not flat — two violet radial glows sit over the base
-// colour, and that is most of what makes it read as AI Box rather than as a
-// generic dark page. Reproduced here exactly.
+// The app's dark ground is not flat — two warm radial glows of the accent sit
+// over the base colour, as they do in the app. Reproduced here.
 const APP_BACKGROUND = [
-  "radial-gradient(1100px 620px at 82% -8%, rgba(127, 160, 255, 0.10), transparent 60%)",
-  "radial-gradient(900px 560px at 0% 106%, rgba(127, 160, 255, 0.07), transparent 62%)",
+  "radial-gradient(1100px 620px at 82% -8%, rgba(254, 128, 25, 0.10), transparent 60%)",
+  "radial-gradient(900px 560px at 0% 106%, rgba(254, 128, 25, 0.07), transparent 62%)",
   BG,
 ].join(", ");
 
@@ -69,7 +66,7 @@ const Card = ({ title, children, accent = false }) => (
     transition={{ duration: 0.4 }}
     className="rounded-2xl border border-solid p-6"
     style={{
-      background: accent ? "rgba(127, 160, 255, 0.10)" : PANEL,
+      background: accent ? "rgba(254, 128, 25, 0.10)" : PANEL,
       borderColor: accent ? ACCENT : LINE,
     }}
   >
@@ -122,7 +119,7 @@ const TabRow = ({ n, label, img, alt, headline, children, points, flip = false }
         </span>
         <span
           className="rounded-md px-2 py-0.5 font-mono text-xs font-semibold"
-          style={{ background: "rgba(127,160,255,0.14)", color: TEXT }}
+          style={{ background: "rgba(254, 128, 25, 0.14)", color: TEXT }}
         >
           {label}
         </span>
@@ -212,7 +209,7 @@ const SpecRow = ({ label, children }) => (
 const Mono = ({ children }) => (
   <code
     className="rounded px-1.5 py-0.5 font-mono text-[0.87em]"
-    style={{ background: "rgba(127, 160, 255, 0.14)", color: TEXT }}
+    style={{ background: "rgba(254, 128, 25, 0.14)", color: TEXT }}
   >
     {children}
   </code>
@@ -349,7 +346,7 @@ export default function AIBox() {
                 className="mt-8 max-w-2xl rounded-r-lg border-l-2 border-solid px-5 py-4 text-left text-base font-medium md:text-sm"
                 style={{
                   borderColor: ACCENT,
-                  background: "rgba(127, 160, 255, 0.08)",
+                  background: "rgba(254, 128, 25, 0.08)",
                   color: MUTED,
                 }}
               >
@@ -412,7 +409,7 @@ export default function AIBox() {
               <div
                 className="rounded-3xl border border-solid p-10 md:p-6"
                 style={{
-                  background: "rgba(127, 160, 255, 0.07)",
+                  background: "rgba(254, 128, 25, 0.07)",
                   borderColor: ACCENT,
                 }}
               >
@@ -521,7 +518,7 @@ export default function AIBox() {
               <div
                 className="rounded-3xl border border-solid p-10 md:p-6"
                 style={{
-                  background: "rgba(127, 160, 255, 0.07)",
+                  background: "rgba(254, 128, 25, 0.07)",
                   borderColor: ACCENT,
                 }}
               >
@@ -598,7 +595,7 @@ export default function AIBox() {
               <div
                 className="rounded-3xl border border-solid p-10 md:p-6"
                 style={{
-                  background: "rgba(127, 160, 255, 0.07)",
+                  background: "rgba(254, 128, 25, 0.07)",
                   borderColor: ACCENT,
                 }}
               >
@@ -670,7 +667,7 @@ export default function AIBox() {
               <div
                 className="rounded-3xl border border-solid p-10 md:p-6"
                 style={{
-                  background: "rgba(127, 160, 255, 0.07)",
+                  background: "rgba(254, 128, 25, 0.07)",
                   borderColor: ACCENT,
                 }}
               >
