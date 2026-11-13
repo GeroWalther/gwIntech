@@ -504,6 +504,15 @@ export default function AIBox() {
                     ))}
                   </div>
                 </div>
+
+                <p
+                  className="mt-10 max-w-3xl text-base font-medium md:text-sm"
+                  style={{ color: MUTED }}
+                >
+                  <b style={{ color: TEXT }}>Also new:</b> A− and A+ in the
+                  sidebar now zoom every view: chat, Write, Images and Video, not
+                  just the terminal. Each one remembers its own size.
+                </p>
               </div>
             </section>
 
