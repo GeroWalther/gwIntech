@@ -190,6 +190,37 @@ export default function GreenReader() {
               </p>
             </section>
 
+            {/* ---------------- explainer ---------------- */}
+            {/* 16:9, so unlike the EyeGuide spot it can take a wide column.
+                Controls and no autoplay: it has a voiceover, and browsers only
+                autoplay muted video. */}
+            <section className="flex w-full flex-col items-center pb-20 md:pb-12">
+              <motion.div
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-80px" }}
+                transition={{ duration: 0.5 }}
+                className="w-full max-w-4xl overflow-hidden rounded-2xl border border-solid"
+                style={{ borderColor: LINE, background: PANEL }}
+              >
+                <video
+                  className="block aspect-video h-auto w-full"
+                  src="/videos/green-reader-explainer.mp4"
+                  poster="/images/green-reader/explainer-poster.jpg"
+                  controls
+                  playsInline
+                  preload="metadata"
+                  aria-label="28-second Green Reader explainer video"
+                />
+              </motion.div>
+              <p
+                className="mt-4 font-mono text-sm font-medium"
+                style={{ color: MUTED }}
+              >
+                Green Reader in 30 seconds
+              </p>
+            </section>
+
             {/* ---------------- screenshots ---------------- */}
             <section className="w-full pb-20 md:pb-12">
               <div className="grid grid-cols-3 gap-6 lg:grid-cols-2 md:grid-cols-1 md:gap-8">
