@@ -44,9 +44,9 @@ const nextConfig = {
           {
             key: 'Content-Security-Policy',
             value: [
-              "default-src 'self' https://widget.gw-intech.com", // Only allow resources from same origin by default
-              "script-src 'self' 'unsafe-inline' 'unsafe-eval' 'wasm-unsafe-eval' https://widget.gw-intech.com https://va.vercel-scripts.com https://cdn.jsdelivr.net", // Allow inline scripts, WASM, and CDN
-              "style-src 'self' 'unsafe-inline' https://widget.gw-intech.com https://cdn.jsdelivr.net", // Allow inline styles and CDN
+              "default-src 'self'", // Only allow resources from same origin by default
+              "script-src 'self' 'unsafe-inline' 'unsafe-eval' 'wasm-unsafe-eval' https://va.vercel-scripts.com https://cdn.jsdelivr.net", // Allow inline scripts, WASM, and CDN
+              "style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net", // Allow inline styles and CDN
               "img-src 'self' data: https:", // Allow images from self, data URLs, and HTTPS
               "font-src 'self' https:", // Allow fonts from self and HTTPS
               "connect-src 'self' https: ws: wss:", // Allow API calls to self, HTTPS, and WebSocket connections

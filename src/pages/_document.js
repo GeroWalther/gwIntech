@@ -33,25 +33,15 @@ document.documentElement.style.colorScheme=t;
       <body>
         <Main />
         <NextScript />
+        {/* "Ask AI" chat bubble. The widget bundle lives in public/widget and
+            talks to the Vercel functions in src/pages/api/assistant. */}
         <script
-          src='https://widget.gw-intech.com/widget/assistant.js'
+          src='/widget/assistant.js'
           data-company='gw-intech'
           data-api-key='gw-intech-api-key-456'
-          data-api-url='https://widget.gw-intech.com/api/assistant'
+          data-api-url='/api/assistant'
           async></script>
-        <link
-          rel='stylesheet'
-          href='https://widget.gw-intech.com/widget/style.css'
-        />
-        {/* For Testing on localhost 3000 with locally running backend on port 7070 */}
-        {/* <script
-          src='http://localhost:7070/widget/assistant.js'
-          data-company='gw-intech'
-          data-api-key='gw-intech-api-key-456'
-          data-api-url='http://localhost:7070/api/assistant'
-          async></script>
-
-        <link rel='stylesheet' href='http://localhost:7070/widget/style.css' /> */}
+        <link rel='stylesheet' href='/widget/style.css' />
       </body>
     </Html>
   );
