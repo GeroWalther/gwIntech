@@ -23,6 +23,7 @@ export const ALWAYS_DARK_ROUTES = [
   "/gridly",
   "/eyeguide",
   "/green-reader",
+  "/blueberry-ai",
 ];
 
 export const isThemeable = (pathname) => THEMEABLE_ROUTES.includes(pathname);

@@ -35,6 +35,7 @@ import viceGolf from "../../public/images/projects/vice-golf.png";
 import skribble from "../../public/images/projects/skribble-card.png";
 import eyeguide from "../../public/images/projects/eyeguide-card.png";
 import greenReader from "../../public/images/projects/green-reader-card.png";
+import blueberryAi from "../../public/images/projects/blueberry-ai-card.png";
 
 export const FILTERS = [
   { key: "all", label: "Everything" },
@@ -45,6 +46,18 @@ export const FILTERS = [
 ];
 
 export const PROJECTS = [
+  {
+    title: "BlueberryChat AI",
+    type: "SaaS — Next.js, Supabase & Gemini",
+    kind: ["web", "ai"],
+    img: blueberryAi,
+    page: "/blueberry-ai",
+    link: "https://www.gotoblueberryai.com",
+    cta: "Visit gotoblueberryai.com",
+    featured: true,
+    summary:
+      "Our own subscription product: an AI chat assistant any company can put on its website with one script tag. It answers visitors around the clock from the company's own documents and FAQs, in whatever language they write in, and only on the domains the company allows. Retrieval runs on Supabase with pgvector, answers come from Google Gemini, and the whole service is serverless on Vercel. The chat bubble on this site is BlueberryChat AI.",
+  },
   {
     title: "EyeGuide AI",
     type: "iOS App — SwiftUI, Vision & Gemini",

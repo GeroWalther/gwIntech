@@ -7,6 +7,7 @@ import Layout from "@/components/Layout";
 import HireMe from "@/components/HireMe";
 import { GithubIcon } from "@/components/Icons";
 import { APPS, FEATURED_APPS, PROJECTS } from "@/data/projects";
+import blueberryCard from "../../public/images/projects/blueberry-ai-card.png";
 import {
   Ambient,
   INK,
@@ -166,6 +167,83 @@ export default function Home() {
                     style={{ boxShadow: "var(--gw-vignette)", border: `1px solid ${LINE}` }}
                   />
                 </div>
+              </Reveal>
+            </section>
+
+            {/* ---------------- BlueberryChat AI ----------------
+                Our own subscription product, ahead of the apps: it is the one
+                visitors can start using on their own site today. */}
+            <section className="pb-16 pt-6 md:pb-10 md:pt-2">
+              <Reveal>
+                <Pill>New · Our own product</Pill>
+              </Reveal>
+
+              <Reveal delay={0.06}>
+                <SpotlightCard className="mt-6 flex items-center gap-10 p-6 lg:gap-8 md:flex-col md:items-start">
+                  <Link
+                    href="/blueberry-ai"
+                    className="block w-[44%] shrink-0 overflow-hidden rounded-2xl md:w-full"
+                    aria-label="BlueberryChat AI — see how it works"
+                  >
+                    <motion.div whileHover={{ scale: 1.03 }} transition={{ duration: 0.5 }}>
+                      <Image
+                        src={blueberryCard}
+                        alt="BlueberryChat AI, an AI chat widget answering a visitor"
+                        className="aspect-square h-auto w-full rounded-2xl object-cover"
+                        sizes="(max-width:767px) 90vw, 44vw"
+                      />
+                    </motion.div>
+                  </Link>
+
+                  <div className="flex flex-1 flex-col">
+                    <span
+                      className="block text-xs font-semibold uppercase tracking-wider"
+                      style={{ color: MINT }}
+                    >
+                      AI chat assistant for websites · Subscription
+                    </span>
+                    <h2
+                      className="mt-2 font-mono text-4xl font-semibold tracking-tight lg:text-3xl md:text-2xl"
+                      style={{ color: TEXT }}
+                    >
+                      BlueberryChat AI
+                    </h2>
+                    <p
+                      className="mt-4 text-base font-medium leading-relaxed md:text-sm"
+                      style={{ color: MUTED }}
+                    >
+                      A chat bubble for your website that answers visitors
+                      around the clock from your own documents and FAQs, in
+                      their language. One script tag to add, nothing to host.
+                      The bubble in the corner of this page is it, so ask it
+                      something.
+                    </p>
+                    <p
+                      className="mt-4 font-mono text-sm font-medium"
+                      style={{ color: MUTED }}
+                    >
+                      From €67 a month · Pro, Max and Custom plans
+                    </p>
+
+                    <div className="mt-7 flex flex-wrap items-center gap-4">
+                      <Link
+                        href="https://www.gotoblueberryai.com"
+                        target="_blank"
+                        className="rounded-lg px-5 py-2.5 text-sm font-semibold transition hover:brightness-110"
+                        style={{ background: MINT, color: INK }}
+                      >
+                        Visit gotoblueberryai.com
+                      </Link>
+                      <Link
+                        href="/blueberry-ai"
+                        className="rounded-lg border border-solid px-5 py-2.5 text-sm font-semibold transition"
+                        style={{ borderColor: LINE, color: TEXT }}
+                      >
+                        See how it works →
+                      </Link>
+                    </div>
+                  </div>
+                </SpotlightCard>
               </Reveal>
             </section>
 
