@@ -1,4 +1,7 @@
 import { Html, Head, Main, NextScript } from 'next/document';
+
+const ASSISTANT_ORIGIN =
+  process.env.NEXT_PUBLIC_ASSISTANT_ORIGIN || 'https://www.gotoblueberryai.com';
 import {
   ALWAYS_DARK_ROUTES,
   DEFAULT_THEME,
@@ -33,15 +36,16 @@ document.documentElement.style.colorScheme=t;
       <body>
         <Main />
         <NextScript />
-        {/* "Ask AI" chat bubble. The widget bundle lives in public/widget and
-            talks to the Vercel functions in src/pages/api/assistant. */}
+        {/* "Ask AI" chat bubble: BlueberryChat AI, our hosted assistant
+            product. Its look, texts, rules and knowledge are the gw-intech
+            company's settings and documents in Blueberry, not code here. */}
         <script
-          src='/widget/assistant.js'
+          src={`${ASSISTANT_ORIGIN}/widget/assistant.js`}
           data-company='gw-intech'
           data-api-key='gw-intech-api-key-456'
-          data-api-url='/api/assistant'
+          data-api-url={`${ASSISTANT_ORIGIN}/api/assistant`}
           async></script>
-        <link rel='stylesheet' href='/widget/style.css' />
+        <link rel='stylesheet' href={`${ASSISTANT_ORIGIN}/widget/style.css`} />
       </body>
     </Html>
   );

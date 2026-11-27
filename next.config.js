@@ -1,3 +1,9 @@
+// The "Ask AI" chat bubble is BlueberryChat AI, our hosted assistant product.
+// Its widget and API both live on the Blueberry site; set this to a local
+// Blueberry dev server (e.g. http://localhost:3100) to test against that.
+const ASSISTANT_ORIGIN =
+  process.env.NEXT_PUBLIC_ASSISTANT_ORIGIN || 'https://www.gotoblueberryai.com';
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
@@ -45,11 +51,11 @@ const nextConfig = {
             key: 'Content-Security-Policy',
             value: [
               "default-src 'self'", // Only allow resources from same origin by default
-              "script-src 'self' 'unsafe-inline' 'unsafe-eval' 'wasm-unsafe-eval' https://va.vercel-scripts.com https://cdn.jsdelivr.net", // Allow inline scripts, WASM, and CDN
-              "style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net", // Allow inline styles and CDN
+              `script-src 'self' 'unsafe-inline' 'unsafe-eval' 'wasm-unsafe-eval' https://va.vercel-scripts.com https://cdn.jsdelivr.net ${ASSISTANT_ORIGIN}`, // Allow inline scripts, WASM, CDN and the chat widget
+              `style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net ${ASSISTANT_ORIGIN}`, // Allow inline styles, CDN and the chat widget
               "img-src 'self' data: https:", // Allow images from self, data URLs, and HTTPS
               "font-src 'self' https:", // Allow fonts from self and HTTPS
-              "connect-src 'self' https: ws: wss:", // Allow API calls to self, HTTPS, and WebSocket connections
+              `connect-src 'self' https: ws: wss: ${ASSISTANT_ORIGIN}`, // Allow API calls to self, HTTPS, WebSocket connections and the chat API
               "frame-ancestors 'self'", // Equivalent to X-Frame-Options
               "base-uri 'self'", // Prevent base tag injection
               "form-action 'self'", // Only allow form submissions to same origin
