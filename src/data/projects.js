@@ -119,8 +119,8 @@ export const PROJECTS = [
       "A Mac spreadsheet that opens the .xlsx someone actually sent you — fonts, fills, borders, number formats, merged cells and frozen panes all still where Excel left them — then writes it back out as a real Excel file. Formulas calculate rather than sit there, the grid paints to a canvas so large sheets stay fast, and dark mode leaves the workbook's own colours alone.",
   },
   {
-    title: "Dungeon Monsters",
-    type: "Terminal C++ Game",
+    title: "Pip & the Star Lantern",
+    type: "C++ Game — Terminal, Browser & Phone",
     kind: ["desktop"],
     img: dungeon,
     link: "/game",
@@ -129,7 +129,7 @@ export const PROJECTS = [
     featured: true,
     brew: ["brew tap GeroWalther/dungeon", "brew install dungeon-monsters"],
     summary:
-      "A roguelike dungeon crawler with pixel art sprites and faction-based combat. 8 monster types, 14 weapons, 10 procedurally generated floors.",
+      "A cosy top-down pixel-art dungeon adventure written in C++: a hand-built world of 32 rooms, three tools that open it up, push-block and light puzzles, and four bosses. The same engine runs in a truecolor terminal and, compiled to WebAssembly, in the browser — with touch controls on phones, and it installs as an app that plays offline.",
   },
   {
     title: "Natura Vervae",

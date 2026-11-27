@@ -17,6 +17,12 @@ const nextConfig = {
     ];
   },
 
+  // The game (Pip & the Star Lantern) is a static PWA in public/game, built from the
+  // dungeon-monsters repo with web/deploy-gwintech.sh. /game serves its page.
+  async rewrites() {
+    return [{ source: '/game', destination: '/game/index.html' }];
+  },
+
   // Security headers configuration
   async headers() {
     return [
@@ -26,6 +32,19 @@ const nextConfig = {
         headers: [
           { key: 'Content-Type', value: 'application/wasm' },
         ],
+      },
+      {
+        // The game's service worker lives in /game/ but controls the page at /game.
+        source: '/game/sw.js',
+        headers: [
+          { key: 'Service-Worker-Allowed', value: '/game' },
+          { key: 'Cache-Control', value: 'no-cache' },
+        ],
+      },
+      {
+        // Always revalidate the page so a new build is picked up straight away.
+        source: '/game',
+        headers: [{ key: 'Cache-Control', value: 'no-cache' }],
       },
       {
         // Apply security headers to all routes

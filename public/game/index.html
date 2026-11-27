@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<base href="/game/">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<title>Pip &amp; the Star Lantern</title>
+<meta name="description" content="A cosy top-down pixel-art dungeon adventure. Play in your browser, on your phone, or install it as an app.">
+<meta name="theme-color" content="#08060e">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" href="icon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Star Lantern">
+<meta property="og:title" content="Pip & the Star Lantern">
+<meta property="og:description" content="A cosy top-down pixel-art dungeon adventure you can play in the browser or install on your phone.">
+<meta property="og:image" content="og.png">
+<style>
+@font-face { font-family: 'VT323'; src: url(vt323.woff2) format('woff2'); font-display: block; }
+:root { --bg: #08060e; --ink: #faf6e8; --gold: #fcd65a; --dim: #8c88a0; --btn: rgba(255,255,255,0.09); --btn-on: rgba(252,214,90,0.32); --edge: rgba(255,255,255,0.18); }
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html, body { margin: 0; height: 100%; background: var(--bg); overflow: hidden; overscroll-behavior: none; }
+body { position: fixed; inset: 0; color: var(--ink); font-family: 'VT323', ui-monospace, Menlo, monospace;
+  -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; touch-action: none; }
+canvas#screen { position: absolute; inset: 0; width: 100%; height: 100%; display: block; image-rendering: pixelated; }
+#loading { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; background: var(--bg); z-index: 20; text-align: center; padding: 16px; }
+#loading h1 { margin: 0; font-weight: 400; font-size: 44px; color: var(--gold); letter-spacing: 1px; line-height: 1; }
+#loading p { margin: 0; font-size: 22px; color: var(--dim); }
+#loading .bar { width: min(260px, 70vw); height: 8px; background: #1c1830; border: 1px solid #2e2840; }
+#loading .bar i { display: block; height: 100%; width: 10%; background: var(--gold); transition: width .2s; }
+#loading.err p { color: #ff8080; }
+
+/* touch controls */
+#pad, #buttons, .pill { position: absolute; z-index: 5; display: none; }
+body.touch #pad, body.touch #buttons, body.touch .pill { display: block; }
+#pad { border-radius: 50%; background: radial-gradient(circle, rgba(255,255,255,0.05) 0 30%, rgba(255,255,255,0.08) 31% 69%, rgba(255,255,255,0.03) 70%); border: 1px solid var(--edge); }
+#pad .arm { position: absolute; background: var(--btn); border: 1px solid var(--edge); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,0.55); font-size: 20px; }
+#pad .arm.on { background: var(--btn-on); color: var(--gold); }
+#pad .arm.u { left: 34%; top: 4%; width: 32%; height: 34%; }
+#pad .arm.d { left: 34%; bottom: 4%; width: 32%; height: 34%; }
+#pad .arm.l { top: 34%; left: 4%; width: 34%; height: 32%; }
+#pad .arm.r { top: 34%; right: 4%; width: 34%; height: 32%; }
+#buttons .b { position: absolute; border-radius: 50%; background: var(--btn); border: 1px solid var(--edge); display: flex; align-items: center; justify-content: center; font-size: 30px; color: rgba(255,255,255,0.75); }
+#buttons .b.on { background: var(--btn-on); color: var(--gold); }
+#buttons .b small { position: absolute; bottom: -22px; left: 0; right: 0; text-align: center; font-size: 16px; color: var(--dim); }
+.pill { padding: 0 12px; height: 30px; line-height: 28px; border-radius: 15px; background: var(--btn); border: 1px solid var(--edge); font-size: 18px; color: rgba(255,255,255,0.75); letter-spacing: 1px; }
+.pill.on { background: var(--btn-on); color: var(--gold); }
+
+#hint { position: absolute; z-index: 10; left: 50%; transform: translateX(-50%); top: calc(env(safe-area-inset-top) + 8px);
+  display: none; align-items: center; gap: 10px; padding: 6px 8px 6px 14px; border-radius: 10px; background: rgba(22,18,40,0.92); border: 1px solid #8c78c8; font-size: 19px; max-width: calc(100% - 32px); white-space: nowrap; }
+#hint.show { display: flex; }
+#hint button { font: inherit; color: var(--bg); background: var(--gold); border: 0; border-radius: 6px; padding: 2px 10px; cursor: pointer; }
+#hint button.x { background: transparent; color: var(--dim); padding: 2px 6px; }
+</style>
+</head>
+<body>
+<canvas id="screen"></canvas>
+
+<div id="pad" aria-hidden="true"><div class="arm u">▲</div><div class="arm d">▼</div><div class="arm l">◀</div><div class="arm r">▶</div></div>
+<div id="buttons" aria-hidden="true"><div class="b" data-k="b">B<small>tool</small></div><div class="b" data-k="a">A<small>act</small></div></div>
+<div class="pill" data-k="tool">TOOL</div>
+<div class="pill" data-k="map">MAP</div>
+<div class="pill" data-k="menu">MENU</div>
+
+<div id="hint" role="status"><span id="hint-text"></span><button id="hint-go" type="button">Install</button><button id="hint-x" class="x" type="button" aria-label="Dismiss">✕</button></div>
+
+<div id="loading"><h1>Pip &amp; the Star Lantern</h1><div class="bar"><i id="load-bar"></i></div><p id="load-text">Lighting the lantern…</p></div>
+
+<script src="game.js?v=f496f678ca"></script>
+<script src="app.js?v=f496f678ca"></script>
+<script defer src="/_vercel/insights/script.js"></script>
+</body>
+</html>

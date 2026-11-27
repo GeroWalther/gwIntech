@@ -1,0 +1,19 @@
+{
+  "name": "Pip & the Star Lantern",
+  "short_name": "Star Lantern",
+  "description": "A cosy top-down pixel-art dungeon adventure.",
+  "id": "/game",
+  "start_url": "/game",
+  "scope": "/game",
+  "display": "fullscreen",
+  "display_override": ["fullscreen", "standalone"],
+  "orientation": "any",
+  "background_color": "#08060e",
+  "theme_color": "#08060e",
+  "categories": ["games", "entertainment"],
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
